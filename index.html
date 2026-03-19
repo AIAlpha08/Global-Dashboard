@@ -1204,6 +1204,49 @@ document.addEventListener("mousemove", e => {
 });
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  AUTO-LOAD FROM GITHUB (replaces manual upload)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const GITHUB_DATA_URL = "https://raw.githubusercontent.com/aialpha08/Global-Dashboard/main/data.json";
+
+function loadFromGitHub() {
+  const tsEl = document.getElementById("updTs");
+  if(tsEl) tsEl.textContent = "⏳ Loading data…";
+
+  fetch(GITHUB_DATA_URL + "?t=" + Date.now()) // cache-bust
+    .then(r => {
+      if(!r.ok) throw new Error("HTTP " + r.status);
+      return r.json();
+    })
+    .then(raw => {
+      if(!Array.isArray(raw) || raw.length === 0) throw new Error("Empty or invalid data.json");
+
+      const {nd, skipped} = parseSheetRows(raw);
+      if(!nd.length) throw new Error("No valid rows parsed. Check column names in your Excel sheet.");
+
+      nd.sort((a,b) => a.d < b.d ? -1 : a.d > b.d ? 1 : 0);
+      allData = nd; window.allData = nd;
+      populateFilters(); go();
+
+      const dates = nd.map(r=>r.d).sort();
+      const dateRange = dates[0] + " → " + dates[dates.length-1];
+      if(tsEl) {
+        tsEl.textContent = "✓ " + nd.length.toLocaleString() + " rows · " + dateRange + " · Auto-loaded";
+        tsEl.title = "Source: GitHub · " + GITHUB_DATA_URL;
+      }
+      document.getElementById("btnReport").style.display = "inline-block";
+      if(skipped.length) console.warn("Skipped rows:", skipped.length);
+      console.log("✅ Dashboard loaded from GitHub:", nd.length, "rows");
+    })
+    .catch(err => {
+      console.error("GitHub load failed:", err.message);
+      if(tsEl) tsEl.textContent = "⚠️ Auto-load failed — use 📂 Upload Data as fallback";
+    });
+}
+
+// Auto-refresh every 5 minutes to pick up SharePoint updates
+setInterval(loadFromGitHub, 5 * 60 * 1000);
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  UPLOAD
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function parseDateStr(dv) {
@@ -5490,6 +5533,8 @@ window.addEventListener("DOMContentLoaded", () => {
   document.getElementById("updTs").textContent = "Loaded: " + new Date().toLocaleTimeString();
   populateFilters();
   go();
+  // Auto-load data from GitHub on page open
+  loadFromGitHub();
 });
 </script>
 </body>
