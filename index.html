@@ -1204,7 +1204,8 @@ document.addEventListener("mousemove", e => {
 });
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  AUTO-LOAD FROM GITHUB (replaces manual upload)
+//  AUTO-LOAD FROM GITHUB — synced from SharePoint every 15 min via GitHub Actions
+//  Secrets needed in GitHub: M365_EMAIL, M365_PASSWORD, SHAREPOINT_FILE_URL
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 const GITHUB_DATA_URL = "https://raw.githubusercontent.com/aialpha08/Global-Dashboard/main/data.json";
 
@@ -1370,7 +1371,7 @@ function handleUpload(e) {
 
     if(totalSkipped) console.warn("Total skipped rows:",totalSkipped);
     const dateCounts={};
-    deduped.forEach(r=>{dateCounts[r.d]=(dateCounts[r.d]||0)+1;});
+    allRows.forEach(r=>{dateCounts[r.d]=(dateCounts[r.d]||0)+1;});
     console.log("📅 Date distribution:", Object.entries(dateCounts).sort((a,b)=>a[0]<b[0]?-1:1).map(([d,n])=>d+": "+n).join(" | "));
   }
 }
