@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>DAZN · Global Sentiment Intelligence</title>
-<!-- v20: full visual polish · glass UI · gradient charts · entrance anims · DM/VoC/Redirect sections complete -->
+<!-- v16: AI integrated Brief, themes always visible, Market Contribution fixed -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
 /*!
@@ -96,19 +96,16 @@
 <style>
 /* ━━━━━━━━━━━━━━━━━━ TOKENS ━━━━━━━━━━━━━━━━━━ */
 :root{
-  --bg:#07080b;--s1:#0d0e12;--s2:#121318;--s3:#171a1f;--s4:#1c1f26;--s5:#22252e;
-  --b1:#282d38;--b2:#343b48;--b3:#454d5e;
-  --yel:#FFD200;--yel2:#ffe040;--yeld:rgba(255,210,0,.1);--yelb:rgba(255,210,0,.28);--yelbr:rgba(255,210,0,.07);
-  --pos:#10d97e;--posd:rgba(16,217,126,.08);--posb:rgba(16,217,126,.28);
-  --neg:#ff3860;--negd:rgba(255,56,96,.08);--negb:rgba(255,56,96,.28);
-  --neu:#5eaeff;--neud:rgba(94,174,255,.08);--neub:rgba(94,174,255,.28);
-  --warn:#ff8c42;--warnd:rgba(255,140,66,.08);--warnb:rgba(255,140,66,.28);
-  --t1:#eeeef8;--t2:#c4c4d8;--t3:#8080a0;--t4:#50506a;
-  --r:14px;--rs:9px;--rxs:6px;
-  --shadow:0 4px 24px rgba(0,0,0,.55);
-  --glow-yel:0 0 20px rgba(255,210,0,.15);
-  --glow-pos:0 0 20px rgba(16,217,126,.15);
-  --glow-neg:0 0 20px rgba(255,56,96,.15);
+  --bg:#070709;--s1:#0f0f12;--s2:#141417;--s3:#1a1a1e;--s4:#202025;--s5:#27272d;
+  --b1:#2a2a32;--b2:#363640;--b3:#48484f;
+  --yel:#F5C400;--yel2:#ffd60a;--yeld:rgba(245,196,0,.1);--yelb:rgba(245,196,0,.25);--yelbr:rgba(245,196,0,.08);
+  --pos:#22c55e;--posd:rgba(34,197,94,.08);--posb:rgba(34,197,94,.25);
+  --neg:#f43f5e;--negd:rgba(244,63,94,.08);--negb:rgba(244,63,94,.25);
+  --neu:#60a5fa;--neud:rgba(96,165,250,.08);--neub:rgba(96,165,250,.25);
+  --warn:#fb923c;--warnd:rgba(251,146,60,.08);--warnb:rgba(251,146,60,.25);
+  --t1:#f0f0f5;--t2:#c8c8d8;--t3:#8888a0;--t4:#555568;
+  --r:12px;--rs:8px;--rxs:5px;
+  --shadow:0 2px 16px rgba(0,0,0,.45);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;scroll-padding-top:120px;}
@@ -119,26 +116,15 @@ body{font-family:"Barlow",sans-serif;background:var(--bg);color:var(--t1);font-s
 ::-webkit-scrollbar-thumb:hover{background:var(--b2);}
 
 /* ━━━ HEADER ━━━ */
-.hdr{background:rgba(13,14,18,.95);border-bottom:1px solid transparent;background-clip:padding-box;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:400;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 1px 0 rgba(255,210,0,.2),0 4px 32px rgba(0,0,0,.5);}
-/* API Key Banner */
-.api-banner{background:linear-gradient(90deg,rgba(255,56,96,.12),rgba(255,140,66,.1));border-bottom:1px solid rgba(255,56,96,.3);padding:8px 28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;position:sticky;top:60px;z-index:398;backdrop-filter:blur(8px);}
-.api-banner.ok{background:linear-gradient(90deg,rgba(16,217,126,.08),rgba(16,217,126,.04));border-bottom-color:rgba(16,217,126,.25);}
-.api-banner.hidden{display:none;}
-.api-input{background:rgba(255,255,255,.06);border:1px solid rgba(255,56,96,.4);color:var(--t1);border-radius:var(--rxs);padding:6px 12px;font-size:11px;font-family:"Barlow",sans-serif;outline:none;width:340px;max-width:100%;transition:.2s;letter-spacing:.5px;}
-.api-input:focus{border-color:rgba(255,210,0,.5);background:rgba(255,255,255,.09);box-shadow:0 0 0 2px rgba(255,210,0,.1);}
-.api-input.valid{border-color:rgba(16,217,126,.5);background:rgba(16,217,126,.06);}
-.api-save-btn{background:linear-gradient(135deg,#FFD200,#ffd60a);color:#000;border:none;border-radius:var(--rxs);padding:6px 16px;font-size:11px;font-weight:900;cursor:pointer;font-family:"Barlow Condensed",sans-serif;letter-spacing:.5px;text-transform:uppercase;transition:.15s;}
-.api-save-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(255,210,0,.4);}
-.api-clear-btn{background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--t3);border-radius:var(--rxs);padding:6px 12px;font-size:10px;cursor:pointer;font-family:"Barlow",sans-serif;transition:.15s;}
-.api-clear-btn:hover{border-color:rgba(255,56,96,.4);color:#ff3860;}
+.hdr{background:var(--s1);border-bottom:1px solid var(--b1);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:400;backdrop-filter:blur(12px);}
 .hdr-brand{display:flex;align-items:center;gap:14px;}
 .logo-mark{display:flex;align-items:center;}
 .hdr-info .ttl{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:15px;color:var(--t1);letter-spacing:.5px;text-transform:uppercase;line-height:1.2;}
 .hdr-info .sub{font-size:10px;color:var(--t3);font-weight:400;margin-top:1px;letter-spacing:.3px;}
 .hdr-right{display:flex;align-items:center;gap:10px;position:relative;}
 .pill{display:flex;align-items:center;gap:5px;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700;letter-spacing:.5px;border:1px solid;}
-.pill-live{background:rgba(16,217,126,.1);border-color:rgba(16,217,126,.35);color:#10d97e;box-shadow:0 0 8px rgba(16,217,126,.2);}
-.blink{width:5px;height:5px;border-radius:50%;background:#10d97e;animation:bl 2s ease-in-out infinite;box-shadow:0 0 6px #10d97e;}
+.pill-live{background:var(--posd);border-color:var(--posb);color:var(--pos);}
+.blink{width:5px;height:5px;border-radius:50%;background:var(--pos);animation:bl 2s ease-in-out infinite;}
 @keyframes bl{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
 @keyframes pulse{0%,100%{opacity:.4}50%{opacity:.7}}
 .ts{font-size:10px;color:var(--t3);}
@@ -148,7 +134,7 @@ body{font-family:"Barlow",sans-serif;background:var(--bg);color:var(--t1);font-s
 #fi{display:none;}
 
 /* ━━━ FILTERS ━━━ */
-.filters{background:rgba(18,19,24,.95);border-bottom:1px solid rgba(50,55,72,.5);padding:10px 28px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;backdrop-filter:blur(8px);}
+.filters{background:var(--s2);border-bottom:1px solid var(--b1);padding:10px 28px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
 .fg{display:flex;align-items:center;gap:6px;}
 .flbl{font-size:10px;color:var(--t2);font-weight:700;text-transform:uppercase;letter-spacing:.8px;white-space:nowrap;}
 select.fs,input.fi2{background:var(--s4);border:1px solid var(--b1);color:var(--t1);border-radius:var(--rxs);padding:6px 10px;font-size:12px;font-family:"Barlow",sans-serif;cursor:pointer;outline:none;transition:.15s;min-width:112px;}
@@ -160,7 +146,7 @@ select.fs option{background:var(--s3);}
 .btn-rst:hover{border-color:var(--yelb);color:var(--yel);}
 
 /* ━━━ PERIOD BAR ━━━ */
-.pbar{background:rgba(13,14,18,.9);border-bottom:1px solid rgba(50,55,72,.5);padding:10px 28px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;backdrop-filter:blur(8px);}
+.pbar{background:var(--s1);border-bottom:1px solid var(--b1);padding:10px 28px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
 .pitem{display:flex;align-items:center;gap:7px;font-size:13px;}
 .pl{color:var(--t3);font-weight:600;}
 .pv{color:var(--t2);font-weight:700;}
@@ -172,39 +158,29 @@ select.fs option{background:var(--s3);}
 
 /* ━━━ ALERTS ━━━ */
 .alerts{padding:8px 28px;display:flex;gap:6px;flex-wrap:wrap;}
-.alert{display:flex;align-items:center;gap:8px;border-radius:var(--rs);padding:8px 15px;font-size:12.5px;font-weight:500;border:1px solid;line-height:1.4;backdrop-filter:blur(8px);transition:transform .15s;}
-.alert:hover{transform:translateX(2px);}
-.alert-crit{background:rgba(255,56,96,.12);border-color:rgba(255,56,96,.35);color:#ff6b8a;border-left:3px solid #ff3860;}
-.alert-warn{background:rgba(255,140,66,.12);border-color:rgba(255,140,66,.35);color:#ffaa60;border-left:3px solid #ff8c42;}
-.alert-good{background:rgba(16,217,126,.12);border-color:rgba(16,217,126,.35);color:#10d97e;border-left:3px solid #10d97e;}
-.alert-info{background:rgba(255,210,0,.1);border-color:rgba(255,210,0,.3);color:#FFD200;border-left:3px solid #FFD200;}
-.alert-neu{background:rgba(94,174,255,.1);border-color:rgba(94,174,255,.3);color:#5eaeff;border-left:3px solid #5eaeff;}
+.alert{display:flex;align-items:center;gap:6px;border-radius:var(--rxs);padding:6px 13px;font-size:12.5px;font-weight:500;border:1px solid;line-height:1.4;}
+.alert-crit{background:var(--negd);border-color:var(--negb);color:var(--neg);}
+.alert-warn{background:var(--warnd);border-color:var(--warnb);color:var(--warn);}
+.alert-good{background:var(--posd);border-color:var(--posb);color:var(--pos);}
+.alert-info{background:var(--yeld);border-color:var(--yelb);color:var(--yel);}
+.alert-neu{background:var(--neud);border-color:var(--neub);color:var(--neu);}
 
 /* ━━━ MAIN ━━━ */
 .main{padding:24px 36px 80px;max-width:1900px;margin:0 auto;}
-/* Entrance animations */
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-@keyframes spin{to{transform:rotate(360deg)}}
-.card{animation:fadeUp .45s ease both;}
-.kpi{animation:fadeUp .35s ease both;}
 
 /* ━━━ SECTION HEADER ━━━ */
 .sh{display:flex;align-items:center;gap:10px;margin:32px 0 16px;flex-wrap:wrap;}
-.sh-tag{background:linear-gradient(90deg,var(--yel),var(--yel2));color:#000;font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:8.5px;padding:4px 10px;border-radius:var(--rxs);letter-spacing:1.2px;text-transform:uppercase;box-shadow:0 2px 8px rgba(245,196,0,.3);}
-.sh-title{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:20px;color:var(--t1);text-transform:uppercase;letter-spacing:.5px;text-shadow:0 0 30px rgba(245,196,0,.08);}
-.sh-line{flex:1;height:1px;background:linear-gradient(90deg,var(--b1),transparent);}
+.sh-tag{background:var(--yel);color:#000;font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:8.5px;padding:3px 8px;border-radius:var(--rxs);letter-spacing:1px;text-transform:uppercase;}
+.sh-title{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:19px;color:var(--t1);text-transform:uppercase;letter-spacing:.5px;}
+.sh-line{flex:1;height:1px;background:var(--b1);}
 
 /* ━━━ INTELLIGENCE BRIEF ━━━ */
-.brief{background:linear-gradient(135deg,var(--s2) 0%,#0e0e0a 100%);border:1px solid var(--yelb);border-left:3px solid var(--yel);border-radius:var(--r);padding:20px 24px;margin-bottom:16px;position:relative;overflow:hidden;box-shadow:0 4px 40px rgba(255,210,0,.05);}
-.brief::before{content:"";position:absolute;top:-80px;right:-80px;width:240px;height:240px;background:radial-gradient(circle,rgba(255,210,0,.07) 0%,transparent 65%);pointer-events:none;animation:pulse 6s ease-in-out infinite;}
-.brief::after{content:"";position:absolute;bottom:-40px;left:30%;width:200px;height:200px;background:radial-gradient(circle,rgba(16,217,126,.04) 0%,transparent 65%);pointer-events:none;}
+.brief{background:linear-gradient(135deg,var(--s2) 0%,#111108 100%);border:1px solid var(--yelb);border-left:3px solid var(--yel);border-radius:var(--r);padding:20px 24px;margin-bottom:16px;position:relative;overflow:hidden;}
+.brief::before{content:"";position:absolute;top:-60px;right:-60px;width:180px;height:180px;background:radial-gradient(circle,rgba(245,196,0,.05) 0%,transparent 70%);pointer-events:none;}
 .brief-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:16px;}
 .brief-label{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:11px;color:var(--yel);text-transform:uppercase;letter-spacing:1px;}
 .brief-scope{font-size:10px;color:var(--t3);background:var(--s4);border:1px solid var(--b1);border-radius:var(--rxs);padding:3px 10px;white-space:nowrap;}
 .brief-body{font-size:15.5px;color:var(--t1);line-height:1.9;font-weight:300;margin-bottom:14px;}
-.brief-bullets{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;}
-.brief-bullets li{padding:9px 14px 9px 14px;background:rgba(255,255,255,.03);border:1px solid var(--b1);border-left:3px solid var(--yel);border-radius:0 var(--rs) var(--rs) 0;font-size:14.5px;color:var(--t1);line-height:1.7;font-weight:300;position:relative;}
-.brief-bullets li::before{content:"▸";color:var(--yel);font-weight:900;margin-right:8px;}
 .brief-body strong{color:var(--yel);font-weight:600;}
 .brief-body em{color:var(--yel);font-style:normal;font-weight:500;}
 .brief-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
@@ -224,32 +200,19 @@ select.fs option{background:var(--s3);}
 
 /* ━━━ KPI GRID ━━━ */
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px;margin-bottom:16px;}
-.kpi{background:var(--s2);border:1px solid var(--b1);border-radius:var(--r);padding:18px 20px;position:relative;overflow:hidden;transition:all .18s;cursor:default;}
-.kpi:hover{border-color:var(--b2);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.45);}
+.kpi{background:var(--s2);border:1px solid var(--b1);border-radius:var(--r);padding:18px 20px;position:relative;overflow:hidden;transition:all .15s;cursor:default;}
+.kpi:hover{border-color:var(--b2);transform:translateY(-1px);box-shadow:var(--shadow);}
 .kpi::after{content:"";position:absolute;top:0;left:0;right:0;height:2px;border-radius:var(--r) var(--r) 0 0;opacity:.9;}
-.kpi.ky::after{background:linear-gradient(90deg,var(--yel),var(--yel2));}
-.kpi.kp::after{background:linear-gradient(90deg,#10d97e,#4ade80);}
-.kpi.kn::after{background:linear-gradient(90deg,#ff3860,#ff6b8a);}
-.kpi.ku::after{background:linear-gradient(90deg,#5eaeff,#93c5fd);}
-.kpi.kw::after{background:linear-gradient(90deg,#ff8c42,#fbbf24);}
-/* Subtle glow on KPI accent bar */
-.kpi::before{content:"";position:absolute;top:0;left:0;right:0;bottom:0;opacity:0;transition:opacity .18s;pointer-events:none;}
-.kpi.ky::before{background:radial-gradient(ellipse at top,rgba(245,196,0,.06) 0%,transparent 70%);}
-.kpi.kp::before{background:radial-gradient(ellipse at top,rgba(16,217,126,.06) 0%,transparent 70%);}
-.kpi.kn::before{background:radial-gradient(ellipse at top,rgba(255,56,96,.06) 0%,transparent 70%);}
-.kpi.ku::before{background:radial-gradient(ellipse at top,rgba(94,174,255,.06) 0%,transparent 70%);}
-.kpi:hover::before{opacity:1;}
+.kpi.ky::after{background:var(--yel);}
+.kpi.kp::after{background:var(--pos);}
+.kpi.kn::after{background:var(--neg);}
+.kpi.ku::after{background:var(--neu);}
+.kpi.kw::after{background:var(--warn);}
 .kpi-lbl{font-size:11.5px;color:var(--t2);text-transform:uppercase;letter-spacing:.8px;font-weight:700;margin-bottom:6px;}
 .kpi-val{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:38px;line-height:1;margin-bottom:3px;}
 .ky-c{color:var(--yel);}.kp-c{color:var(--pos);}.kn-c{color:var(--neg);}.ku-c{color:var(--neu);}.kw-c{color:var(--t1);}
 .kpi-sub{font-size:12px;color:var(--t2);line-height:1.3;}
 .kpi-badge{display:inline-block;margin-top:6px;font-size:8px;font-weight:700;padding:2px 6px;border-radius:3px;text-transform:uppercase;letter-spacing:.4px;}
-/* Animated 3D Pie Chart */
-@keyframes glowPulse3D{
-  0%,100%{filter:drop-shadow(0 0 12px rgba(245,196,0,.18));}
-  50%{filter:drop-shadow(0 0 28px rgba(245,196,0,.38));}
-}
-#sentD3DCanvas{display:block;margin:0 auto;}
 .kb-up{background:var(--posd);color:var(--pos);border:1px solid var(--posb);}
 .kb-dn{background:var(--negd);color:var(--neg);border:1px solid var(--negb);}
 .kb-fl{background:var(--neud);color:var(--neu);border:1px solid var(--neub);}
@@ -266,12 +229,12 @@ select.fs option{background:var(--s3);}
 .cc-diff{margin-top:10px;padding-top:10px;border-top:1px solid var(--b1);display:flex;align-items:center;gap:8px;font-size:12px;flex-wrap:wrap;}
 
 /* ━━━ BADGE ━━━ */
-.bdg{display:inline-block;padding:3px 9px;border-radius:4px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;font-family:"Barlow Condensed",sans-serif;}
-.bdg-p{background:rgba(16,217,126,.15);color:#10d97e;border:1px solid rgba(16,217,126,.35);}
-.bdg-n{background:rgba(255,56,96,.15);color:#ff3860;border:1px solid rgba(255,56,96,.35);}
-.bdg-u{background:rgba(94,174,255,.15);color:#5eaeff;border:1px solid rgba(94,174,255,.35);}
-.bdg-y{background:rgba(255,210,0,.15);color:#FFD200;border:1px solid rgba(255,210,0,.35);}
-.bdg-w{background:rgba(255,140,66,.15);color:#ff8c42;border:1px solid rgba(255,140,66,.35);}
+.bdg{display:inline-block;padding:2px 7px;border-radius:3px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;}
+.bdg-p{background:var(--posd);color:var(--pos);border:1px solid var(--posb);}
+.bdg-n{background:var(--negd);color:var(--neg);border:1px solid var(--negb);}
+.bdg-u{background:var(--neud);color:var(--neu);border:1px solid var(--neub);}
+.bdg-y{background:var(--yeld);color:var(--yel);border:1px solid var(--yelb);}
+.bdg-w{background:var(--warnd);color:var(--warn);border:1px solid var(--warnb);}
 
 /* ━━━ LAYOUT ━━━ */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
@@ -279,38 +242,22 @@ select.fs option{background:var(--s3);}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px;}
 .g1{margin-bottom:14px;}
 .sp2{grid-column:span 2;}
-/* Auto-responsive grids */
-@media(max-width:1100px){.g3{grid-template-columns:1fr 1fr;}}
-@media(max-width:780px){.g2,.g3,.g4{grid-template-columns:1fr;}.kpi-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}}
-/* DM/VoC section accents */
-.dm-accent{border-left:3px solid #7c3aed!important;}
-.redirect-accent{border-left:3px solid #0891b2!important;}
-.voc-accent{border-left:3px solid #059669!important;}
 
 /* ━━━ CARD ━━━ */
-.card{background:var(--s2);border:1px solid var(--b1);border-radius:var(--r);padding:20px 22px;position:relative;transition:border-color .2s,box-shadow .2s;}
-.card:hover{border-color:var(--b2);box-shadow:0 4px 24px rgba(0,0,0,.35);}
+.card{background:var(--s2);border:1px solid var(--b1);border-radius:var(--r);padding:20px 22px;position:relative;}
 .card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:10px;}
 .card-ttl{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:14.5px;color:var(--t2);text-transform:uppercase;letter-spacing:.7px;line-height:1.3;}
-/* Gradient top accent on cards */
-.card::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--b2) 30%,var(--b2) 70%,transparent);border-radius:var(--r) var(--r) 0 0;opacity:0;transition:opacity .2s;}
-.card:hover::before{opacity:1;}
 /* Chart type toggle */
 .viz-btns{display:flex;gap:3px;flex-shrink:0;}
-.vb{background:var(--s4);border:1px solid var(--b1);color:var(--t3);border-radius:var(--rxs);padding:4px 10px;font-size:9px;font-weight:700;cursor:pointer;transition:all .15s;font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.5px;}
-.vb:hover{border-color:rgba(255,210,0,.4);color:var(--yel);background:rgba(255,210,0,.06);}
-.vb.on{background:linear-gradient(135deg,var(--yel),var(--yel2));color:#000;border-color:var(--yel);box-shadow:0 2px 10px rgba(255,210,0,.3);font-weight:900;}
-/* Canvas sizing - auto-responsive */
+.vb{background:var(--s4);border:1px solid var(--b1);color:var(--t3);border-radius:var(--rxs);padding:3px 8px;font-size:9px;font-weight:600;cursor:pointer;transition:.12s;font-family:"Barlow",sans-serif;text-transform:uppercase;letter-spacing:.3px;}
+.vb:hover{border-color:var(--yelb);color:var(--yel);}
+.vb.on{background:var(--yel);color:#000;border-color:var(--yel);}
+/* Canvas sizing */
 .cw canvas{max-height:280px!important;}
 .cw-sm canvas{max-height:220px!important;}
 .cw-lg canvas{max-height:320px!important;}
 /* Volume analysis fixed height charts */
 #volAnalysisTop canvas, #volTrendCard canvas{max-height:none!important;width:100%!important;}
-/* Auto-resize: cards with position:relative height auto based on content */
-.card{height:auto;}
-.card canvas{width:100%!important;}
-/* KPI grid auto-sizes */
-.kpi-grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));}
 
 /* ━━━ SOV BARS ━━━ */
 .sov-row{margin-bottom:8px;border-radius:var(--rxs);transition:.12s;}
@@ -429,8 +376,40 @@ select.fs option{background:var(--s3);}
 @media(max-width:1000px){.g3,.cmp-grid{grid-template-columns:1fr 1fr;}.g4,.risk-grid{grid-template-columns:1fr 1fr;}.voc-grid{grid-template-columns:1fr 1fr;}}
 @media(max-width:700px){.g2,.g3,.g4,.cmp-grid,.voc-grid{grid-template-columns:1fr;}.kpi-grid{grid-template-columns:repeat(2,1fr);}.risk-grid{grid-template-columns:1fr 1fr;}.main,.filters,.hdr,.pbar,.alerts{padding-left:14px;padding-right:14px;}}
 </style>
+<style>
+/* ━━━ PASSWORD GATE ━━━ */
+#pwGate{position:fixed;inset:0;z-index:99999;background:#070709;display:flex;align-items:center;justify-content:center;font-family:"Barlow",sans-serif;}
+#pwGate.hidden{display:none;}
+.pw-box{width:100%;max-width:400px;padding:48px 40px;background:#0f0f12;border:1px solid #2a2a32;border-radius:16px;box-shadow:0 32px 80px rgba(0,0,0,.8);text-align:center;}
+.pw-logo{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:32px;color:#F5C400;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.pw-sub{font-size:11px;color:#555568;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:36px;}
+.pw-label{font-size:11px;font-weight:700;color:#8888a0;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;text-align:left;}
+.pw-input{width:100%;background:#1a1a1e;border:1px solid #2a2a32;color:#f0f0f5;border-radius:8px;padding:13px 16px;font-size:15px;font-family:"Barlow",sans-serif;outline:none;transition:.15s;box-sizing:border-box;letter-spacing:.1em;}
+.pw-input:focus{border-color:#F5C400;box-shadow:0 0 0 3px rgba(245,196,0,.12);}
+.pw-btn{width:100%;margin-top:16px;background:#F5C400;color:#000;border:none;border-radius:8px;padding:14px;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;cursor:pointer;font-family:"Barlow",sans-serif;transition:.15s;}
+.pw-btn:hover{background:#ffd60a;transform:translateY(-1px);}
+.pw-btn:active{transform:translateY(0);}
+.pw-err{margin-top:14px;font-size:12px;color:#f43f5e;min-height:18px;transition:.15s;}
+.pw-shake{animation:pwShake .4s ease;}
+@keyframes pwShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+.pw-hint{margin-top:24px;font-size:10px;color:#333345;letter-spacing:.3px;}
+</style>
 </head>
 <body>
+
+<!-- ━━━ PASSWORD GATE ━━━ -->
+<div id="pwGate">
+  <div class="pw-box">
+    <div class="pw-logo">DAZN</div>
+    <div class="pw-sub">Global Sentiment Intelligence</div>
+    <div class="pw-label">Enter Access Password</div>
+    <input type="password" class="pw-input" id="pwInput" placeholder="••••••••••••"
+      onkeydown="if(event.key==='Enter')checkPw();" autocomplete="current-password" autofocus>
+    <button class="pw-btn" onclick="checkPw()">Unlock Dashboard →</button>
+    <div class="pw-err" id="pwErr"></div>
+    <div class="pw-hint">DAZN Internal Use Only · Authorised Personnel Only</div>
+  </div>
+</div>
 
 <!-- ━━━ TOOLTIPS (fixed position, hidden) ━━━ -->
 <div class="ttp" id="tCris"><div class="ttp-ttl" id="tCrisL" style="color:var(--neg)"></div><div id="tCrisB"></div></div>
@@ -473,23 +452,6 @@ select.fs option{background:var(--s3);}
   </div>
 </header>
 
-<!-- ━━━ API KEY BANNER ━━━ -->
-<div class="api-banner hidden" id="apiBanner">
-  <span style="font-size:14px">🔑</span>
-  <div style="flex:1;min-width:0">
-    <div style="font-size:11px;font-weight:700;color:#ff8c42;text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px">Claude API Key Required for AI Features</div>
-    <div style="font-size:10px;color:var(--t3)">Enter once — saved in this browser automatically for your team · Never stored on any server</div>
-  </div>
-  <input class="api-input" id="apiKeyInput" type="password" placeholder="sk-ant-api03-…  paste your Claude API key here" autocomplete="off" spellcheck="false" oninput="onApiKeyInput(this)" onkeydown="if(event.key==='Enter')saveApiKey()">
-  <button class="api-save-btn" onclick="saveApiKey()">✓ Save &amp; Activate</button>
-</div>
-<div class="api-banner ok hidden" id="apiBannerOk">
-  <span style="font-size:14px;filter:drop-shadow(0 0 6px #10d97e)">🤖</span>
-  <span style="font-size:12px;color:#10d97e;font-weight:700">Claude AI Active</span>
-  <span style="font-size:11px;color:var(--t3)" id="apiBannerOkMsg">AI Summary · Key Themes · ORM Recommendations — all enabled</span>
-  <button class="api-clear-btn" onclick="clearApiKey()" style="margin-left:auto;font-size:9px">✕ Change Key</button>
-</div>
-
 <!-- ━━━ FILTERS ━━━ -->
 <div class="filters">
   <div class="fg"><span class="flbl">FROM</span><input type="date" class="fi2" id="fFrom" onchange="go()"></div>
@@ -526,7 +488,7 @@ select.fs option{background:var(--s3);}
 <div class="alerts" id="alerts"></div>
 
 <!-- ━━━ SECTION NAV ━━━ -->
-<nav id="secNav" style="background:rgba(13,14,18,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(60,65,80,.5);padding:0 28px;display:flex;gap:0;align-items:center;overflow-x:auto;scrollbar-width:none;position:sticky;top:60px;z-index:300;box-shadow:0 2px 24px rgba(0,0,0,.35);">
+<nav id="secNav" style="background:var(--s1);border-bottom:1px solid var(--b1);padding:0 28px;display:flex;gap:0;align-items:center;overflow-x:auto;scrollbar-width:none;position:sticky;top:60px;z-index:300;">
   <style>#secNav::-webkit-scrollbar{display:none;}
   .snav-btn{background:none;border:none;color:var(--t3);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.6px;cursor:pointer;padding:10px 14px;border-bottom:2px solid transparent;transition:all .18s;white-space:nowrap;}
   .snav-btn:hover{color:var(--t1);border-bottom-color:var(--b2);}
@@ -536,6 +498,7 @@ select.fs option{background:var(--s3);}
   <button class="snav-btn" onclick="navScrollTo('sec-kpi')">📈 KPIs</button>
   <button class="snav-btn" onclick="navScrollTo('sec-risk')">🚨 Risk</button>
   <button class="snav-btn" onclick="navScrollTo('sec-neg-deep')">🔴 Negatives</button>
+  <button class="snav-btn" onclick="navScrollTo('sec-nps-nss')">📊 NPS · NSS</button>
   <button class="snav-btn" onclick="navScrollTo('sec-actions')">⚡ Actions</button>
   <button class="snav-btn" onclick="navScrollTo('sec-buzz')">📡 Buzz</button>
   <button class="snav-btn" onclick="navScrollTo('sec-sentiment')">Sentiment</button>
@@ -544,18 +507,14 @@ select.fs option{background:var(--s3);}
   <button class="snav-btn" onclick="navScrollTo('sec-volume')">Volume</button>
   <button class="snav-btn" onclick="navScrollTo('sec-trends')">Trends</button>
   <button class="snav-btn" onclick="navScrollTo('sec-categories')">Categories</button>
+  <button class="snav-btn" onclick="navScrollTo('sec-voice')">Voice</button>
   <button class="snav-btn" onclick="navScrollTo('sec-wordcloud')">Word Cloud</button>
-  <button class="snav-btn" onclick="navScrollTo('sec-dms')">💬 DMs</button>
-  <button class="snav-btn" onclick="navScrollTo('sec-redirect')">↩ Redirections</button>
-  <button class="snav-btn" onclick="navScrollTo('sec-voc')">🗣 VoC</button>
-  <button class="snav-btn" onclick="navScrollTo('sec-dow')">📅 DoD/WoW</button>
-  <button class="snav-btn" onclick="navScrollTo('sec-nps-nss')">📊 NPS · NSS</button>
 </nav>
 <script>
 function navScrollTo(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
 // Highlight active nav item on scroll
 window.addEventListener('scroll',()=>{
-  const secs=['sec-brief','sec-kpi','sec-risk','sec-neg-deep','sec-actions','sec-buzz','sec-sentiment','sec-markets','sec-platform','sec-volume','sec-trends','sec-categories','sec-wordcloud','sec-dms','sec-redirect','sec-voc','sec-dow','sec-nps-nss'];
+  const secs=['sec-brief','sec-kpi','sec-risk','sec-neg-deep','sec-nps-nss','sec-actions','sec-buzz','sec-sentiment','sec-markets','sec-platform','sec-volume','sec-trends','sec-categories','sec-voice','sec-wordcloud'];
   let cur='';
   for(const id of secs){const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=120)cur=id;}
   document.querySelectorAll('.snav-btn').forEach((btn,i)=>{
@@ -645,7 +604,7 @@ window.addEventListener('scroll',()=>{
 
   <!-- ⑮ NEGATIVE DEEP-DIVE -->
   <div id="sec-neg-deep" style="scroll-margin-top:120px"></div>
-  <div class="sh"><span class="sh-tag" style="background:linear-gradient(135deg,#ff3860,#ff6b8a);color:#fff;box-shadow:0 2px 8px rgba(255,56,96,.35)">🔴 Negative</span><span class="sh-title">Negative Sentiment Deep-Dive · Sub-Category Analysis</span><div class="sh-line"></div></div>
+  <div class="sh"><span class="sh-tag" style="background:var(--neg);color:#fff">🔴 Negative</span><span class="sh-title">Negative Sentiment Deep-Dive · Sub-Category Analysis</span><div class="sh-line"></div></div>
 
   <!-- Negative filters bar -->
   <div class="card" style="margin-bottom:12px;padding:12px 16px;">
@@ -659,7 +618,7 @@ window.addEventListener('scroll',()=>{
         <select class="fs" id="fNegPlat" onchange="renderNegDeep()" style="min-width:120px;font-size:10px"><option value="">All Platforms</option></select></div>
       <div style="display:flex;align-items:center;gap:5px"><span class="flbl">Top Ranks</span>
         <select class="fs" id="fNegTop" onchange="renderNegDeep()" style="min-width:120px;font-size:10px">
-          <option value="5">Top 5</option><option value="7">Top 7</option><option value="10">Top 10</option><option value="15" selected>Top 15</option><option value="20">Top 20</option><option value="999">All Ranks</option></select>
+          <option value="10">Top 10</option><option value="15" selected>Top 15</option><option value="20">Top 20</option><option value="999">All Ranks</option></select>
         <div id="negTopVolStatus" style="font-size:10px;color:var(--yel);font-weight:600;min-width:100px"></div></div>
       <div id="negDeepStatus" style="font-size:10px;color:var(--neg);margin-left:4px;font-weight:600"></div>
     </div>
@@ -668,7 +627,7 @@ window.addEventListener('scroll',()=>{
   <!-- Neg KPI row -->
   <div id="negKpiRow" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;"></div>
 
-  <!-- Charts row 1: neg bar + positive sub-cat bar -->
+  <!-- Charts row 1: bar + pie -->
   <div class="g2">
     <div class="card">
       <div class="card-hd">
@@ -679,10 +638,10 @@ window.addEventListener('scroll',()=>{
     </div>
     <div class="card">
       <div class="card-hd">
-        <div class="card-ttl">Sub-Category Share of Positives · L2</div>
-        <div class="viz-btns" id="vg-posbar"><button class="vb on" onclick="renderPosSubBar('bar',this)">Bar</button><button class="vb" onclick="renderPosSubBar('horizontalBar',this)">H-Bar</button></div>
+        <div class="card-ttl">Sub-Category Share of Negatives</div>
+        <div class="viz-btns" id="vg-negpie"><button class="vb on" onclick="negVswitch('negSubPie','doughnut',this,'vg-negpie')">Donut</button><button class="vb" onclick="negVswitch('negSubPie','pie',this,'vg-negpie')">Pie</button></div>
       </div>
-      <div style="position:relative;height:300px;overflow:visible"><canvas id="posSubBar"></canvas></div>
+      <div style="position:relative;height:300px;overflow:visible"><canvas id="negSubPie"></canvas></div>
     </div>
   </div>
 
@@ -708,6 +667,64 @@ window.addEventListener('scroll',()=>{
   <div class="card" style="margin-bottom:14px;">
     <div class="card-hd"><div class="card-ttl">Negative Sub-Category Detailed Table</div><span id="negTblCount" style="font-size:10px;color:var(--t3)"></span></div>
     <div style="overflow-x:auto"><table class="tbl" id="negDeepTable"></table></div>
+  </div>
+
+  <!-- ⑯ NPS · NSS DETAILED REPORT -->
+  <div id="sec-nps-nss" style="scroll-margin-top:120px"></div>
+  <div class="sh"><span class="sh-tag" style="background:var(--neu);color:#000">📊 NPS · NSS</span><span class="sh-title">NPS &amp; NSS Detailed Report · Scores, Trends &amp; Market Breakdown</span><div class="sh-line"></div></div>
+
+  <!-- NPS/NSS Filters -->
+  <div class="card" style="margin-bottom:12px;padding:12px 16px;">
+    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
+      <span style="font-size:11px;font-weight:700;color:var(--neu);text-transform:uppercase;letter-spacing:.5px">📊 Filters</span>
+      <div style="display:flex;align-items:center;gap:5px"><span class="flbl">Market</span>
+        <select class="fs" id="fNpsMkt" onchange="renderNpsNssFiltered()" style="min-width:120px;font-size:10px"><option value="">All Markets</option></select></div>
+      <div style="display:flex;align-items:center;gap:5px"><span class="flbl">Platform</span>
+        <select class="fs" id="fNpsPlat" onchange="renderNpsNssFiltered()" style="min-width:120px;font-size:10px"><option value="">All Platforms</option></select></div>
+      <div style="display:flex;align-items:center;gap:5px"><span class="flbl">Category</span>
+        <select class="fs" id="fNpsCat" onchange="renderNpsNssFiltered()" style="min-width:130px;font-size:10px"><option value="">All Categories</option></select></div>
+      <div id="npsFilterStatus" style="font-size:10px;color:var(--neu);margin-left:4px;font-weight:600"></div>
+    </div>
+  </div>
+
+  <!-- NPS/NSS KPI Cards -->
+  <div id="npsNssKpiRow" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;"></div>
+
+  <!-- NPS & NSS Score Gauges -->
+  <div class="g1" style="margin-bottom:14px;">
+    <div class="card">
+      <div class="card-hd"><div class="card-ttl">NPS &amp; NSS Scores</div></div>
+      <div id="npsGaugeDiv" style="padding:10px 0"></div>
+    </div>
+  </div>
+
+  <!-- NPS/NSS trend chart -->
+  <div class="g1" style="margin-bottom:14px;">
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-ttl">NPS &amp; NSS Trend · Daily</div>
+        <div class="viz-btns" id="vg-npsline"><button class="vb on" onclick="npsVswitch('line',this)">Line</button><button class="vb" onclick="npsVswitch('bar',this)">Bar</button></div>
+      </div>
+      <div style="position:relative;height:280px;overflow:visible"><canvas id="npsNssTrend"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Market NPS/NSS breakdown -->
+  <div class="g1" style="margin-bottom:14px;">
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-ttl">NPS &amp; NSS by Market · Comparison</div>
+        <div class="viz-btns" id="vg-npsmkt"><button class="vb on" onclick="npsMktVswitch('bar',this)">Bar</button><button class="vb" onclick="npsMktVswitch('radar',this)">Radar</button></div>
+      </div>
+      <div style="position:relative;height:300px;overflow:visible"><canvas id="npsMktChart"></canvas></div>
+    </div>
+
+  </div>
+
+  <!-- NPS/NSS market table -->
+  <div class="card" style="margin-bottom:14px;">
+    <div class="card-hd"><div class="card-ttl">NPS · NSS Market-Level Scorecard</div></div>
+    <div style="overflow-x:auto"><table class="tbl" id="npsNssTable"></table></div>
   </div>
 
   <!-- ⑪ BRAND HEALTH & ACTIONS -->
@@ -769,20 +786,12 @@ window.addEventListener('scroll',()=>{
   <div id="sec-sentiment" style="scroll-margin-top:120px"></div>
   <div class="sh"><span class="sh-tag">Sentiment</span><span class="sh-title">Sentiment Distribution &amp; Trends</span><div class="sh-line"></div></div>
   <div class="g3">
-    <div class="card" style="overflow:visible;">
+    <div class="card">
       <div class="card-hd">
-        <div class="card-ttl">Overall Distribution <span style="font-size:9px;color:var(--yel);margin-left:6px;font-weight:600">✦ 3D Live</span></div>
-        <div class="viz-btns" id="vg-sd">
-          <button class="vb on" onclick="sentD3DMode='donut';renderSentD3D();highlightBtn('vg-sd',this)">3D Donut</button>
-          <button class="vb" onclick="sentD3DMode='pie';renderSentD3D();highlightBtn('vg-sd',this)">3D Pie</button>
-          <button class="vb" onclick="sentD3DMode='bar';renderSentD(window._lastSentData,'bar')">Flat Bar</button>
-        </div>
+        <div class="card-ttl">Overall Distribution</div>
+        <div class="viz-btns" id="vg-sd"><button class="vb on" onclick="vswitch('sentD','doughnut',this,'vg-sd')">Donut</button><button class="vb" onclick="vswitch('sentD','pie',this,'vg-sd')">Pie</button><button class="vb" onclick="vswitch('sentD','bar',this,'vg-sd')">Bar</button></div>
       </div>
-      <div style="position:relative;min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-        <canvas id="sentD3DCanvas" width="280" height="240" style="animation:glowPulse3D 4s ease-in-out infinite;cursor:pointer;" title="Hover to explore · Click to spin"></canvas>
-        <canvas id="sentD" style="display:none;width:100%;max-height:220px;"></canvas>
-        <div id="sentD3DLegend" style="display:flex;gap:14px;margin-top:8px;flex-wrap:wrap;justify-content:center;"></div>
-      </div>
+      <div class="cw-sm"><canvas id="sentD"></canvas></div>
     </div>
     <div class="card sp2">
       <div class="card-hd">
@@ -819,15 +828,8 @@ window.addEventListener('scroll',()=>{
   </div>
   <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:10px;margin-bottom:10px">
     <div class="card">
-      <div class="card-hd">
-        <div class="card-ttl">Sentiment Breakdown Per Platform</div>
-        <div class="viz-btns" id="vg-platbars">
-          <button class="vb on" id="platBarsBtn1" onclick="switchPlatBarsView('stacked',this)">Stacked</button>
-          <button class="vb" id="platBarsBtn2" onclick="switchPlatBarsView('grouped',this)">Grouped</button>
-        </div>
-      </div>
+      <div class="card-hd"><div class="card-ttl">Sentiment Breakdown Per Platform</div></div>
       <div id="platBars"></div>
-      <div id="platBarsChart" style="position:relative;height:260px;overflow:visible;display:none"><canvas id="platHBarChart"></canvas></div>
     </div>
     <div class="card">
       <div class="card-hd">
@@ -959,6 +961,25 @@ window.addEventListener('scroll',()=>{
     </div>
   </div>
 
+  <!-- ⑥ SHARE OF VOICE -->
+  <div id="sec-voice" style="scroll-margin-top:120px"></div>
+  <div class="sh"><span class="sh-tag">Voice</span><span class="sh-title">Share Of Voice · Volume Based</span><div class="sh-line"></div>
+    <div class="fg" style="margin-left:8px"><span class="flbl">FILTER MARKET</span><select class="fs" id="fSOVMkt" onchange="renderSOVFiltered()" style="min-width:120px"><option value="">All Markets</option></select></div>
+    <div class="fg"><span class="flbl">FILTER CATEGORY</span><select class="fs" id="fSOVCat" onchange="renderSOVFiltered()" style="min-width:130px"><option value="">All Categories</option></select></div>
+    <div class="fg"><span class="flbl">FILTER PLATFORM</span><select class="fs" id="fSOVPlat" onchange="renderSOVFiltered()" style="min-width:120px"><option value="">All Platforms</option></select></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-ttl">Market Share Of Voice</div>
+        <div class="viz-btns" id="vg-sovmkt"><button class="vb on" onclick="vswitch('sovMktChart','bar',this,'vg-sovmkt')">Bar</button><button class="vb" onclick="vswitch('sovMktChart','doughnut',this,'vg-sovmkt')">Donut</button></div>
+      </div>
+      <div id="sovMktChartWrap" style="position:relative;height:260px;overflow:visible"><canvas id="sovMktChart"></canvas></div>
+      <div id="sovMkt" style="margin-top:8px"></div>
+    </div>
+    <div class="card"><div class="card-hd"><div class="card-ttl">Category Share Of Voice &nbsp;<span style="font-weight:400;font-size:9px;color:var(--t4)">hover for market breakdown</span></div></div><div id="sovCat"></div></div>
+  </div>
+
   <!-- ⑭ DYNAMIC WORD CLOUD -->
   <div id="sec-wordcloud" style="scroll-margin-top:120px"></div>
   <div class="sh"><span class="sh-tag">Wordcloud</span><span class="sh-title">Dynamic Word Cloud · Top Terms</span><div class="sh-line"></div></div>
@@ -995,200 +1016,6 @@ window.addEventListener('scroll',()=>{
   <canvas id="negCatChart" style="display:none"></canvas>
 
   
-
-
-
-  <!-- ━━━━ DM ANALYSIS SECTION ━━━━ -->
-  <div id="sec-dms" style="scroll-margin-top:120px"></div>
-  <div class="sh"><span class="sh-tag" style="background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;box-shadow:0 2px 8px rgba(124,58,237,.35)">💬 DMs</span><span class="sh-title">Direct Message &amp; Private Message Analysis</span><div class="sh-line"></div></div>
-  <div class="card" style="margin-bottom:12px;padding:12px 16px;">
-    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
-      <span style="font-size:11px;font-weight:700;color:#a78bfa;text-transform:uppercase;letter-spacing:.5px">💬 Filters</span>
-      <div style="display:flex;align-items:center;gap:5px"><span class="flbl">Market</span>
-        <select class="fs" id="fDmMkt" onchange="renderDmSection()" style="min-width:120px;font-size:10px"><option value="">All Markets</option></select></div>
-      <div style="display:flex;align-items:center;gap:5px"><span class="flbl">Sentiment</span>
-        <select class="fs" id="fDmSent" onchange="renderDmSection()" style="min-width:110px;font-size:10px"><option value="">All</option><option value="positive">Positive</option><option value="negative">Negative</option><option value="neutral">Neutral</option></select></div>
-      <div id="dmStatus" style="font-size:10px;color:#a78bfa;margin-left:4px;font-weight:600"></div>
-    </div>
-  </div>
-  <!-- DM KPI row -->
-  <div id="dmKpiRow" style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:14px;"></div>
-  <!-- DM Charts -->
-  <div class="g2" style="margin-bottom:14px;">
-    <div class="card">
-      <div class="card-hd">
-        <div class="card-ttl">DM Volume Trend · Daily</div>
-        <div class="viz-btns" id="vg-dmtrend"><button class="vb on" onclick="dmVswitch('dmTrendChart','line',this,'vg-dmtrend')">Line</button><button class="vb" onclick="dmVswitch('dmTrendChart','bar',this,'vg-dmtrend')">Bar</button></div>
-      </div>
-      <div style="position:relative;height:240px;overflow:visible"><canvas id="dmTrendChart"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-hd"><div class="card-ttl">DM Sentiment Distribution</div></div>
-      <div style="position:relative;height:240px;overflow:visible"><canvas id="dmSentChart"></canvas></div>
-    </div>
-  </div>
-  <div class="g2" style="margin-bottom:14px;">
-    <div class="card">
-      <div class="card-hd">
-        <div class="card-ttl">DM Volume · By Market</div>
-        <div class="viz-btns" id="vg-dmmkt"><button class="vb on" onclick="dmVswitch('dmMktChart','bar',this,'vg-dmmkt')">Bar</button><button class="vb" onclick="dmVswitch('dmMktChart','horizontalBar',this,'vg-dmmkt')">H-Bar</button></div>
-      </div>
-      <div style="position:relative;height:240px;overflow:visible"><canvas id="dmMktChart"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-hd"><div class="card-ttl">DM Top Issues · Category Breakdown</div></div>
-      <div style="position:relative;height:240px;overflow:visible"><canvas id="dmCatChart"></canvas></div>
-    </div>
-  </div>
-  <div class="card" style="margin-bottom:14px;">
-    <div class="card-hd"><div class="card-ttl">DM Details Table</div><span id="dmTblCount" style="font-size:10px;color:var(--t3)"></span></div>
-    <div style="overflow-x:auto"><table class="tbl" id="dmTable"></table></div>
-  </div>
-
-  <!-- ━━━━ REDIRECTION ANALYSIS SECTION ━━━━ -->
-  <div id="sec-redirect" style="scroll-margin-top:120px"></div>
-  <div class="sh"><span class="sh-tag" style="background:linear-gradient(135deg,#0891b2,#22d3ee);color:#fff;box-shadow:0 2px 8px rgba(8,145,178,.35)">↩ Redirect</span><span class="sh-title">Redirection Analysis · Customers Routed to DM / PM</span><div class="sh-line"></div></div>
-  <div id="redirectKpiRow" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;"></div>
-  <div class="g2" style="margin-bottom:14px;">
-    <div class="card">
-      <div class="card-hd"><div class="card-ttl">Redirections · By Market</div></div>
-      <div style="position:relative;height:240px;overflow:visible"><canvas id="redirectMktChart"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-hd"><div class="card-ttl">Redirection Sentiment Mix</div></div>
-      <div style="position:relative;height:240px;overflow:visible"><canvas id="redirectSentChart"></canvas></div>
-    </div>
-  </div>
-  <div class="g2" style="margin-bottom:14px;">
-    <div class="card">
-      <div class="card-hd"><div class="card-ttl">Redirection Trend · Daily</div></div>
-      <div style="position:relative;height:220px;overflow:visible"><canvas id="redirectTrendChart"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-hd"><div class="card-ttl">Top Categories Driving Redirections</div></div>
-      <div style="position:relative;height:220px;overflow:visible"><canvas id="redirectCatChart"></canvas></div>
-    </div>
-  </div>
-
-  <!-- ━━━━ VOC SUMMARY SECTION ━━━━ -->
-  <div id="sec-voc" style="scroll-margin-top:120px"></div>
-  <div class="sh"><span class="sh-tag" style="background:linear-gradient(135deg,#059669,#10d97e);color:#fff;box-shadow:0 2px 8px rgba(5,150,105,.35)">🗣 VoC</span><span class="sh-title">Voice of Customer · L1 Category Summary</span><div class="sh-line"></div></div>
-  <div class="card" style="margin-bottom:12px;padding:12px 16px;">
-    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
-      <span style="font-size:11px;font-weight:700;color:#34d399;text-transform:uppercase;letter-spacing:.5px">🗣 Filters</span>
-      <div style="display:flex;align-items:center;gap:5px"><span class="flbl">Show Top</span>
-        <select class="fs" id="fVocTop" onchange="renderVoC()" style="min-width:80px;font-size:10px">
-          <option value="5">Top 5</option><option value="7">Top 7</option><option value="10" selected>Top 10</option><option value="15">Top 15</option><option value="20">Top 20</option><option value="999">All</option>
-        </select></div>
-      <div style="display:flex;align-items:center;gap:5px"><span class="flbl">Sentiment</span>
-        <select class="fs" id="fVocSent" onchange="renderVoC()" style="min-width:110px;font-size:10px"><option value="">All</option><option value="negative">Negative</option><option value="positive">Positive</option><option value="neutral">Neutral</option></select></div>
-      <div style="display:flex;align-items:center;gap:5px"><span class="flbl">Market</span>
-        <select class="fs" id="fVocMkt" onchange="renderVoC()" style="min-width:120px;font-size:10px"><option value="">All Markets</option></select></div>
-    </div>
-  </div>
-  <div class="g2" style="margin-bottom:14px;">
-    <div class="card">
-      <div class="card-hd">
-        <div class="card-ttl">VoC Summary · By L1 Category</div>
-        <div class="viz-btns" id="vg-voc"><button class="vb on" onclick="vocVswitch('bar',this)">Bar</button><button class="vb" onclick="vocVswitch('horizontalBar',this)">H-Bar</button></div>
-      </div>
-      <div style="position:relative;min-height:260px;overflow:visible"><canvas id="vocCatChart"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-hd"><div class="card-ttl">VoC · Sentiment Mix Per Category</div></div>
-      <div style="position:relative;min-height:260px;overflow:visible"><canvas id="vocSentChart"></canvas></div>
-    </div>
-  </div>
-  <div class="card" style="margin-bottom:14px;">
-    <div class="card-hd"><div class="card-ttl">VoC Category Details · L1 Summary Table</div></div>
-    <div style="overflow-x:auto"><table class="tbl" id="vocTable"></table></div>
-  </div>
-
-  <!-- ━━━━ DETAILED DoD / WoW / MoM SENTIMENT CHARTS ━━━━ -->
-  <div id="sec-dow" style="scroll-margin-top:120px"></div>
-  <div class="sh"><span class="sh-tag">Comparison</span><span class="sh-title">Detailed Period Comparison · Sentiment-Wise DoD · WoW · MoM</span><div class="sh-line"></div></div>
-  <div class="g3" style="margin-bottom:14px;">
-    <div class="card">
-      <div class="card-hd">
-        <div class="card-ttl">Day-on-Day · Sentiment</div>
-        <div class="viz-btns" id="vg-dod"><button class="vb on" onclick="dodVswitch('bar',this)">Bar</button><button class="vb" onclick="dodVswitch('radar',this)">Radar</button></div>
-      </div>
-      <div style="position:relative;height:240px;overflow:visible"><canvas id="dodChart"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-hd">
-        <div class="card-ttl">Week-on-Week · Sentiment</div>
-        <div class="viz-btns" id="vg-wow"><button class="vb on" onclick="wowVswitch('bar',this)">Bar</button><button class="vb" onclick="wowVswitch('radar',this)">Radar</button></div>
-      </div>
-      <div style="position:relative;height:240px;overflow:visible"><canvas id="wowChart"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-hd">
-        <div class="card-ttl">Month-on-Month · Sentiment</div>
-        <div class="viz-btns" id="vg-mom"><button class="vb on" onclick="momVswitch('bar',this)">Bar</button><button class="vb" onclick="momVswitch('radar',this)">Radar</button></div>
-      </div>
-      <div style="position:relative;height:240px;overflow:visible"><canvas id="momChart"></canvas></div>
-    </div>
-  </div>
-
-  <!-- ⑯ NPS · NSS DETAILED REPORT -->
-  <div id="sec-nps-nss" style="scroll-margin-top:120px"></div>
-  <div class="sh"><span class="sh-tag" style="background:linear-gradient(135deg,#5eaeff,#93c5fd);color:#000;box-shadow:0 2px 8px rgba(94,174,255,.3)">📊 NPS · NSS</span><span class="sh-title">NPS &amp; NSS Detailed Report · Scores, Trends &amp; Market Breakdown</span><div class="sh-line"></div></div>
-
-  <!-- NPS/NSS Filters -->
-  <div class="card" style="margin-bottom:12px;padding:12px 16px;">
-    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
-      <span style="font-size:11px;font-weight:700;color:var(--neu);text-transform:uppercase;letter-spacing:.5px">📊 Filters</span>
-      <div style="display:flex;align-items:center;gap:5px"><span class="flbl">Market</span>
-        <select class="fs" id="fNpsMkt" onchange="renderNpsNssFiltered()" style="min-width:120px;font-size:10px"><option value="">All Markets</option></select></div>
-      <div style="display:flex;align-items:center;gap:5px"><span class="flbl">Platform</span>
-        <select class="fs" id="fNpsPlat" onchange="renderNpsNssFiltered()" style="min-width:120px;font-size:10px"><option value="">All Platforms</option></select></div>
-      <div style="display:flex;align-items:center;gap:5px"><span class="flbl">Category</span>
-        <select class="fs" id="fNpsCat" onchange="renderNpsNssFiltered()" style="min-width:130px;font-size:10px"><option value="">All Categories</option></select></div>
-      <div id="npsFilterStatus" style="font-size:10px;color:var(--neu);margin-left:4px;font-weight:600"></div>
-    </div>
-  </div>
-
-  <!-- NPS/NSS KPI Cards -->
-  <div id="npsNssKpiRow" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;"></div>
-
-  <!-- NPS & NSS Score Gauges -->
-  <div class="g1" style="margin-bottom:14px;">
-    <div class="card">
-      <div class="card-hd"><div class="card-ttl">NPS &amp; NSS Scores</div></div>
-      <div id="npsGaugeDiv" style="padding:10px 0"></div>
-    </div>
-  </div>
-
-  <!-- NPS/NSS trend chart -->
-  <div class="g1" style="margin-bottom:14px;">
-    <div class="card">
-      <div class="card-hd">
-        <div class="card-ttl">NPS &amp; NSS Trend · Daily</div>
-        <div class="viz-btns" id="vg-npsline"><button class="vb on" onclick="npsVswitch('line',this)">Line</button><button class="vb" onclick="npsVswitch('bar',this)">Bar</button></div>
-      </div>
-      <div style="position:relative;height:280px;overflow:visible"><canvas id="npsNssTrend"></canvas></div>
-    </div>
-  </div>
-
-  <!-- Market NPS/NSS breakdown -->
-  <div class="g1" style="margin-bottom:14px;">
-    <div class="card">
-      <div class="card-hd">
-        <div class="card-ttl">NPS &amp; NSS by Market · Comparison</div>
-        <div class="viz-btns" id="vg-npsmkt"><button class="vb on" onclick="npsMktVswitch('bar',this)">Bar</button><button class="vb" onclick="npsMktVswitch('radar',this)">Radar</button></div>
-      </div>
-      <div style="position:relative;height:300px;overflow:visible"><canvas id="npsMktChart"></canvas></div>
-    </div>
-
-  </div>
-
-  <!-- NPS/NSS market table -->
-  <div class="card" style="margin-bottom:14px;">
-    <div class="card-hd"><div class="card-ttl">NPS · NSS Market-Level Scorecard</div></div>
-    <div style="overflow-x:auto"><table class="tbl" id="npsNssTable"></table></div>
-  </div>
-
 </div><!-- end .main -->
 
 <!-- ━━━ GLOBAL METHODOLOGY (bottom of dashboard) ━━━ -->
@@ -1214,7 +1041,11 @@ window.addEventListener('scroll',()=>{
 
 
 
-
+    <div style="background:var(--s2);border:1px solid var(--b1);border-left:3px solid var(--t4);border-radius:var(--r);padding:16px 18px">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;color:var(--t3);margin-bottom:6px">"Others" Category</div>
+      <code style="font-size:12px;color:var(--t4);display:block;margin-bottom:6px">Excluded from urgency scoring and crisis signals</code>
+      <div style="font-size:11px;color:var(--t3);line-height:1.7">Treated as general unclassified feedback only. Does not affect NPS or NSS calculations.</div>
+    </div>
 
   </div>
   <div style="font-size:10px;color:var(--t4);border-top:1px solid var(--b1);padding-top:12px;text-align:center">
@@ -1236,29 +1067,12 @@ const VOC_D  = {"BELGIUM_negative":[{"msg":"De app van loopt al een paar weken v
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  CONSTANTS
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-const MKCOLORS=["#FFD200","#ff3860","#10d97e","#5eaeff","#ff8c42","#a855f7","#14b8a6","#f472b6","#84cc16","#38bdf8","#e879f9","#fbbf24","#818cf8","#f87171","#67e8f9"];
+const MKCOLORS = ["#F5C400","#f43f5e","#22c55e","#60a5fa","#fb923c","#a78bfa","#22d3ee","#f472b6","#84cc16"];
 const C = {
-  pos:"#10d97e", neg:"#ff3860", neu:"#5eaeff", yel:"#FFD200", warn:"#ff8c42",
-  posA:"rgba(16,217,126,.14)", negA:"rgba(255,56,96,.14)", neuA:"rgba(94,174,255,.14)", yelA:"rgba(255,210,0,.12)",
-  grid:"rgba(55,55,72,.65)", txt:"#a0a0bc", t3:"#8888a0",
-  pur:"#a855f7", purA:"rgba(168,85,247,.14)",
-  teal:"#14b8a6", tealA:"rgba(20,184,166,.14)",
+  pos:"#22c55e", neg:"#f43f5e", neu:"#60a5fa", yel:"#F5C400", warn:"#fb923c",
+  posA:"rgba(34,197,94,.13)", negA:"rgba(244,63,94,.13)", neuA:"rgba(96,165,250,.13)", yelA:"rgba(245,196,0,.1)",
+  grid:"rgba(55,55,68,.7)", txt:"#9090a8"
 };
-
-// ── Gradient fill helper for Chart.js datasets ──
-function makeGrad(ctx, colorHex, alpha1, alpha2) {
-  if(!ctx || !ctx.canvas) return colorHex + '44';
-  try {
-    const h = colorHex.replace('#','');
-    const r = parseInt(h.substring(0,2),16);
-    const gv= parseInt(h.substring(2,4),16);
-    const b = parseInt(h.substring(4,6),16);
-    const grad = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height || 300);
-    grad.addColorStop(0, `rgba(${r},${gv},${b},${alpha1})`);
-    grad.addColorStop(1, `rgba(${r},${gv},${b},${alpha2})`);
-    return grad;
-  } catch(e) { return colorHex + '44'; }
-}
 
 let allData = RAW.map(r => ({...r})); window.allData = allData;
 const CHARTS = {}; window.CHARTS = CHARTS;
@@ -1385,7 +1199,6 @@ function baseOpts(slim=false) {
   return {
     responsive:true, maintainAspectRatio:true,
     interaction: { mode: "index", intersect: false },
-    animation:{duration:700, easing:"easeOutQuart"},
     plugins:{
       legend:{display:true,labels:{color:C.txt,font:{size:10,family:"'Barlow',sans-serif"},boxWidth:10,padding:10}},
       tooltip: tooltipPlugin(),
@@ -1504,43 +1317,11 @@ function parseDateStr(dv) {
 }
 
 function parseSheetRows(raw) {
-  // ── Category normaliser ──
+  const PM={Tweet:"Twitter","Retweet With Comment":"Twitter",Twitter:"Twitter",
+            Facebook:"Facebook",Comment:"Facebook","Ad Comment":"Facebook",
+            Instagram:"Instagram","Instagram Mention":"Instagram",
+            "Direct Message":"Other","Private Message":"Other"};
   const CM={"App experience":"App Experience","Special Cases":"Special Case","Streaming ":"Streaming"};
-
-  // ── Helpers: case-insensitive platform matching ──
-  function platIs(p, ...vals) {
-    const pl=p.toLowerCase().replace(/\s+/g,' ').trim();
-    return vals.some(v=>pl===v.toLowerCase()||pl.startsWith(v.toLowerCase()));
-  }
-
-  // ── Platform display mapping (keeps raw type in mt) ──
-  function mapPlat(p) {
-    const pl=p.toLowerCase().trim();
-    if(pl==='tweet'||pl==='retweet with comment'||pl==='twitter') return 'Twitter';
-    if(pl==='facebook'||pl==='comment'||pl==='ad comment') return 'Facebook';
-    if(pl==='instagram'||pl==='instagram mention') return 'Instagram';
-    if(pl==='direct message'||pl==='private message'||pl==='dm'||pl==='pm') return 'DM';
-    if(pl.includes('redirect')) return 'Twitter';
-    return p; // keep as-is for unknown types
-  }
-
-  // ── DM / PM detection (case-insensitive, broad) ──
-  function checkIsDM(p) {
-    const pl=p.toLowerCase().trim();
-    return pl==='direct message'||pl==='private message'
-        ||pl==='dm'||pl==='pm'
-        ||pl.includes('direct message')||pl.includes('private message');
-  }
-
-  // ── Redirection detection ──
-  function checkIsRedirect(p, sc2, msg) {
-    const pl=p.toLowerCase();
-    if(pl.includes('redirect')||pl==='redirections'||pl==='redirection') return true;
-    if(sc2&&sc2.toLowerCase().includes('redirect')) return true;
-    if(msg&&(msg.toLowerCase().includes('redirected to dm')||msg.toLowerCase().includes('redirected to pm'))) return true;
-    return false;
-  }
-
   const nd=[], skipped=[];
   for(const row of raw) {
     const dv=row.Date||row.date||row.DATE;
@@ -1553,19 +1334,11 @@ function parseSheetRows(raw) {
     const msg=(row.Message||row.message||row.MESSAGE||row.Text||row.text||row.Content||row.content||"").toString().trim();
     const tv=row.Time||row.time||row.TIME;
     const t=(typeof tv==="number"&&tv>=0&&tv<1)?tv:undefined;
-
-    // ── Validation ──
     if(!dv||!s||!p||!m){skipped.push(row);continue;}
     const ds=parseDateStr(dv);
     if(!ds||ds.length<10||!/^\d{4}-\d{2}-\d{2}$/.test(ds)){skipped.push({dv,ds});continue;}
     if(!["positive","negative","neutral"].includes(s)){skipped.push({s});continue;}
-
-    // ── Classifications ──
-    const isDM=checkIsDM(p);
-    const isRedirect=checkIsRedirect(p,sc2,msg);
-    const mappedP=mapPlat(p);
-
-    nd.push({d:ds,s,p:mappedP,mt:p,m,c:cat,sc:sc2,msg,t,isDM,isRedirect});
+    nd.push({d:ds,s,p:PM[p]||p,m,c:cat,sc:sc2,msg,t});
   }
   return {nd, skipped};
 }
@@ -1605,15 +1378,7 @@ function handleUpload(e) {
 
   function finalise() {
     if(!allRows.length){
-      (function(){
-  // Inspect first raw row to diagnose columns
-  let diagMsg = "No valid data found in any uploaded file.\n\n";
-  diagMsg += "Required columns: Date · Sentiment · Platform · Market\n";
-  diagMsg += "Optional: Category · Sub Category · Message\n\n";
-  diagMsg += "Skipped rows: " + totalSkipped + "\n";
-  diagMsg += "\nTip: Make sure your sheet is named 'Data' and column headers exactly match the names above.";
-  alert(diagMsg);
-})();
+      alert("No valid data found in any uploaded file.\nCheck columns: Date, Sentiment, Platform, Market, Category.\nSkipped "+totalSkipped+" rows total.");
       document.getElementById("updTs").textContent="—";
       return;
     }
@@ -1678,7 +1443,6 @@ function populateFilters() {
   cats.forEach(v=>document.getElementById("fCat").add(new Option(v,v)));
   populateBriefFilters(allData);
   refreshSubs();
-  if(allData.length) { populateDmFilters(allData); populateVocFilters(allData); }
   document.getElementById("fFrom").value=dates[0]||"";
   document.getElementById("fTo").value=dates[dates.length-1]||"";
   // Populate word cloud market filter
@@ -1781,54 +1545,15 @@ function getFiltered() {
   });
 }
 
-function go() {
-  const d=getFiltered();
-  // Sync section-level filters to match global market/platform selections
-  syncSectionFilters();
-  renderAll(d);
-}
-
-function syncSectionFilters() {
-  const gMkt=document.getElementById('fMkt')?.value||'';
-  const gPlat=document.getElementById('fPlat')?.value||'';
-  const gSent=document.getElementById('fSent')?.value||'';
-  // Sync Brief filters
-  if(gMkt && document.getElementById('bFiltMkt')) document.getElementById('bFiltMkt').value=gMkt;
-  if(gPlat && document.getElementById('bFiltPlat')) document.getElementById('bFiltPlat').value=gPlat;
-  // Sync Neg Deep filters
-  if(gMkt && document.getElementById('fNegMkt')) document.getElementById('fNegMkt').value=gMkt;
-  if(gPlat && document.getElementById('fNegPlat')) document.getElementById('fNegPlat').value=gPlat;
-  // Sync NPS filters
-  if(gMkt && document.getElementById('fNpsMkt')) document.getElementById('fNpsMkt').value=gMkt;
-  if(gPlat && document.getElementById('fNpsPlat')) document.getElementById('fNpsPlat').value=gPlat;
-  // Sync DM filters
-  if(gMkt && document.getElementById('fDmMkt')) document.getElementById('fDmMkt').value=gMkt;
-  if(gSent && document.getElementById('fDmSent')) document.getElementById('fDmSent').value=gSent;
-  // Sync VoC filters
-  if(gMkt && document.getElementById('fVocMkt')) document.getElementById('fVocMkt').value=gMkt;
-  if(gSent && document.getElementById('fVocSent')) document.getElementById('fVocSent').value=gSent;
-  // Sync Platform market filter
-  if(gMkt && document.getElementById('fPlatMkt')) document.getElementById('fPlatMkt').value=gMkt;
-  // Sync Category coverage
-  if(gMkt && document.getElementById('fCovMkt')) document.getElementById('fCovMkt').value=gMkt;
-  // Sync Volume filters
-  if(gMkt && document.getElementById('fVolMkt')) document.getElementById('fVolMkt').value=gMkt;
-  if(gPlat && document.getElementById('fVolPlat')) document.getElementById('fVolPlat').value=gPlat;
-  if(gSent && document.getElementById('fVolSent')) document.getElementById('fVolSent').value=gSent;
-}
+function go() { const d=getFiltered(); renderAll(d); }
 
 function resetF() {
-  ["fMkt","fPlat","fCat","fSub","fSent"].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=""; });
-  ["fTimeFrom","fTimeTo"].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=""; });
-  // Reset section-level filters too
-  ["bFiltMkt","bFiltPlat","bFiltSent","fNegMkt","fNegCat","fNegPlat",
-   "fNpsMkt","fNpsPlat","fNpsCat","fDmMkt","fDmSent","fVocMkt","fVocSent",
-   "fPlatMkt","fCovMkt","fCovSent","fVolMkt","fVolPlat","fVolSent"].forEach(id=>{
-    const el=document.getElementById(id); if(el) el.value="";
-  });
+  ["fMkt","fPlat","fCat","fSub","fSent"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("fTimeFrom").value="";
+  document.getElementById("fTimeTo").value="";
   const dates=allData.map(r=>r.d).sort();
-  const fromEl=document.getElementById("fFrom"); if(fromEl) fromEl.value=dates[0]||"";
-  const toEl=document.getElementById("fTo"); if(toEl) toEl.value=dates[dates.length-1]||"";
+  document.getElementById("fFrom").value=dates[0]||"";
+  document.getElementById("fTo").value=dates[dates.length-1]||"";
   refreshSubs(); go();
 }
 
@@ -1985,117 +1710,20 @@ function aiQueue(fn) {
   _aiQueueChain = _aiQueueChain.then(() => fn()).catch(() => {});
   return _aiQueueChain;
 }
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  ★ TEAM API KEY — Edit this line once, AI works for everyone ★
-//  Replace the empty string below with your Claude API key.
-//  e.g.:  const TEAM_API_KEY = 'sk-ant-api03-xxxx…';
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-const TEAM_API_KEY = '';   // ← Paste your key here
-
-// ── Runtime key: hardcoded > localStorage > user-entered ──
-let _apiKey = '';
-
-function _initApiKey() {
-  // Priority 1: hardcoded in file (zero-config for the whole team)
-  if (TEAM_API_KEY && TEAM_API_KEY.length > 10) {
-    _apiKey = TEAM_API_KEY;
-    _showKeyActive('hardcoded');
-    return;
-  }
-  // Priority 2: saved in browser localStorage (persists across reloads for this browser)
-  try {
-    const saved = localStorage.getItem('dazn_claude_key');
-    if (saved && saved.length > 10) {
-      _apiKey = saved;
-      const inp = document.getElementById('apiKeyInput');
-      if (inp) inp.value = saved;
-      _showKeyActive('local');
-      return;
-    }
-  } catch(e) {}
-  // Priority 3: show banner for manual entry
-  _showKeyBanner();
-}
-
-function _showKeyActive(source) {
-  const b1 = document.getElementById('apiBanner');
-  const b2 = document.getElementById('apiBannerOk');
-  const msg = document.getElementById('apiBannerOkMsg');
-  if (b1) b1.classList.add('hidden');
-  if (b2) b2.classList.remove('hidden');
-  if (msg) {
-    if (source === 'hardcoded') msg.textContent = 'AI Summary · Key Themes · ORM Recommendations — Team key active';
-    else if (source === 'local') msg.textContent = 'AI Summary · Key Themes · ORM Recommendations — Key loaded from browser';
-    else msg.textContent = 'AI Summary · Key Themes · ORM Recommendations — all enabled';
-  }
-}
-
-function _showKeyBanner() {
-  const b1 = document.getElementById('apiBanner');
-  const b2 = document.getElementById('apiBannerOk');
-  if (b1) b1.classList.remove('hidden');
-  if (b2) b2.classList.add('hidden');
-}
-
-function onApiKeyInput(input) {
-  const v = input.value.trim();
-  input.classList.toggle('valid', v.startsWith('sk-ant-') || v.startsWith('sk-'));
-}
-
-function saveApiKey() {
-  const v = document.getElementById('apiKeyInput').value.trim();
-  if (!v) { alert('Please paste your Claude API key first.'); return; }
-  _apiKey = v;
-  // Save to localStorage so it persists for this browser
-  try { localStorage.setItem('dazn_claude_key', v); } catch(e) {}
-  _showKeyActive('saved');
-  // Re-run AI generation immediately
-  go();
-}
-
-function clearApiKey() {
-  _apiKey = '';
-  try { localStorage.removeItem('dazn_claude_key'); } catch(e) {}
-  const inp = document.getElementById('apiKeyInput');
-  if (inp) inp.value = '';
-  _showKeyBanner();
-}
-
-function getApiKey() { return _apiKey; }
-function hasApiKey() { return _apiKey && _apiKey.length > 10; }
-
 function anthropicFetch(payload) {
   return new Promise((resolve, reject) => {
-    const key = getApiKey();
-    if (!key) {
-      reject(new Error('NO_API_KEY'));
-      return;
-    }
     aiQueue(() =>
       fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': key,
           'anthropic-version': '2023-06-01',
           'anthropic-dangerous-direct-browser-access': 'true'
         },
         body: JSON.stringify(payload)
       })
       .then(r => r.json())
-      .then(d => {
-        // Surface API-level errors (wrong key, quota, etc.)
-        if (d.type === 'error') {
-          const msg = d.error?.message || d.error?.type || 'API error';
-          if (msg.includes('authentication') || msg.includes('invalid') || msg.includes('401')) {
-            clearApiKey();
-            document.getElementById('apiBanner').classList.remove('hidden');
-            document.getElementById('apiBanner').querySelector('.api-input').style.borderColor='rgba(255,56,96,.8)';
-            setTimeout(()=>{ document.getElementById('apiBannerOk').classList.add('hidden'); },100);
-          }
-        }
-        resolve(d);
-      })
+      .then(d => { resolve(d); })
       .catch(e => { reject(e); })
     );
   });
@@ -2119,14 +1747,8 @@ function renderBriefThemes(data) {
     if(statusEl) statusEl.textContent = '';
     return; 
   }
-  if (!hasApiKey()) {
-    if(statusEl) statusEl.textContent = '· ⚠️ API key needed for AI themes';
-    // Run rule-based offline fallback immediately
-    runThemesFallback(data, themesDiv, statusEl);
-    return;
-  }
-  if(statusEl) statusEl.textContent = '· ✨ Analysing with Claude…';
-  themesDiv.innerHTML = '<div style="display:flex;gap:6px;flex-wrap:wrap">' + [0,1,2,3,4,5].map(i=>`<div style="height:52px;width:${140+i*8}px;background:linear-gradient(135deg,var(--s4),var(--s3));border-radius:var(--rs);animation:pulse 1.5s ease-in-out ${i*0.1}s infinite;border:1px solid var(--b1)"></div>`).join('') + '</div>';
+  if(statusEl) statusEl.textContent = '· ✨ Analysing…';
+  themesDiv.innerHTML = '<div style="display:flex;gap:6px">' + [0,1,2,3,4,5].map(i=>`<div style="height:24px;width:${60+i*12}px;background:var(--s4);border-radius:4px;animation:pulse 1.5s ease-in-out ${i*0.1}s infinite"></div>`).join('') + '</div>';
 
   themeAiGen++; const _themeGen = themeAiGen;
   // Build message sample across sentiments
@@ -2172,14 +1794,13 @@ Rules:
       const bg  = sentBg[t.sentiment]||'var(--s4)';
       const brd = sentBorder[t.sentiment]||'var(--b1)';
       const sentLabel = {negative:'Negative',positive:'Positive',neutral:'Neutral',mixed:'Mixed'}[t.sentiment]||t.sentiment;
-      return `<div style="background:${bg};border:1px solid ${brd};border-left:3px solid ${col};border-radius:var(--rs);padding:12px 14px;cursor:default;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 24px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-        <div style="position:absolute;top:0;right:0;width:60px;height:60px;background:radial-gradient(circle,${col}18 0%,transparent 70%);pointer-events:none"></div>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
-          <span style="font-size:17px;filter:drop-shadow(0 0 4px ${col}88)">${t.emoji||'💬'}</span>
-          <span style="font-size:12px;font-weight:800;color:${col};font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.6px;flex:1">${esc(t.theme)}</span>
-          <span style="font-size:8px;font-weight:800;color:${col};background:var(--s1);border:1px solid ${brd};border-radius:4px;padding:2px 8px;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap">${sentLabel}</span>
+      return `<div style="background:${bg};border:1px solid ${brd};border-radius:var(--rs);padding:10px 13px;cursor:default;transition:.15s">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+          <span style="font-size:15px">${t.emoji||'💬'}</span>
+          <span style="font-size:11.5px;font-weight:800;color:${col};font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.5px;flex:1">${esc(t.theme)}</span>
+          <span style="font-size:8.5px;font-weight:700;color:${col};background:var(--s1);border:1px solid ${brd};border-radius:3px;padding:1px 6px;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap">${sentLabel}</span>
         </div>
-        <div style="font-size:11.5px;color:var(--t2);line-height:1.6">${esc(t.example||'')}</div>
+        <div style="font-size:11px;color:var(--t2);line-height:1.55">${esc(t.example||'')}</div>
       </div>`;
     }).join('');
     if(statusEl) statusEl.textContent = '';
@@ -2188,74 +1809,69 @@ Rules:
   })
   .catch((err)=>{
     if(_themeGen !== themeAiGen) return;
-    if(err.message==='NO_API_KEY') return; // handled before fetch
+    // ── Offline fallback: rule-based theme extraction ──
     if(statusEl) statusEl.textContent = '· ⚡ Offline mode';
-    runThemesFallback(data, themesDiv, statusEl);
+    const scMap = {};
+    data.filter(r=>r.sc).forEach(r=>{
+      const k = r.sc.trim();
+      if(!scMap[k]) scMap[k]={neg:0,pos:0,neu:0,tot:0,msgs:[]};
+      scMap[k][r.s==='negative'?'neg':r.s==='positive'?'pos':'neu']++;
+      scMap[k].tot++;
+      if(scMap[k].msgs.length<3 && r.msg && r.msg.length>15) scMap[k].msgs.push(r.msg);
+    });
+    const sorted = Object.entries(scMap).sort((a,b)=>b[1].tot-a[1].tot).slice(0,8);
+    if(!sorted.length){
+      themesDiv.innerHTML = '<div style="color:var(--t4);font-size:11px;font-style:italic">No sub-category data found. Add a SubCategory column to your data for theme analysis.</div>';
+      if(statusEl) statusEl.textContent='';
+      return;
+    }
+    // Emoji map by common keywords
+    const emojiMap = [
+      {k:'stream',e:'📡'},{k:'login',e:'🔐'},{k:'app',e:'📱'},{k:'content',e:'🎬'},
+      {k:'payment',e:'💳'},{k:'billing',e:'💳'},{k:'speed',e:'🚀'},{k:'support',e:'🎧'},
+      {k:'price',e:'💰'},{k:'cancel',e:'🚪'},{k:'audio',e:'🔊'},{k:'video',e:'🎥'},
+      {k:'match',e:'⚽'},{k:'notif',e:'🔔'},{k:'download',e:'⬇️'},{k:'account',e:'👤'},
+      {k:'quality',e:'🎯'},{k:'live',e:'🔴'},{k:'search',e:'🔍'},{k:'ui',e:'🖥️'}
+    ];
+    const getEmoji = (label) => {
+      const l = label.toLowerCase();
+      const hit = emojiMap.find(e=>l.includes(e.k));
+      return hit ? hit.e : '💬';
+    };
+    const sentColors = { negative:'var(--neg)', positive:'var(--pos)', neutral:'var(--neu)', mixed:'var(--warn)' };
+    const sentBg     = { negative:'var(--negd)', positive:'var(--posd)', neutral:'var(--neud)', mixed:'var(--warnd)' };
+    const sentBorder = { negative:'var(--negb)', positive:'var(--posb)', neutral:'var(--neub)', mixed:'var(--warnb)' };
+    const themes = sorted.map(([label, s])=>{
+      const sentiment = s.neg>s.pos&&s.neg>s.neu ? 'negative' : s.pos>s.neg&&s.pos>s.neu ? 'positive' : s.neg===s.pos ? 'mixed' : 'neutral';
+      const negPct = s.tot ? Math.round(s.neg/s.tot*100) : 0;
+      const posPct = s.tot ? Math.round(s.pos/s.tot*100) : 0;
+      const markets = [...new Set(data.filter(r=>r.sc===label).map(r=>r.m))].slice(0,3).join(', ');
+      const sampleMsg = s.msgs.find(m=>m.length>20) || s.msgs[0] || '';
+      const example = negPct>60
+        ? `${negPct}% of ${s.tot} mentions are negative — customers in ${markets||'multiple markets'} are raising concerns about this topic.${sampleMsg?' Example: "'+sampleMsg.substring(0,90)+'"':''}`
+        : posPct>60
+        ? `${posPct}% of ${s.tot} mentions are positive — customers in ${markets||'multiple markets'} are responding well to this area.${sampleMsg?' Example: "'+sampleMsg.substring(0,90)+'"':''}`
+        : `Mixed feedback across ${s.tot} mentions (${negPct}% neg, ${posPct}% pos) in ${markets||'multiple markets'}.${sampleMsg?' Example: "'+sampleMsg.substring(0,90)+'"':''}`;
+      return { theme:label, sentiment, emoji:getEmoji(label), example };
+    });
+    themesDiv.innerHTML = themes.map(t=>{
+      const col = sentColors[t.sentiment]||'var(--t2)';
+      const bg  = sentBg[t.sentiment]||'var(--s4)';
+      const brd = sentBorder[t.sentiment]||'var(--b1)';
+      const sentLabel = {negative:'Negative',positive:'Positive',neutral:'Neutral',mixed:'Mixed'}[t.sentiment]||t.sentiment;
+      return `<div style="background:${bg};border:1px solid ${brd};border-radius:var(--rs);padding:10px 13px;cursor:default;transition:.15s">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+          <span style="font-size:15px">${t.emoji||'💬'}</span>
+          <span style="font-size:11.5px;font-weight:800;color:${col};font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.5px;flex:1">${esc(t.theme)}</span>
+          <span style="font-size:8.5px;font-weight:700;color:${col};background:var(--s1);border:1px solid ${brd};border-radius:3px;padding:1px 6px;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap">${sentLabel}</span>
+        </div>
+        <div style="font-size:11px;color:var(--t2);line-height:1.55">${esc(t.example||'')}</div>
+      </div>`;
+    }).join('');
+    if(statusEl) statusEl.textContent = '· ⚡ Offline';
+    renderBriefVerbatim(data, themes);
   });
 }
-
-// ── Rule-based themes fallback (used when no API key or API fails) ──
-function runThemesFallback(data, themesDiv, statusEl) {
-  const scMap = {};
-  data.filter(r=>r.c).forEach(r=>{
-    const k = (r.c||'Uncategorised').trim();
-    if(!scMap[k]) scMap[k]={neg:0,pos:0,neu:0,tot:0,msgs:[]};
-    scMap[k][r.s==='negative'?'neg':r.s==='positive'?'pos':'neu']++;
-    scMap[k].tot++;
-    if(scMap[k].msgs.length<3 && r.msg && r.msg.length>15) scMap[k].msgs.push(r.msg);
-  });
-  const sorted = Object.entries(scMap).sort((a,b)=>b[1].tot-a[1].tot).slice(0,8);
-  if(!sorted.length){
-    themesDiv.innerHTML = '<div style="color:var(--t4);font-size:11px;font-style:italic">No category data found for theme analysis.</div>';
-    if(statusEl) statusEl.textContent='';
-    return;
-  }
-  const emojiMap = [
-    {k:'stream',e:'📡'},{k:'login',e:'🔐'},{k:'app',e:'📱'},{k:'content',e:'🎬'},
-    {k:'payment',e:'💳'},{k:'billing',e:'💳'},{k:'speed',e:'🚀'},{k:'support',e:'🎧'},
-    {k:'price',e:'💰'},{k:'cancel',e:'🚪'},{k:'audio',e:'🔊'},{k:'video',e:'🎥'},
-    {k:'match',e:'⚽'},{k:'notif',e:'🔔'},{k:'download',e:'⬇️'},{k:'account',e:'👤'},
-    {k:'quality',e:'🎯'},{k:'live',e:'🔴'},{k:'search',e:'🔍'},{k:'ui',e:'🖥️'}
-  ];
-  const getEmoji = (label) => {
-    const l = label.toLowerCase();
-    const hit = emojiMap.find(e=>l.includes(e.k));
-    return hit ? hit.e : '💬';
-  };
-  const sentColors = { negative:'var(--neg)', positive:'var(--pos)', neutral:'var(--neu)', mixed:'var(--warn)' };
-  const sentBg     = { negative:'var(--negd)', positive:'var(--posd)', neutral:'var(--neud)', mixed:'var(--warnd)' };
-  const sentBorder = { negative:'var(--negb)', positive:'var(--posb)', neutral:'var(--neub)', mixed:'var(--warnb)' };
-  const themes = sorted.map(([label, s])=>{
-    const sentiment = s.neg>s.pos&&s.neg>s.neu ? 'negative' : s.pos>s.neg&&s.pos>s.neu ? 'positive' : s.neg===s.pos ? 'mixed' : 'neutral';
-    const negPct = s.tot ? Math.round(s.neg/s.tot*100) : 0;
-    const posPct = s.tot ? Math.round(s.pos/s.tot*100) : 0;
-    const markets = [...new Set(data.filter(r=>(r.c||'Uncategorised')===label).map(r=>r.m))].slice(0,3).join(', ');
-    const sampleMsg = s.msgs.find(m=>m.length>20) || s.msgs[0] || '';
-    const example = negPct>60
-      ? `${negPct}% negative in ${markets||'multiple markets'}. ${sampleMsg ? '"'+sampleMsg.substring(0,90)+'"' : ''}`
-      : posPct>60
-      ? `${posPct}% positive in ${markets||'multiple markets'}. ${sampleMsg ? '"'+sampleMsg.substring(0,90)+'"' : ''}`
-      : `Mixed feedback (${negPct}% neg, ${posPct}% pos) across ${markets||'multiple markets'}.`;
-    return { theme:label, sentiment, emoji:getEmoji(label), example };
-  });
-  themesDiv.innerHTML = themes.map(t=>{
-    const col = sentColors[t.sentiment]||'var(--t2)';
-    const bg  = sentBg[t.sentiment]||'var(--s4)';
-    const brd = sentBorder[t.sentiment]||'var(--b1)';
-    const sentLabel = {negative:'Negative',positive:'Positive',neutral:'Neutral',mixed:'Mixed'}[t.sentiment]||t.sentiment;
-    return `<div style="background:${bg};border:1px solid ${brd};border-left:3px solid ${col};border-radius:var(--rs);padding:12px 14px;cursor:default;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 24px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
-        <span style="font-size:17px">${t.emoji||'💬'}</span>
-        <span style="font-size:12px;font-weight:800;color:${col};font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.6px;flex:1">${esc(t.theme)}</span>
-        <span style="font-size:8px;font-weight:800;color:${col};background:var(--s1);border:1px solid ${brd};border-radius:4px;padding:2px 8px;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap">${sentLabel}</span>
-      </div>
-      <div style="font-size:11.5px;color:var(--t2);line-height:1.6">${esc(t.example||'')}</div>
-    </div>`;
-  }).join('');
-  if(statusEl) statusEl.textContent = hasApiKey() ? '' : '· Add API key above for AI-enhanced themes';
-}
-
-
 
 // ── Verbatim Theme Deep-Dive: AI narrative per theme ──
 let verbatimAiGen = 0;
@@ -2367,117 +1983,6 @@ Return ONLY a valid JSON array (no markdown, no preamble). Each object:
 // Track ongoing AI brief request to avoid duplicate calls
 let briefAiGen = 0;
 
-// ── Rich data-driven brief — runs without API, produces near-AI quality output ──
-function buildBriefFallback(data) {
-  const {pos, neg, neu, tot} = sc(data);
-  if (!tot) return '<ul class="brief-bullets"><li>Upload data to generate intelligence brief.</li></ul>';
-  const np  = pct(neg, tot), pp = pct(pos, tot), up = pct(neu, tot);
-  const nss = Math.round((pos - neg) / tot * 100);
-  const npsAdj = (pos+neg)>0 ? Math.round(((pos-neg)/(pos+neg))*100) : 0;
-  const days = [...new Set(data.map(r=>r.d))].length;
-  const mktF = document.getElementById("fMkt").value;
-  const fr   = document.getElementById("fFrom").value, to = document.getElementById("fTo").value;
-
-  // ── Top sub-categories ──
-  const scMap = {};
-  data.filter(r=>r.s==="negative"&&r.sc).forEach(r=>{
-    const k=r.sc.trim(); scMap[k]=(scMap[k]||0)+1;
-  });
-  const topSCs = Object.entries(scMap).sort((a,b)=>b[1]-a[1]).slice(0,6);
-
-  // ── Top categories ──
-  const catMap = {};
-  data.filter(r=>r.s==="negative"&&r.c).forEach(r=>{catMap[r.c]=(catMap[r.c]||0)+1;});
-  const topCats = Object.entries(catMap).sort((a,b)=>b[1]-a[1]).slice(0,4);
-
-  // ── Market analysis ──
-  const mks = [...new Set(data.map(r=>r.m))];
-  const mRanked = mks.map(m=>{
-    const d=data.filter(r=>r.m===m), s=sc(d);
-    return {m, np:pct(s.neg,s.tot), pp:pct(s.pos,s.tot), tot:s.tot, nss:Math.round((s.pos-s.neg)/(s.tot||1)*100)};
-  }).sort((a,b)=>b.np-a.np);
-  const wMkt = mRanked[0], bMkt = [...mRanked].sort((a,b)=>b.pp-a.pp)[0];
-
-  // ── DM analysis ──
-  const dmData = data.filter(r=>r.isDM||r.p==="DM");
-  const dmPct  = tot ? pct(dmData.length, tot) : 0;
-  const dmNeg  = dmData.length ? pct(dmData.filter(r=>r.s==="negative").length, dmData.length) : 0;
-
-  // ── Redirect analysis ──
-  const redData = data.filter(r=>r.isRedirect);
-  const redPct  = tot ? pct(redData.length, tot) : 0;
-
-  // ── Sample verbatim ──
-  const negVerbatim = data.filter(r=>r.s==="negative"&&r.msg&&r.msg.length>25)
-    .sort(()=>Math.random()-0.5).slice(0,3).map(r=>r.msg.substring(0,120));
-  const posVerbatim = data.filter(r=>r.s==="positive"&&r.msg&&r.msg.length>20)
-    .slice(0,2).map(r=>r.msg.substring(0,100));
-
-  // ── Weekly trend: is neg rate rising? ──
-  const allDates = [...new Set(data.map(r=>r.d))].sort();
-  let trendDir = "→ Stable";
-  if (allDates.length >= 6) {
-    const half = Math.floor(allDates.length/2);
-    const early = allDates.slice(0,half), late = allDates.slice(half);
-    const earlyNeg = pct(data.filter(r=>early.includes(r.d)&&r.s==="negative").length, data.filter(r=>early.includes(r.d)).length||1);
-    const lateNeg  = pct(data.filter(r=>late.includes(r.d)&&r.s==="negative").length,  data.filter(r=>late.includes(r.d)).length||1);
-    if (lateNeg - earlyNeg > 3) trendDir = "▲ Rising — monitor closely";
-    else if (earlyNeg - lateNeg > 3) trendDir = "▼ Improving";
-  }
-
-  // ── Build the bullets ──
-  const bullets = [];
-  const scope = mktF ? `<strong>${mktF}</strong>` : "<strong>all markets</strong>";
-  const period = (fr && to) ? `${fr} → ${to}` : `${days} day${days!==1?'s':''}`;
-
-  // Bullet 1: Overall snapshot
-  const riskLabel = np>60 ? "🔴 <strong>Critical</strong>" : np>40 ? "🟠 <strong>Elevated Risk</strong>" : "🟢 <strong>Stable</strong>";
-  bullets.push(`${riskLabel}: <strong>${tot.toLocaleString()}</strong> mentions across ${scope} (${period}) · <strong>${np}%</strong> negative · <strong>${pp}%</strong> positive · NSS <strong>${nss>=0?"+":""}${nss}</strong> · NPS <strong>${npsAdj>=0?"+":""}${npsAdj}</strong> · Trend: ${trendDir}`);
-
-  // Bullet 2: Top complaint drivers
-  if (topSCs.length) {
-    const scStr = topSCs.slice(0,3).map(([k,v])=>`<em>${k}</em> (${v.toLocaleString()})`).join(", ");
-    const catStr = topCats.slice(0,2).map(([k,v])=>`${k} (${pct(v,neg)}% of negatives)`).join(" · ");
-    bullets.push(`<strong>Top Complaints:</strong> ${scStr} — concentrated in <strong>${catStr||topCats[0]?.[0]||"—"}</strong>`);
-  }
-
-  // Bullet 3: Worst verbatim signal
-  if (negVerbatim.length) {
-    bullets.push(`<strong>Customer Voice:</strong> Negative customers are saying things like — "<em>${negVerbatim[0]}</em>"${negVerbatim[1]?' · and "<em>'+negVerbatim[1]+'"</em>':''}`);
-  }
-
-  // Bullet 4: Market risk breakdown
-  if (mRanked.length > 1) {
-    const topRisk = mRanked.slice(0,3).map(m=>`${m.m} (${m.np}% neg)`).join(", ");
-    bullets.push(`<strong>Market Risk:</strong> Highest-risk: <strong>${wMkt?.m||"—"}</strong> at <strong>${wMkt?.np||0}%</strong> negative · Best-performing: <strong>${bMkt?.m||"—"}</strong> at <strong>${bMkt?.pp||0}%</strong> positive · Watch: ${topRisk}`);
-  }
-
-  // Bullet 5: DM & Redirect signal
-  if (dmData.length > 0 || redData.length > 0) {
-    const dmLine = dmData.length ? `<strong>${dmData.length.toLocaleString()}</strong> DM/PM messages (<strong>${dmPct}%</strong> of volume, <strong>${dmNeg}%</strong> negative)` : '';
-    const redLine = redData.length ? `<strong>${redData.length.toLocaleString()}</strong> customers (<strong>${redPct}%</strong>) redirected to DM` : '';
-    const both = [dmLine, redLine].filter(Boolean).join(' · ');
-    if (both) bullets.push(`<strong>DM & Redirect Signal:</strong> ${both} — high DM volume often indicates unresolved public issues being pushed private`);
-  }
-
-  // Bullet 6: Positive signal
-  if (pp > 1) {
-    const posLine = posVerbatim.length ? ` Customers saying: "<em>${posVerbatim[0]}</em>"` : '';
-    bullets.push(`<strong>Positive Signal:</strong> <strong>${pp}%</strong> positive (${pos.toLocaleString()} mentions) — ${pp>10 ? "meaningful advocacy exists, amplify" : "low advocacy, organic promotion needed"}.${posLine}`);
-  }
-
-  // Bullet 7: Actionable close
-  const topIssue = topSCs[0]?.[0] || topCats[0]?.[0] || "top complaint driver";
-  const action = np > 55
-    ? `🚨 <strong>Immediate Action:</strong> Activate crisis protocol for <strong>${wMkt?.m||"top market"}</strong> — brief VP within 24h, deploy rapid-response team, investigate <strong>${topIssue}</strong>`
-    : np > 35
-    ? `⚠️ <strong>Priority Action:</strong> Escalate <strong>${topIssue}</strong> to Product within 48h, increase monitoring cadence in <strong>${wMkt?.m||"top market"}</strong>`
-    : `✅ <strong>Action:</strong> Stable period — maintain weekly review, watch <strong>${topIssue}</strong> for early signs of escalation`;
-  bullets.push(action);
-
-  return `<ul class="brief-bullets">${bullets.map(b=>`<li>${b}</li>`).join('')}</ul>`;
-}
-
 function renderBrief(data) {
   const mktF=document.getElementById("fMkt").value;
   const fr=document.getElementById("fFrom").value, to=document.getElementById("fTo").value;
@@ -2486,10 +1991,10 @@ function renderBrief(data) {
   const nss=tot?Math.round((pos-neg)/tot*100):0;
   const days=[...new Set(data.map(r=>r.d))].length;
 
-  const noOth=data; // Others now included
+  const noOth=data.filter(r=>r.c.toLowerCase()!=="others");
   const mks=uniq(data,"m");
 
-  const negNoOth=data.filter(r=>r.s==="negative");
+  const negNoOth=noOth.filter(r=>r.s==="negative");
   const scCounts={};
   negNoOth.forEach(r=>{if(r.sc){const k=r.sc.trim().replace(/\s+/g," ");scCounts[k]=(scCounts[k]||0)+1;}});
   const topSC=Object.entries(scCounts).sort((a,b)=>b[1]-a[1]).slice(0,4);
@@ -2497,8 +2002,8 @@ function renderBrief(data) {
   const mRanked=mks.map(m=>{const d=data.filter(r=>r.m===m),s=sc(d);return{m,np:pct(s.neg,s.tot),pp:pct(s.pos,s.tot),tot:s.tot};}).sort((a,b)=>b.np-a.np);
   const wMkt=mRanked[0], bMkt=mRanked[mRanked.length-1];
 
-  const cats=uniq(data,"c");
-  const catR=cats.map(c=>{const d=data.filter(r=>r.c===c),s=sc(d);return{c,np:pct(s.neg,s.tot),n:s.neg,t:s.tot};}).filter(x=>x.t>5).sort((a,b)=>b.np-a.np);
+  const cats=uniq(noOth,"c");
+  const catR=cats.map(c=>{const d=noOth.filter(r=>r.c===c),s=sc(d);return{c,np:pct(s.neg,s.tot),n:s.neg,t:s.tot};}).filter(x=>x.t>5).sort((a,b)=>b.np-a.np);
   const wCat=catR[0];
 
   document.getElementById("bScope").textContent=(mktF||"All Markets")+" · "+(fr||"—")+" → "+(to||"—");
@@ -2546,11 +2051,7 @@ function renderBrief(data) {
 
 
   // ── Show loading state while AI generates ──
-  if (!hasApiKey()) {
-    document.getElementById("bBody").innerHTML = buildBriefFallback(np, pp, up, nss, tot, days, sc1, sc2, scopeHtml, mktCtxStr, wMkt, bMkt);
-    return;
-  }
-  document.getElementById("bBody").innerHTML=`<span style="color:var(--t3);font-size:11px;display:flex;align-items:center;gap:8px"><span style="display:inline-block;width:14px;height:14px;border:2px solid rgba(255,210,0,.3);border-top-color:var(--yel);border-radius:50%;animation:spin .8s linear infinite"></span> Claude is reading your data…</span>`;
+  document.getElementById("bBody").innerHTML=`<span style="color:var(--t3);font-size:11px">✨ Generating AI insight…</span>`;
 
   // Cancel any in-flight request
   briefAiGen++; const _briefGen = briefAiGen;
@@ -2559,7 +2060,7 @@ function renderBrief(data) {
   const mktSummaryLines = mRanked.slice(0,8).map(({m,np:mnp,pp:mpp,tot:mt}) => {
     const md=data.filter(r=>r.m===m);
     const scM={};
-    md.filter(r=>r.s==="negative")
+    md.filter(r=>r.s==="negative"&&r.c.toLowerCase()!=="others")
       .forEach(r=>{if(r.sc){const k=r.sc.trim();scM[k]=(scM[k]||0)+1;}});
     const topIssues=Object.entries(scM).sort((a,b)=>b[1]-a[1]).slice(0,3).map(e=>e[0]).join(", ")||"general issues";
     return `${m}: ${mt} mentions, ${mnp}% neg, ${mpp}% pos | top issues: ${topIssues}`;
@@ -2608,20 +2109,18 @@ ACTUAL CUSTOMER MESSAGES (negative, positive, neutral — read these carefully t
 ${allSampleMsgs}
 
 NOW WRITE the summary. Requirements:
-- Write exactly 5–7 concise bullet points in HTML format using <ul class="brief-bullets"><li>...</li></ul>
-- Each bullet must be a standalone insight — specific, direct, human
-- Bullet 1: Overall sentiment snapshot (tone + key numbers)
-- Bullet 2: The single biggest complaint theme with specific language from customers
-- Bullet 3: Second most prominent issue or concern
-- Bullet 4: Any positive signals — what customers appreciate or praise
-- Bullet 5: Market or segment risk — which is most at risk and why
-- Bullet 6 (if needed): Emerging pattern or early warning signal
-- Bullet 7 (optional): One sharp, actionable recommendation
-- Use <strong> tags for critical 2–3 words/numbers per bullet
-- NO generic phrases like "the data shows" or "it is evident"
-- Write as if you personally read every post — be specific and human
+- 4–6 sentences, written as flowing prose (no bullet points, no headers)
+- Focus on WHAT CUSTOMERS ARE SAYING and FEELING — use their language and themes, not just category names
+- Identify the dominant emotional tone (e.g. frustration, excitement, confusion, anger, delight)
+- Surface the 2–3 most talked-about concerns or topics with specific examples from the messages
+- Note any positive signals or what customers appreciate
+- Call out which markets or segments feel most at risk or most positive
+- End with one sharp, actionable insight the head can act on
+- Use <strong> tags only for the most critical 2–3 words/numbers
+- Write as if you have read every post yourself — be specific, human, and direct
+- NO generic phrases like "the data shows" or "it is evident that"
 
-Reply with ONLY the HTML <ul> element. No heading, no intro, no preamble.`;
+Reply with ONLY the paragraph. No heading, no intro, no preamble.`;
 
   anthropicFetch({
       model: "claude-sonnet-4-20250514",
@@ -2641,7 +2140,6 @@ Reply with ONLY the HTML <ul> element. No heading, no intro, no preamble.`;
   })
   .catch(err => {
     if(_briefGen !== briefAiGen) return;
-    if(err.message==='NO_API_KEY') return; // Already handled above
     // Fallback to rule-based brief
     const sc1=topSC[0]?`<em>${topSC[0][0]}</em> (${topSC[0][1]} mentions)`:"";
     const sc2=topSC[1]?` and <em>${topSC[1][0]}</em>`:"";
@@ -2654,11 +2152,11 @@ Reply with ONLY the HTML <ul> element. No heading, no intro, no preamble.`;
     const scopeHtml = mktF ? `<strong>${mktF}</strong>` : "<strong>all markets</strong>";
     let body;
     if(np>60) {
-      body=`<ul class="brief-bullets"><li><strong>Critical Alert:</strong> ${tot.toLocaleString()} mentions across ${scopeHtml} · <strong>${np}%</strong> negative · NSS <strong>${nss>=0?"+":""}${nss}</strong> — escalation required immediately.</li><li><strong>Top Issue:</strong> ${sc1} is the most prominent driver of negative sentiment.</li>${sc2?`<li><strong>Second Issue:</strong> ${sc2} also contributing significantly.</li>`:''}<li><strong>Positive Signal:</strong> <strong>${pp}%</strong> positive mentions — resilience exists despite crisis conditions.</li>${mktCtxStr?`<li>${mktCtxStr}</li>`:''}<li><strong>Crisis Market:</strong> <strong>${wMkt?wMkt.m:"—"}</strong> is in crisis territory — immediate regional response needed.</li><li><strong>Action Required:</strong> Activate escalation protocol — brief VP within 24 hours and deploy rapid-response team.</li></ul>`;
+      body=`Across ${scopeHtml} over <strong>${days} day(s)</strong> (${tot.toLocaleString()} mentions), sentiment is at a <strong>critical level</strong> — <strong>${np}%</strong> negative, NSS <strong>${nss>=0?"+":""}${nss}</strong>. The most prominent complaint topics are ${sc1}${sc2}.${mktCtxStr} <strong>${wMkt?wMkt.m:"—"}</strong> is in crisis territory; <strong>${bMkt?bMkt.m:"—"}</strong> shows the strongest resilience. Immediate intervention is required.`;
     } else if(np>40) {
-      body=`<ul class="brief-bullets"><li><strong>Elevated Risk:</strong> ${tot.toLocaleString()} mentions across ${scopeHtml} · <strong>${np}%</strong> negative · NSS <strong>${nss>=0?"+":""}${nss}</strong> — heightened monitoring advised.</li><li><strong>Top Issue:</strong> ${sc1} is the leading complaint driver.</li>${sc2?`<li><strong>Second Issue:</strong> ${sc2} also requires attention.</li>`:''}<li><strong>Positive Signal:</strong> <strong>${pp}%</strong> positive sentiment — some brand resilience remains.</li>${mktCtxStr?`<li>${mktCtxStr}</li>`:''}<li><strong>Highest Risk Market:</strong> <strong>${wMkt?wMkt.m:"—"}</strong> — <strong>${bMkt?bMkt.m:"—"}</strong> shows positive momentum.</li></ul>`;
+      body=`${scopeHtml.charAt(0).toUpperCase()+scopeHtml.slice(1)} is showing elevated frustration across <strong>${days} day(s)</strong> and ${tot.toLocaleString()} mentions — <strong>${np}%</strong> negative, NSS <strong>${nss>=0?"+":""}${nss}</strong>. Leading drivers: ${sc1}${sc2}.${mktCtxStr} <strong>${wMkt?wMkt.m:"—"}</strong> is highest-risk; <strong>${bMkt?bMkt.m:"—"}</strong> shows positive momentum.`;
     } else {
-      body=`<ul class="brief-bullets"><li><strong>Stable Conditions:</strong> ${tot.toLocaleString()} mentions across ${scopeHtml} · <strong>${np}%</strong> negative · <strong>${pp}%</strong> positive · NSS <strong>${nss>=0?"+":""}${nss}</strong>.</li>${sc1?`<li><strong>Top Issue:</strong> ${sc1} is the primary complaint topic — monitor for escalation.</li>`:''}<li><strong>Positive Signal:</strong> <strong>${pp}%</strong> positive sentiment maintains brand health.</li>${mktCtxStr?`<li>${mktCtxStr}</li>`:''}<li><strong>Outlook:</strong> Brand health is manageable — continue structured monitoring and weekly review cadence.</li></ul>`;
+      body=`${scopeHtml.charAt(0).toUpperCase()+scopeHtml.slice(1)} shows mixed sentiment across <strong>${days} day(s)</strong> — <strong>${np}%</strong> negative, <strong>${pp}%</strong> positive, NSS <strong>${nss>=0?"+":""}${nss}</strong> from ${tot.toLocaleString()} mentions. Key topics: ${sc1}${sc2}.${mktCtxStr} Brand health is manageable; continue structured monitoring.`;
     }
     document.getElementById("bBody").innerHTML = body;
   });
@@ -2689,9 +2187,8 @@ function renderKPIs(data) {
     {l:"Negative",        v:np+"%",            s:neg.toLocaleString()+" mentions",   cl:"kn",vc:"kn-c"},
     {l:"Neutral",         v:up+"%",            s:neu.toLocaleString()+" mentions",   cl:"ku",vc:"ku-c"},
     {l:"Volume Growth",   v:(growth>0?"+":"")+growth+"%", s:`vs ${p.tot.toLocaleString()} prior period`, cl:growth>0?"kn":growth<0?"kp":"ku", vc:growth>0?"kn-c":growth<0?"kp-c":"ku-c", del:growth>0?"kb-dn":growth<0?"kb-up":"kb-fl", dt:growth>0?"▲ Increasing":growth<0?"▼ Declining":"→ Neutral"},
-    // Public vs DM mentions breakdown
-    {l:"Public Mentions", v:fmt(data.filter(r=>!r.isDM&&r.p!=="DM").length), s:(data.filter(r=>!r.isDM&&r.p!=="DM").length).toLocaleString()+" social mentions", cl:"ky",vc:"ky-c"},
-    {l:"DM / PM Mentions", v:fmt(data.filter(r=>r.isDM||r.p==="DM").length), s:(data.filter(r=>r.isDM||r.p==="DM").length).toLocaleString()+" direct messages", cl:"ku",vc:"ku-c"},
+    {l:"Active Markets",  v:uniq(data,"m").length, s:uniq(data,"m").join(", "),      cl:"ky",vc:"ky-c"},
+    {l:"Active Platforms",v:uniq(data,"p").length, s:uniq(data,"p").join(", "),     cl:"ky",vc:"ky-c"},
   ];
 
   document.getElementById("kpiGrid").innerHTML=kpis.map(k=>`
@@ -2750,219 +2247,15 @@ function renderCmp(data) {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  SENTIMENT CHARTS
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// ━━━ TRUE 3D PIE / DONUT ENGINE ━━━
-let sentD3DMode='donut';
-let _sentD3DAnim=null;
-let _sentD3DAngle=0;
-let _sentD3DSpinV=0.004;
-let _lastSentData=[];
-
-function highlightBtn(grp,btn){
-  document.getElementById(grp).querySelectorAll('.vb').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-}
-
-function renderSentD3D() {
-  const data=_lastSentData; if(!data||!data.length) return;
-  const {pos,neg,neu,tot}=sc(data);
-  const canvas3D=document.getElementById('sentD3DCanvas');
-  const canvasFlat=document.getElementById('sentD');
-  const legend=document.getElementById('sentD3DLegend');
-  if(!canvas3D) return;
-  canvas3D.style.display='block';
-  if(canvasFlat) canvasFlat.style.display='none';
-  if(legend) legend.style.display='flex';
-
-  const slices=[
-    {label:'Positive',val:pos,col:'#22c55e',glowCol:'rgba(34,197,94,'},
-    {label:'Negative',val:neg,col:'#f43f5e',glowCol:'rgba(244,63,94,'},
-    {label:'Neutral', val:neu,col:'#60a5fa',glowCol:'rgba(96,165,250,'},
-  ].filter(s=>s.val>0);
-  const total=slices.reduce((a,s)=>a+s.val,0)||1;
-
-  // Build legend
-  if(legend) legend.innerHTML=slices.map(s=>`
-    <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t2)">
-      <span style="width:10px;height:10px;border-radius:2px;background:${s.col};display:inline-block;flex-shrink:0;box-shadow:0 0 6px ${s.col}88"></span>
-      ${s.label} <strong style="color:${s.col}">${Math.round(s.val/total*100)}%</strong>
-    </span>`).join('');
-
-  const W=canvas3D.width||280, H=canvas3D.height||240;
-  const cx=W/2, cy=H*0.44;
-  const rx=W*0.38, ry=rx*0.34; // ellipse radii for 3D look
-  const depth=sentD3DMode==='donut'?22:32;
-  const inner=sentD3DMode==='donut'?0.52:0;
-  const ctx3=canvas3D.getContext('2d');
-
-  let hover=-1;
-  const hitSlices=[];
-
-  function draw(angle, hovIdx) {
-    ctx3.clearRect(0,0,W,H);
-
-    // Draw shadow under chart
-    ctx3.save();
-    const grad=ctx3.createRadialGradient(cx,cy+ry+depth+4,2,cx,cy+ry+depth+4,rx*0.8);
-    grad.addColorStop(0,'rgba(0,0,0,0.45)');
-    grad.addColorStop(1,'rgba(0,0,0,0)');
-    ctx3.fillStyle=grad;
-    ctx3.beginPath();
-    ctx3.ellipse(cx,cy+ry+depth+6,rx*0.75,ry*0.5,0,0,Math.PI*2);
-    ctx3.fill();
-    ctx3.restore();
-
-    let startA=angle;
-    hitSlices.length=0;
-
-    // Bottom (depth) faces — drawn back to front
-    slices.forEach((s,i)=>{
-      const sweep=(s.val/total)*Math.PI*2;
-      const midA=startA+sweep/2;
-      const isBottom=Math.sin(midA)>0;
-      if(isBottom) {
-        ctx3.save();
-        const darken=hovIdx===i?'cc':'88';
-        ctx3.fillStyle=s.col+darken;
-        ctx3.shadowColor=s.col;
-        ctx3.shadowBlur=hovIdx===i?14:0;
-        ctx3.beginPath();
-        // outer arc (bottom)
-        ctx3.ellipse(cx,cy+depth,rx*(inner+(1-inner)*0.5+0.01),ry*(inner+(1-inner)*0.5+0.01),0,startA,startA+sweep);
-        ctx3.ellipse(cx,cy,rx*(inner+(1-inner)*0.5),ry*(inner+(1-inner)*0.5),0,startA+sweep,startA,true);
-        ctx3.closePath();
-        ctx3.fill();
-        ctx3.restore();
-      }
-      startA+=sweep;
-    });
-
-    startA=angle;
-    // Side walls
-    slices.forEach((s,i)=>{
-      const sweep=(s.val/total)*Math.PI*2;
-      for(const edgeA of [startA, startA+sweep]) {
-        const cosA=Math.cos(edgeA), sinA=Math.sin(edgeA);
-        if(sinA>-0.1) {
-          ctx3.save();
-          ctx3.fillStyle=s.col+'bb';
-          ctx3.beginPath();
-          ctx3.moveTo(cx+rx*cosA,cy+ry*sinA);
-          ctx3.lineTo(cx+rx*cosA,cy+ry*sinA+depth);
-          if(inner>0) {
-            ctx3.lineTo(cx+rx*inner*cosA,cy+ry*inner*sinA+depth);
-            ctx3.lineTo(cx+rx*inner*cosA,cy+ry*inner*sinA);
-          } else {
-            ctx3.lineTo(cx,cy+depth);
-            ctx3.lineTo(cx,cy);
-          }
-          ctx3.closePath();
-          ctx3.fill();
-          ctx3.restore();
-        }
-      }
-      startA+=sweep;
-    });
-
-    startA=angle;
-    // Top faces
-    slices.forEach((s,i)=>{
-      const sweep=(s.val/total)*Math.PI*2;
-      const isHov=hovIdx===i;
-      const offY=isHov?-5:0;
-      ctx3.save();
-      ctx3.fillStyle=isHov?s.col+'ff':s.col+'dd';
-      ctx3.shadowColor=s.col;
-      ctx3.shadowBlur=isHov?20:8;
-      ctx3.beginPath();
-      if(inner>0) {
-        // Donut top
-        ctx3.ellipse(cx,cy+offY,rx,ry,0,startA,startA+sweep);
-        ctx3.ellipse(cx,cy+offY,rx*inner,ry*inner,0,startA+sweep,startA,true);
-      } else {
-        ctx3.moveTo(cx,cy+offY);
-        ctx3.ellipse(cx,cy+offY,rx,ry,0,startA,startA+sweep);
-        ctx3.lineTo(cx,cy+offY);
-      }
-      ctx3.closePath();
-      ctx3.fill();
-
-      // Percentage label on top face
-      const midA=startA+sweep/2;
-      const pct3=Math.round(s.val/total*100);
-      if(pct3>=8) {
-        const lx=cx+(rx*(inner>0?(inner+1)/2:0.55))*Math.cos(midA);
-        const ly=cy+offY+(ry*(inner>0?(inner+1)/2:0.55))*Math.sin(midA);
-        ctx3.shadowBlur=0;
-        ctx3.fillStyle='#fff';
-        ctx3.font=`900 ${pct3>=20?13:11}px 'Barlow Condensed',sans-serif`;
-        ctx3.textAlign='center';
-        ctx3.textBaseline='middle';
-        ctx3.fillText(pct3+'%',lx,ly);
-      }
-
-      hitSlices.push({startA,endA:startA+sweep,idx:i});
-      ctx3.restore();
-      startA+=sweep;
-    });
-  }
-
-  // Cancel previous animation
-  if(_sentD3DAnim) cancelAnimationFrame(_sentD3DAnim);
-
-  function animate() {
-    _sentD3DAngle+=_sentD3DSpinV;
-    draw(_sentD3DAngle, hover);
-    _sentD3DAnim=requestAnimationFrame(animate);
-  }
-  animate();
-
-  // Hover detection
-  canvas3D.onmousemove=(e)=>{
-    const rect=canvas3D.getBoundingClientRect();
-    const mx=(e.clientX-rect.left)*(canvas3D.width/rect.width);
-    const my=(e.clientY-rect.top)*(canvas3D.height/rect.height);
-    const cx2=W/2, cy2=H*0.44;
-    const dx=mx-cx2, dy=my-cy2;
-    const nx=dx/rx, ny=dy/ry;
-    const distSq=nx*nx+ny*ny;
-    if(distSq<=1 && distSq>=(inner*inner)) {
-      let a=Math.atan2(ny,nx);
-      while(a<_sentD3DAngle%(-Math.PI*2)) a+=Math.PI*2;
-      while(a>_sentD3DAngle%(Math.PI*2)+Math.PI*2) a-=Math.PI*2;
-      let found=-1;
-      hitSlices.forEach(h=>{
-        let sa=h.startA%(Math.PI*2), ea=h.endA%(Math.PI*2);
-        if(sa>ea) ea+=Math.PI*2;
-        let ta=a%(Math.PI*2); if(ta<sa) ta+=Math.PI*2;
-        if(ta>=sa&&ta<ea) found=h.idx;
-      });
-      hover=found;
-      _sentD3DSpinV=0;
-    } else {
-      hover=-1;
-      _sentD3DSpinV=0.004;
-    }
-  };
-  canvas3D.onmouseleave=()=>{hover=-1;_sentD3DSpinV=0.004;};
-  canvas3D.onclick=()=>{_sentD3DSpinV=_sentD3DSpinV<0?0.004:-0.004;};
-}
-
 function renderSentD(data, type="doughnut") {
-  _lastSentData=data;
   chartFns['sentD']=(t)=>renderSentD(data,t);
   const {pos,neg,neu,tot}=sc(data);
-  const canvas3D=document.getElementById('sentD3DCanvas');
-  const canvasFlat=document.getElementById('sentD');
-  const legend=document.getElementById('sentD3DLegend');
   if(type==="bar") {
-    if(_sentD3DAnim) cancelAnimationFrame(_sentD3DAnim);
-    if(canvas3D) canvas3D.style.display='none';
-    if(legend) legend.style.display='none';
-    if(canvasFlat) canvasFlat.style.display='block';
     mkChart("sentD",{type:"bar",data:{labels:["Positive","Negative","Neutral"],datasets:[{data:[pos,neg,neu],backgroundColor:[C.pos,C.neg,C.neu],borderRadius:5}]},options:{...baseOpts(),plugins:{legend:{display:true,labels:{color:C.txt,font:{size:10},boxWidth:10}},tooltip:{...tooltipPlugin(),callbacks:{label:ctx=>`${ctx.label}: ${ctx.parsed.y.toLocaleString()} mentions`}},datalabels:barLabels()}}});
   } else {
-    sentD3DMode=(type==="doughnut")?'donut':'pie';
-    renderSentD3D();
+    mkChart("sentD",{type,data:{labels:["Positive","Negative","Neutral"],datasets:[{data:[pos,neg,neu],backgroundColor:[C.pos,C.neg,C.neu],borderWidth:0,hoverOffset:6}]},
+      options:{responsive:true,maintainAspectRatio:true,cutout:type==="doughnut"?"65%":"0",
+        plugins:{legend:{display:true,labels:{color:C.txt,font:{size:10},boxWidth:10}},tooltip:{...tooltipPlugin(),callbacks:{label:ctx=>`${ctx.label}: ${ctx.parsed.toLocaleString()} (${pct(ctx.parsed,tot)}%)`}},datalabels:circleLabels()}}});
   }
 }
 
@@ -2976,12 +2269,10 @@ function renderSentT(data, type="line") {
     const months=["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; 
     return (months[+p[1]]||p[1])+" "+p[2];
   });
-  const _sentTEl=document.getElementById("sentT");
-  const _sentTCtx=_sentTEl?_sentTEl.getContext("2d"):null;
   const ds=[
-    {label:"Positive",data:pA,borderColor:C.pos,backgroundColor:type==="line"?makeGrad(_sentTCtx,C.pos.substring(1)?'#'+C.pos.substring(1):C.pos,0.5,0.02):C.pos+'cc',fill:type==="line",tension:.4,pointRadius:0,pointHoverRadius:6,borderWidth:2.5,borderRadius:4,stack:"s"},
-    {label:"Negative",data:nA,borderColor:C.neg,backgroundColor:type==="line"?makeGrad(_sentTCtx,C.neg,0.45,0.02):C.neg+'cc',fill:type==="line",tension:.4,pointRadius:0,pointHoverRadius:6,borderWidth:2.5,borderRadius:4,stack:"s"},
-    {label:"Neutral",data:uA,borderColor:C.neu,backgroundColor:type==="line"?makeGrad(_sentTCtx,C.neu,0.35,0.02):C.neu+'77',fill:type==="line",tension:.4,pointRadius:0,pointHoverRadius:6,borderWidth:2.5,borderRadius:4,stack:"s"},
+    {label:"Positive",data:pA,borderColor:C.pos,backgroundColor:type==="line"?C.posA:C.pos,fill:type==="line",tension:.4,pointRadius:0,pointHoverRadius:5,borderWidth:2,borderRadius:3,stack:"s"},
+    {label:"Negative",data:nA,borderColor:C.neg,backgroundColor:type==="line"?C.negA:C.neg,fill:type==="line",tension:.4,pointRadius:0,pointHoverRadius:5,borderWidth:2,borderRadius:3,stack:"s"},
+    {label:"Neutral",data:uA,borderColor:C.neu,backgroundColor:type==="line"?C.neuA:C.neu,fill:type==="line",tension:.4,pointRadius:0,pointHoverRadius:5,borderWidth:2,borderRadius:3,stack:"s"},
   ];
   const sentTTooltip = {
     ...tooltipPlugin(),
@@ -3057,9 +2348,20 @@ function renderPlatform(data) {
   };
   chartFns['platCon']("polarArea");
 
-  // Sentiment bars (stacked horizontal)
-  window._platData = data; // store for chart switch
-  renderPlatBarsStacked(data, 'stacked');
+  // Sentiment bars
+  document.getElementById("platBars").innerHTML=plats.map(p=>{
+    const d=data.filter(r=>r.p===p), s=sc(d);
+    const pp2=pct(s.pos,s.tot), np2=pct(s.neg,s.tot), up2=pct(s.neu,s.tot);
+    return `<div class="pr">
+      <div class="prh"><span class="prn">${p}</span><span class="prv">${s.tot.toLocaleString()}</span></div>
+      <div class="prb">
+        <div class="prs" style="width:${pp2}%;background:${C.pos}"></div>
+        <div class="prs" style="width:${up2}%;background:${C.neu}"></div>
+        <div class="prs" style="width:${np2}%;background:${C.neg}"></div>
+      </div>
+      <div class="pr-legend"><span class="pr-leg-i" style="color:${C.pos}">${pp2}% pos</span><span class="pr-leg-i" style="color:${C.neu}">${up2}% neu</span><span class="pr-leg-i" style="color:${C.neg}">${np2}% neg</span></div>
+    </div>`;
+  }).join("");
 
   // Highlights - improved: sort by positive% for top, by negative% for risk
   const rankedByPos=plats.map(p=>{const d=data.filter(r=>r.p===p),s=sc(d);return{p,pp:pct(s.pos,s.tot),np:pct(s.neg,s.tot),tot:s.tot};}).sort((a,b)=>b.pp-a.pp);
@@ -3079,95 +2381,6 @@ function renderPlatform(data) {
       <div class="ph-val" style="color:var(--neg)">${riskPlatform?riskPlatform.p:"—"}</div>
       <div class="ph-sub">${riskPlatform?riskPlatform.np.toFixed(1)+"% negative · "+riskPlatform.tot.toLocaleString()+" mentions":""}</div>
     </div>`;
-}
-
-function switchPlatBarsView(mode, btn) {
-  document.getElementById('vg-platbars').querySelectorAll('.vb').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  renderPlatBarsStacked(window._platData || getFiltered(), mode);
-}
-
-function renderPlatBarsStacked(data, mode) {
-  const plats=[...new Set(data.map(r=>r.p))].sort();
-  const pctBars = document.getElementById('platBars');
-  const chartDiv = document.getElementById('platBarsChart');
-  
-  if (mode === 'stacked') {
-    // Variant 1: Elegant stacked horizontal bars (custom HTML)
-    if(pctBars) pctBars.style.display='block';
-    if(chartDiv) chartDiv.style.display='none';
-    pctBars.innerHTML = plats.map(p=>{
-      const d=data.filter(r=>r.p===p), s=sc(d);
-      const pp2=pct(s.pos,s.tot), np2=pct(s.neg,s.tot), up2=pct(s.neu,s.tot);
-      const barH = '22px';
-      return `<div style="margin-bottom:14px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
-          <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:var(--t1);letter-spacing:.4px;text-transform:uppercase">${p}</span>
-          <span style="font-size:10px;color:var(--t3);background:var(--s4);padding:2px 8px;border-radius:3px">${s.tot.toLocaleString()} mentions</span>
-        </div>
-        <div style="height:${barH};background:var(--s4);border-radius:4px;overflow:hidden;display:flex">
-          <div style="width:${pp2}%;background:${C.pos};height:100%;transition:width .6s ease;display:flex;align-items:center;justify-content:center">
-            ${pp2>8?`<span style="font-size:10px;font-weight:700;color:#000">${pp2}%</span>`:''}
-          </div>
-          <div style="width:${up2}%;background:${C.neu};height:100%;transition:width .6s ease;display:flex;align-items:center;justify-content:center">
-            ${up2>8?`<span style="font-size:10px;font-weight:700;color:#000">${up2}%</span>`:''}
-          </div>
-          <div style="width:${np2}%;background:${C.neg};height:100%;transition:width .6s ease;display:flex;align-items:center;justify-content:center">
-            ${np2>8?`<span style="font-size:10px;font-weight:700;color:#fff">${np2}%</span>`:''}
-          </div>
-        </div>
-        <div style="display:flex;gap:10px;margin-top:4px">
-          <span style="font-size:10px;color:${C.pos}">▲ ${pp2}% pos</span>
-          <span style="font-size:10px;color:${C.neu}">● ${up2}% neu</span>
-          <span style="font-size:10px;color:${C.neg}">▼ ${np2}% neg</span>
-        </div>
-      </div>`;
-    }).join('');
-  } else {
-    // Variant 2: Chart.js horizontal grouped bar chart
-    if(pctBars) pctBars.style.display='none';
-    if(chartDiv) {
-      chartDiv.style.display='block';
-      const h = Math.max(180, plats.length * 60 + 60);
-      chartDiv.style.height = h + 'px';
-    }
-    const posA=plats.map(p=>{const d=data.filter(r=>r.p===p),s=sc(d);return pct(s.pos,s.tot);});
-    const negA=plats.map(p=>{const d=data.filter(r=>r.p===p),s=sc(d);return pct(s.neg,s.tot);});
-    const neuA=plats.map(p=>{const d=data.filter(r=>r.p===p),s=sc(d);return pct(s.neu,s.tot);});
-    if(CHARTS['platHBarChart']) CHARTS['platHBarChart'].destroy();
-    const el=document.getElementById('platHBarChart'); if(!el) return;
-    CHARTS['platHBarChart']=new Chart(el,{
-      type:'bar',
-      data:{labels:plats,datasets:[
-        {label:'Positive%',data:posA,backgroundColor:C.pos+'cc',borderRadius:3,borderSkipped:false},
-        {label:'Neutral%',data:neuA,backgroundColor:C.neu+'77',borderRadius:3,borderSkipped:false},
-        {label:'Negative%',data:negA,backgroundColor:C.neg+'cc',borderRadius:3,borderSkipped:false},
-      ]},
-      options:{
-        responsive:true,maintainAspectRatio:false,
-        indexAxis:'y',
-        layout:{padding:{right:10}},
-        scales:{
-          x:{stacked:false,grid:{color:C.grid},ticks:{color:C.txt,font:{size:9},callback:v=>v+'%'},border:{color:'transparent'},max:100},
-          y:{stacked:false,grid:{display:false},ticks:{color:C.txt,font:{size:10,weight:'700'}},border:{color:'transparent'}}
-        },
-        plugins:{
-          legend:{display:true,labels:{color:C.txt,font:{size:9},boxWidth:10,padding:8}},
-          tooltip:{...tooltipPlugin(),callbacks:{
-            title:ctx=>`Platform: ${ctx[0].label}`,
-            label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.x}%`,
-            afterBody:ctx=>{
-              const p=plats[ctx[0].dataIndex];
-              const d=data.filter(r=>r.p===p),s=sc(d);
-              return [`Total: ${s.tot.toLocaleString()} mentions`];
-            }
-          }},
-          datalabels:{display:true,anchor:'end',align:'end',offset:2,color:C.txt,font:{size:9,weight:'700'},
-            formatter:(v)=>v>4?v+'%':''}
-        }
-      }
-    });
-  }
 }
 
 function showPlatTT(e, plat) {
@@ -3196,7 +2409,7 @@ function renderSOV(data) {
       <div class="sov-trk"><div class="sov-fill" style="width:${s}%;background:${MKCOLORS[i%MKCOLORS.length]}">${s>10?s+"%":""}</div></div></div>`;
   }).join("");
 
-  const cats=[...new Set(data.map(r=>r.c))];
+  const cats=[...new Set(data.map(r=>r.c).filter(c=>c.toLowerCase()!=="others"))];
   const catC=cats.map(c=>({c,n:data.filter(r=>r.c===c).length})).sort((a,b)=>b.n-a.n);
   const catCols=[C.neg,C.neu,C.pos,C.yel,C.warn,"#a78bfa","#22d3ee","#f472b6","#84cc16","#14b8a6"];
 
@@ -3265,30 +2478,18 @@ function renderMktPerf(data) {
     const status=np>65?"🔴 Crisis":np>50?"🟠 High Risk":np>35?"🟡 Monitor":"🟢 Stable";
     const nssCol=nss2>=0?"var(--pos)":"var(--neg)";
     return {m,tot:s.tot,pp,np,nss:nss2,nssCol,status,ord:np>65?4:np>50?3:np>35?2:1};
-  }).sort((a,b)=>a.np-b.np);
+  }).sort((a,b)=>b.ord-a.ord||b.np-a.np);
 
   document.getElementById("mktTbl").innerHTML=`
-    <thead><tr><th>#</th><th>Market</th><th>Mentions</th><th>Positive %</th><th>Negative %</th><th>NSS</th><th>Trend Bar</th><th>Status</th></tr></thead>
-    <tbody>${rows.map((r,i)=>{
-      const negCol=r.np>60?"#ff3860":r.np>40?"#ff8c42":"#10d97e";
-      const posW=Math.round(r.pp*.7), negW=Math.round(r.np*.7);
-      const nssGlow=r.nss>=20?'0 0 8px rgba(16,217,126,.4)':r.nss<0?'0 0 8px rgba(255,56,96,.35)':'none';
-      return `<tr style="transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background=''">
-        <td style="color:var(--t4);font-size:11px">${i+1}</td>
-        <td style="color:var(--t1);font-weight:700;font-family:'Barlow Condensed',sans-serif;font-size:15px;letter-spacing:.3px">${r.m}</td>
-        <td style="color:var(--yel);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px">${r.tot.toLocaleString()}</td>
-        <td style="color:var(--pos);font-weight:700">${r.pp}%</td>
-        <td style="color:${negCol};font-weight:700">${r.np}%</td>
-        <td style="color:${r.nssCol};font-weight:800;font-family:'Barlow Condensed',sans-serif;font-size:18px;text-shadow:${nssGlow}">${r.nss>=0?"+":""}${r.nss}</td>
-        <td>
-          <div style="display:flex;align-items:center;gap:2px;height:8px;width:120px">
-            <div style="height:100%;width:${posW}px;background:linear-gradient(90deg,var(--pos),var(--pos)88);border-radius:2px 0 0 2px"></div>
-            <div style="height:100%;width:${negW}px;background:linear-gradient(90deg,${negCol}88,${negCol});border-radius:0 2px 2px 0"></div>
-          </div>
-        </td>
-        <td style="font-size:11px">${r.status}</td>
-      </tr>`;
-    }).join("")}</tbody>`;
+    <thead><tr><th>Market</th><th>Mentions</th><th>Pos%</th><th>Neg%</th><th>NSS</th><th>Status</th></tr></thead>
+    <tbody>${rows.map(r=>`<tr>
+      <td style="color:var(--t1);font-weight:600">${r.m}</td>
+      <td>${r.tot.toLocaleString()}</td>
+      <td style="color:var(--pos)">${r.pp}%</td>
+      <td><span style="color:var(--neg)">${r.np}%</span><span class="tbl-bar" style="width:${Math.min(r.np*.55,55)}px;background:var(--neg);opacity:.4"></span></td>
+      <td style="color:${r.nssCol};font-weight:600">${r.nss>=0?"+":""}${r.nss}</td>
+      <td style="font-size:10.5px">${r.status}</td>
+    </tr>`).join("")}</tbody>`;
 }
 
 // ── Market Contribution AI Executive Summary ──
@@ -3425,7 +2626,7 @@ function renderMktShare(data, type="doughnut") {
   if(type==="bar") {
     const hBarLabels={display:true,anchor:'end',align:'end',offset:4,color:'#f0f0f5',font:{size:10,weight:'800',family:"'Barlow Condensed',sans-serif"},formatter:(v)=>v>=1000?(v/1000).toFixed(1)+'k':v>0?v.toLocaleString():''};
     const mktWrap=document.getElementById("mktShareWrap"); if(mktWrap) mktWrap.style.height=Math.max(200,mks.length*34+40)+"px";
-    mkChart("mktShare",{type:"bar",data:{labels:mks,datasets:[{data:counts,backgroundColor:MKCOLORS.slice(0,mks.length).map(c=>c+'ee'),borderRadius:6,borderSkipped:false,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,layout:{padding:{right:55}},indexAxis:"y",scales:{x:{grid:{color:C.grid},ticks:{color:C.txt,font:{size:9}},border:{color:"transparent"}},y:{grid:{display:false},ticks:{color:C.txt,font:{size:10,weight:'600'}},border:{color:"transparent"}}},plugins:{legend:{display:false},tooltip:{...tooltipPlugin(),callbacks:{label:ctx=>`${ctx.label}: ${ctx.parsed.x.toLocaleString()} mentions`}},datalabels:hBarLabels}}});
+    mkChart("mktShare",{type:"bar",data:{labels:mks,datasets:[{data:counts,backgroundColor:MKCOLORS.slice(0,mks.length),borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,layout:{padding:{right:55}},indexAxis:"y",scales:{x:{grid:{color:C.grid},ticks:{color:C.txt,font:{size:9}},border:{color:"transparent"}},y:{grid:{display:false},ticks:{color:C.txt,font:{size:10,weight:'600'}},border:{color:"transparent"}}},plugins:{legend:{display:false},tooltip:{...tooltipPlugin(),callbacks:{label:ctx=>`${ctx.label}: ${ctx.parsed.x.toLocaleString()} mentions`}},datalabels:hBarLabels}}});
   } else if(type==="polarArea") {
     const mktWrap3=document.getElementById("mktShareWrap"); if(mktWrap3) mktWrap3.style.height="280px";
     mkChart("mktShare",{type:"polarArea",data:{labels:mks,datasets:[{data:counts,backgroundColor:MKCOLORS.slice(0,mks.length).map(c=>c+"bb"),borderWidth:0}]},options:{responsive:true,maintainAspectRatio:true,interaction:{mode:"nearest",intersect:true},plugins:{legend:{display:true,labels:{color:C.txt,font:{size:10},boxWidth:10}},tooltip:{...tooltipPlugin(),callbacks:{label:ctx=>`${ctx.label}: ${ctx.parsed.r.toLocaleString()} mentions`}},datalabels:circleLabels()},scales:{r:{grid:{color:C.grid},ticks:{display:false}}}}});
@@ -3550,7 +2751,7 @@ function renderDodWow(data) {
 //  CATEGORY
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function renderCatTable(data) {
-  const cats=[...new Set(data.map(r=>r.c))];
+  const cats=[...new Set(data.map(r=>r.c))].filter(c=>c.toLowerCase()!=="others");
   const rows=cats.map(c=>{
     const d=data.filter(r=>r.c===c), s=sc(d);
     const np=pct(s.neg,s.tot), pp=pct(s.pos,s.tot), nu=pct(s.neu,s.tot);
@@ -3573,7 +2774,7 @@ function renderCatTable(data) {
 function renderSentCon(data, type="bar") {
   chartFns['sentCon']=(t)=>renderSentCon(data,t);
   // Sort categories by total volume descending
-  const catsRaw=[...new Set(data.map(r=>r.c))];
+  const catsRaw=[...new Set(data.map(r=>r.c))].filter(c=>c.toLowerCase()!=="others");
   const catsSorted=catsRaw.map(c=>{const s=sc(data.filter(r=>r.c===c));return{c,neg:s.neg,pos:s.pos,neu:s.neu,tot:s.neg+s.pos+s.neu};}).sort((a,b)=>b.tot-a.tot);
   const cats=catsSorted.map(x=>x.c);
   const nA=catsSorted.map(x=>x.neg);
@@ -3627,7 +2828,11 @@ function renderRisk(data) {
       <div class="r-val ${crisis&&crisis.np>55?"rvh":"rvm"}">${crisis?crisis.m:"—"}</div>
       <div class="r-note">${crisis?crisis.np.toFixed(1)+"% neg · hover for breakdown":""}</div>
     </div>
-    `;
+    <div class="rcard rl">
+      <div class="r-lbl">✅ Opportunity Market</div>
+      <div class="r-val rvl">${opp?opp.m:"—"}</div>
+      <div class="r-note">${opp?opp.pp.toFixed(1)+"% positive":""}</div>
+    </div>`;
 
   // Spike chart
   const dates=[...new Set(data.map(r=>r.d))].sort();
@@ -3659,7 +2864,7 @@ function renderRisk(data) {
 
 function showCrisTT(e, el) {
   const mkt=el.dataset.m; if(!mkt) return;
-  const mData=getFiltered().filter(r=>r.m===mkt&&r.s==="negative");
+  const mData=getFiltered().filter(r=>r.m===mkt&&r.s==="negative"&&r.c.toLowerCase()!=="others");
   const scC={}; mData.forEach(r=>{if(r.sc){const k=r.sc.trim();scC[k]=(scC[k]||0)+1;}});
   const top=Object.entries(scC).sort((a,b)=>b[1]-a[1]).slice(0,6);
   if(!top.length) return;
@@ -3740,8 +2945,8 @@ function renderBuzzTrend(data, type="bar") {
   const peaks=dates.map((d,i)=>({d,v:vols[i],i})).filter(x=>x.v>thr).sort((a,b)=>b.v-a.v).slice(0,3);
 
   mkChart("buzzChart",{type,data:{labels:lbl,datasets:[
-    {label:"Daily Volume",data:vols,backgroundColor:type==="bar"?vols.map(v=>v>thr?C.neg+"cc":C.yel+"99"):C.yel+"55",borderColor:type==="bar"?undefined:C.yel,fill:type==="line",tension:.4,pointRadius:type==="bar"?0:vols.map(v=>v>thr?6:0),pointBackgroundColor:C.neg,borderRadius:type==="bar"?5:0,borderSkipped:false,order:2},
-    {label:"7-Day MA",data:ma,type:"line",borderColor:C.yel,backgroundColor:"transparent",tension:.4,pointRadius:0,borderWidth:2.5,order:1},
+    {label:"Daily Volume",data:vols,backgroundColor:type==="bar"?vols.map(v=>v>thr?C.neg+"cc":C.yel+"88"):C.yel+"44",borderColor:type==="bar"?undefined:C.yel,fill:type==="line",tension:.4,pointRadius:type==="bar"?0:vols.map(v=>v>thr?6:0),pointBackgroundColor:C.neg,borderRadius:type==="bar"?3:0,order:2},
+    {label:"7-Day MA",data:ma,type:"line",borderColor:C.yel,backgroundColor:"transparent",tension:.4,pointRadius:0,borderWidth:2,order:1},
   ]},options:{...baseOpts(true),plugins:{...baseOpts(true).plugins,tooltip:{...tooltipPlugin(),callbacks:{
     label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y?.toLocaleString()??''}`,
     afterBody: ctx => {
@@ -3855,7 +3060,7 @@ function renderVolAnalysisTop(data) {
   }
   populateSel('fVolMkt',  [...new Set(data.map(r=>r.m))].sort());
   populateSel('fVolPlat', [...new Set(data.map(r=>r.p))].sort());
-  populateSel('fVolCat',  [...new Set(data.map(r=>r.c))].sort());
+  populateSel('fVolCat',  [...new Set(data.map(r=>r.c))].filter(c=>c.toLowerCase()!=='others').sort());
 
   _renderVolCharts(data);
 }
@@ -3962,7 +3167,7 @@ function _renderVolCharts(data) {
   const platsRaw = [...new Set(data.map(r=>r.p))];
   const plats = platsRaw.map(p=>({p,v:data.filter(r=>r.p===p).length})).sort((a,b)=>b.v-a.v).map(x=>x.p);
   const pVols  = plats.map(p=>data.filter(r=>r.p===p).length);
-  const catsRaw = [...new Set(data.map(r=>r.c))];
+  const catsRaw = [...new Set(data.map(r=>r.c))].filter(c=>c.toLowerCase()!=='others');
   const cats = catsRaw.map(c=>({c,v:data.filter(r=>r.c===c).length})).sort((a,b)=>b.v-a.v).map(x=>x.c);
   const cVols  = cats.map(c=>data.filter(r=>r.c===c).length);
   const platCols = [C.yel,C.pos,C.neg,C.neu,C.warn,'#a78bfa','#22d3ee','#f472b6'];
@@ -4184,7 +3389,7 @@ function renderSOVChart(data, type="bar") {
 //  NEGATIVE CATEGORY BREAKDOWN
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function renderNegCatBreakdown(data) {
-  const negData=data.filter(r=>r.s==="negative"&&r.c);
+  const negData=data.filter(r=>r.s==="negative"&&r.c&&r.c.toLowerCase()!=="others");
   const catMap={};
   negData.forEach(r=>{catMap[r.c]=(catMap[r.c]||0)+1;});
   const cats=Object.entries(catMap).sort((a,b)=>b[1]-a[1]);
@@ -4634,11 +3839,11 @@ function renderAIActions(data) {
 
   // Sub-category issue counts
   const scMap = {};
-  data.filter(r=>r.s==="negative"&&r.sc).forEach(r=>{const k=r.sc.trim();scMap[k]=(scMap[k]||0)+1;});
+  data.filter(r=>r.s==="negative"&&r.sc&&r.c.toLowerCase()!=="others").forEach(r=>{const k=r.sc.trim();scMap[k]=(scMap[k]||0)+1;});
   const topIssues = Object.entries(scMap).sort((a,b)=>b[1]-a[1]).slice(0,8);
 
   const catMap = {};
-  data.filter(r=>r.s==="negative"&&r.c).forEach(r=>{catMap[r.c]=(catMap[r.c]||0)+1;});
+  data.filter(r=>r.s==="negative"&&r.c&&r.c.toLowerCase()!=="others").forEach(r=>{catMap[r.c]=(catMap[r.c]||0)+1;});
   const topCats = Object.entries(catMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
 
   // ── Collect real verbatim grouped by issue ──
@@ -4990,7 +4195,7 @@ function addChartDownloadButtons() {
 function renderActions(data) {
   const {pos,neg,neu,tot}=sc(data);
   const np=pct(neg,tot), pp=pct(pos,tot);
-  const noOth=data; // Others now included
+  const noOth=data.filter(r=>r.c.toLowerCase()!=="others");
   const mks=uniq(data,"m");
   const {prev}=getPrev();
   const ps=sc(prev);
@@ -5000,8 +4205,8 @@ function renderActions(data) {
   const mR=mks.map(m=>{const d=data.filter(r=>r.m===m),s=sc(d);return{m,np:pct(s.neg,s.tot),pp:pct(s.pos,s.tot),tot:s.tot};}).sort((a,b)=>b.np-a.np);
   const wMkt=mR[0], bMkt=mR[mR.length-1];
 
-  const cats=uniq(data,"c");
-  const catR=cats.map(c=>{const d=data.filter(r=>r.c===c),s=sc(d);return{c,np:pct(s.neg,s.tot),n:s.neg,t:s.tot};}).filter(x=>x.t>5).sort((a,b)=>b.np-a.np);
+  const cats=uniq(noOth,"c");
+  const catR=cats.map(c=>{const d=noOth.filter(r=>r.c===c),s=sc(d);return{c,np:pct(s.neg,s.tot),n:s.neg,t:s.tot};}).filter(x=>x.t>5).sort((a,b)=>b.np-a.np);
   const wCat=catR[0];
   const wCatTopSC=wCat?Object.entries(grp(noOth.filter(r=>r.c===wCat.c&&r.s==="negative"),"sc")).sort((a,b)=>b[1]-a[1]).slice(0,3):[];
 
@@ -5099,7 +4304,7 @@ function safe(name, fn) {
 //  NEGATIVE DEEP-DIVE
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 let _negData=[];
-const NEG_COLORS=["#ff3860","#ff8c42","#FFD200","#a855f7","#14b8a6","#10d97e","#e879f9","#fbbf24","#5eaeff","#4ade80","#f87171","#c084fc","#22d3ee","#86efac","#fca5a5","#fdba74","#d8b4fe","#7dd3fc","#6ee7b7","#fde68a"];
+const NEG_COLORS=["#f43f5e","#fb923c","#f59e0b","#a78bfa","#38bdf8","#34d399","#e879f9","#fbbf24","#60a5fa","#4ade80","#f87171","#c084fc","#67e8f9","#86efac","#fca5a5","#fdba74","#d8b4fe","#7dd3fc","#6ee7b7","#fde68a"];
 
 function renderNegDeep() {
   const base=getFiltered().filter(r=>r.s==="negative");
@@ -5151,11 +4356,11 @@ function renderNegDeep() {
   const counts=sorted.map(([,v])=>v.count);
   const total=d.length||1;
 
-  // Bar chart (negative subcategories)
+  // Bar chart
   renderNegSubBar(labels, counts, total, "bar");
-  // Positive subcategory bar chart (L2)
-  renderPosSubBar('bar', null);
-  // Market breakdown chart (uses L1 categories)
+  // Pie chart
+  renderNegSubPie(labels, counts, total, "doughnut");
+  // Market breakdown chart
   renderNegMktBar(d, labels, "stacked");
   // Trend chart
   renderNegTrend(d, "line");
@@ -5170,7 +4375,7 @@ function renderNegSubBar(labels, counts, total, type) {
   const el=document.getElementById("negSubBar"); if(!el) return;
   CHARTS["negSubBar"]=new Chart(el,{
     type:"bar",
-    data:{labels, datasets:[{label:"Negative Mentions",data:counts,backgroundColor:NEG_COLORS.slice(0,labels.length).map(c=>c+'ee'),borderRadius:6,borderSkipped:false,borderWidth:0}]},
+    data:{labels, datasets:[{label:"Negative Mentions",data:counts,backgroundColor:NEG_COLORS.slice(0,labels.length),borderRadius:4,borderSkipped:false}]},
     options:{
       responsive:true,maintainAspectRatio:false,
       indexAxis:isH?"y":"x",
@@ -5224,80 +4429,15 @@ function renderNegSubPie(labels, counts, total, type) {
   });
 }
 
-let _posBarType = 'bar';
-function renderPosSubBar(type, btn) {
-  if(btn){
-    document.getElementById('vg-posbar').querySelectorAll('.vb').forEach(b=>b.classList.remove('on'));
-    btn.classList.add('on');
-  }
-  _posBarType = type || _posBarType;
-  const isH = _posBarType === 'horizontalBar';
-  
-  const base = getFiltered().filter(r => r.s === 'positive');
-  const topN = parseInt(document.getElementById("fNegTop")?.value || "15");
-  const mktF = document.getElementById("fNegMkt")?.value || "";
-  const catF = document.getElementById("fNegCat")?.value || "";
-  const platF = document.getElementById("fNegPlat")?.value || "";
-  let d = base;
-  if(mktF) d = d.filter(r => r.m === mktF);
-  if(catF) d = d.filter(r => r.c === catF);
-  if(platF) d = d.filter(r => r.p === platF);
-  
-  const scMap = {};
-  d.forEach(r => { const k = r.sc?.trim() || "(Unclassified)"; scMap[k] = (scMap[k]||0)+1; });
-  const sorted = Object.entries(scMap).sort((a,b)=>b[1]-a[1]).slice(0,topN);
-  const labels = sorted.map(([k])=>k);
-  const counts = sorted.map(([,v])=>v);
-  const total = d.length || 1;
-
-  const POS_COLORS = ["#22c55e","#4ade80","#16a34a","#6ee7b7","#34d399","#059669","#10b981","#86efac","#a7f3d0","#d1fae5","#bbf7d0","#dcfce7","#f0fdf4","#15803d","#166534","#14532d"];
-  
-  if(CHARTS["posSubBar"]) CHARTS["posSubBar"].destroy();
-  const el = document.getElementById("posSubBar"); if(!el) return;
-  CHARTS["posSubBar"] = new Chart(el, {
-    type: "bar",
-    data: { labels, datasets:[{
-      label:"Positive Mentions", data:counts,
-      backgroundColor: POS_COLORS.slice(0, labels.length),
-      borderRadius:4, borderSkipped:false
-    }]},
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      indexAxis: isH ? "y" : "x",
-      layout:{padding:{right: isH?70:20, top: isH?0:30}},
-      plugins:{
-        legend:{display:false},
-        tooltip:{...tooltipPlugin(), callbacks:{
-          title: ctx => `${ctx[0].label}`,
-          label: ctx => {
-            const n = isH ? ctx.parsed.x : ctx.parsed.y;
-            const share = pct(n, total);
-            return [`Mentions: ${n.toLocaleString()}`, `Share of positives: ${share}%`, `Rank: #${ctx.dataIndex+1}`];
-          }
-        }},
-        datalabels:{display:true, anchor:'end', align:'end', offset:3,
-          color:'#f0f0f5', font:{size:10,weight:'800',family:"'Barlow Condensed',sans-serif"},
-          formatter:(v)=>v>0?v.toLocaleString():''}
-      },
-      scales:{
-        x:{grid:{color:"rgba(255,255,255,.05)"}, ticks:{color:"#c8c8d8",font:{size:9},maxRotation:isH?0:35}, border:{color:"transparent"}},
-        y:{grid:{color:"rgba(255,255,255,.05)"}, ticks:{color:"#22c55e",font:{size:isH?10:9}}, border:{color:"transparent"}}
-      }
-    }
-  });
-}
-
 function renderNegMktBar(d, topSubLabels, type) {
   chartFns["negMktBar"]=(t)=>renderNegMktBar(d,topSubLabels,t);
   if(CHARTS["negMktBar"]) CHARTS["negMktBar"].destroy();
   const el=document.getElementById("negMktBar"); if(!el) return;
   const mkts=[...new Set(d.map(r=>r.m))].sort();
-  // Use L1 categories instead of L2 sub-categories
-  const l1Cats=[...new Set(d.map(r=>r.c||"Unclassified"))].sort();
-  const topSubs=l1Cats.slice(0,8);
-  const datasets=topSubs.map((cat,i)=>({
-    label:cat.length>20?cat.substring(0,18)+"…":cat,
-    data:mkts.map(m=>d.filter(r=>r.m===m&&(r.c||"Unclassified")===cat).length),
+  const topSubs=topSubLabels.slice(0,8);
+  const datasets=topSubs.map((sub,i)=>({
+    label:sub.length>20?sub.substring(0,18)+"…":sub,
+    data:mkts.map(m=>d.filter(r=>r.m===m&&(r.sc?.trim()||"(Unclassified)")===sub).length),
     backgroundColor:NEG_COLORS[i]+"cc",
     borderColor:NEG_COLORS[i],borderWidth:1,borderRadius:3,borderSkipped:false
   }));
@@ -5398,6 +4538,7 @@ function negVswitch(chartId, type, btn, grp) {
   const labels=sorted.map(([k])=>k);
   const counts=sorted.map(([,v])=>v);
   if(chartId==="negSubBar") renderNegSubBar(labels,counts,total,type);
+  else if(chartId==="negSubPie") renderNegSubPie(labels,counts,total,type);
   else if(chartId==="negMktBar") renderNegMktBar(d,labels,type);
   else if(chartId==="negTrendLine") renderNegTrend(d,type);
 }
@@ -5766,7 +4907,7 @@ function populateNpsFilters(data) {
   };
   sel("fNpsMkt", [...new Set(data.map(r=>r.m))].sort());
   sel("fNpsPlat",[...new Set(data.map(r=>r.p))].sort());
-  sel("fNpsCat", [...new Set(data.map(r=>r.c))].sort());
+  sel("fNpsCat", [...new Set(data.map(r=>r.c))].filter(c=>c.toLowerCase()!=="others").sort());
 }
 
 function populateNegFilters(data) {
@@ -5777,408 +4918,20 @@ function populateNegFilters(data) {
     vals.forEach(v=>el.add(new Option(v,v))); if(vals.includes(prev)) el.value=prev;
   };
   sel("fNegMkt",[...new Set(negData.map(r=>r.m))].sort());
-  sel("fNegCat",[...new Set(negData.map(r=>r.c))].sort());
+  sel("fNegCat",[...new Set(negData.map(r=>r.c))].filter(c=>c.toLowerCase()!=="others").sort());
   sel("fNegPlat",[...new Set(negData.map(r=>r.p))].sort());
 }
 
 function renderNegCatBreakdown(data) {} // override old function silently
 
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  DM ANALYSIS
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-function populateDmFilters(data) {
-  const mkts=[...new Set(data.filter(r=>r.isDM).map(r=>r.m))].sort();
-  const sel=document.getElementById('fDmMkt'); if(!sel) return;
-  const prev=sel.value; sel.innerHTML='<option value="">All Markets</option>';
-  mkts.forEach(v=>sel.add(new Option(v,v))); if(mkts.includes(prev)) sel.value=prev;
-}
-
-function renderDmSection() {
-  // Broad DM match: isDM flag OR mt (raw platform type) contains DM/PM keywords
-  const base=getFiltered().filter(r=>r.isDM
-    ||(r.mt&&(r.mt.toLowerCase().includes('direct message')||r.mt.toLowerCase().includes('private message')||r.mt.toLowerCase()==='dm'||r.mt.toLowerCase()==='pm'))
-    ||(r.p&&r.p==='DM')
-  );
-  const mktF=document.getElementById('fDmMkt')?.value||'';
-  const sentF=document.getElementById('fDmSent')?.value||'';
-  let d=base;
-  if(mktF) d=d.filter(r=>r.m===mktF);
-  if(sentF) d=d.filter(r=>r.s===sentF);
-  const stat=document.getElementById('dmStatus');
-  if(stat) stat.textContent=`${d.length.toLocaleString()} DM/PM records`;
-
-  // KPI row
-  const {pos,neg,neu,tot}=sc(d);
-  const np=pct(neg,tot), pp=pct(pos,tot);
-  const nss=tot?Math.round((pos-neg)/tot*100):0;
-  const allD=getFiltered();
-  const dmPct=allD.length?pct(tot,allD.length):0;
-  document.getElementById('dmKpiRow').innerHTML=`
-    <div class="kpi ku"><div class="kpi-lbl">Total DM/PM</div><div class="kpi-val ku-c">${fmt(tot)}</div><div class="kpi-sub">${tot.toLocaleString()} direct msgs</div></div>
-    <div class="kpi ky"><div class="kpi-lbl">DM Share</div><div class="kpi-val ky-c">${dmPct}%</div><div class="kpi-sub">of all mentions</div></div>
-    <div class="kpi kn"><div class="kpi-lbl">Neg Rate</div><div class="kpi-val kn-c">${np}%</div><div class="kpi-sub">${neg.toLocaleString()} negative</div></div>
-    <div class="kpi kp"><div class="kpi-lbl">Pos Rate</div><div class="kpi-val kp-c">${pp}%</div><div class="kpi-sub">${pos.toLocaleString()} positive</div></div>
-    <div class="kpi ku"><div class="kpi-lbl">NSS (DM)</div><div class="kpi-val ku-c">${nss>=0?'+':''}${nss}</div><div class="kpi-sub">Net Sentiment Score</div></div>`;
-
-  if(!tot){
-    ['dmTrendChart','dmSentChart','dmMktChart','dmCatChart'].forEach(id=>{if(CHARTS[id])CHARTS[id].destroy();});
-    document.getElementById('dmTable').innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--t4);padding:24px">No Direct Message / Private Message data found. Ensure your data includes rows with Platform = "Direct Message" or "Private Message".</td></tr>';
-    return;
-  }
-
-  // Trend chart
-  const dmDates=[...new Set(d.map(r=>r.d))].sort();
-  const posA=dmDates.map(dt=>d.filter(r=>r.d===dt&&r.s==='positive').length);
-  const negA=dmDates.map(dt=>d.filter(r=>r.d===dt&&r.s==='negative').length);
-  const neuA=dmDates.map(dt=>d.filter(r=>r.d===dt&&r.s==='neutral').length);
-  _dmTrendData={dmDates,posA,negA,neuA,d};
-  renderDmTrend('line');
-
-  // Sentiment donut
-  if(CHARTS['dmSentChart']) CHARTS['dmSentChart'].destroy();
-  const el2=document.getElementById('dmSentChart'); if(el2)
-  CHARTS['dmSentChart']=new Chart(el2,{type:'doughnut',
-    data:{labels:['Positive','Negative','Neutral'],datasets:[{data:[pos,neg,neu],backgroundColor:[C.pos,C.neg,C.neu],borderWidth:0,hoverOffset:6}]},
-    options:{responsive:true,maintainAspectRatio:false,cutout:'62%',
-      plugins:{legend:{display:true,position:'bottom',labels:{color:C.txt,font:{size:9},boxWidth:10}},
-      tooltip:{...tooltipPlugin(),callbacks:{label:ctx=>`${ctx.label}: ${ctx.parsed.toLocaleString()} (${pct(ctx.parsed,tot)}%)`}},
-      datalabels:{display:true,color:'#fff',font:{size:10,weight:'700'},formatter:(v)=>{const p=pct(v,tot);return p>5?p+'%':'';}}}
-  }});
-
-  // Market chart
-  const mkts=[...new Set(d.map(r=>r.m))].sort();
-  const mCounts=mkts.map(m=>d.filter(r=>r.m===m).length);
-  _dmMktData={mkts,mCounts,d};
-  renderDmMkt('bar');
-
-  // Category chart
-  const cats=[...new Set(d.map(r=>r.c))];
-  const catMap={};d.forEach(r=>{catMap[r.c]=(catMap[r.c]||0)+1;});
-  const catSorted=Object.entries(catMap).sort((a,b)=>b[1]-a[1]).slice(0,8);
-  if(CHARTS['dmCatChart']) CHARTS['dmCatChart'].destroy();
-  const el4=document.getElementById('dmCatChart'); if(el4)
-  CHARTS['dmCatChart']=new Chart(el4,{type:'bar',
-    data:{labels:catSorted.map(([c])=>c),datasets:[{data:catSorted.map(([,v])=>v),backgroundColor:['#7c3aed','#8b5cf6','#a78bfa','#c4b5fd','#ddd6fe','#4f46e5','#6366f1','#818cf8'],borderRadius:4}]},
-    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
-      plugins:{legend:{display:false},tooltip:{...tooltipPlugin()},datalabels:{display:true,anchor:'end',align:'end',offset:3,color:C.txt,font:{size:9,weight:'700'},formatter:v=>v>0?v.toLocaleString():''}},
-      scales:{x:{grid:{color:C.grid},ticks:{color:C.txt,font:{size:9}},border:{color:'transparent'}},y:{grid:{display:false},ticks:{color:'#a78bfa',font:{size:9}},border:{color:'transparent'}}}}
-  });
-
-  // Table
-  const catSumMap={};
-  d.forEach(r=>{
-    if(!catSumMap[r.c]) catSumMap[r.c]={tot:0,pos:0,neg:0,neu:0,topSC:{}};
-    catSumMap[r.c].tot++; catSumMap[r.c][r.s==='positive'?'pos':r.s==='negative'?'neg':'neu']++;
-    if(r.sc) catSumMap[r.c].topSC[r.sc]=(catSumMap[r.c].topSC[r.sc]||0)+1;
-  });
-  const rows=Object.entries(catSumMap).sort((a,b)=>b[1].tot-a[1].tot);
-  document.getElementById('dmTblCount').textContent=`${rows.length} categories · ${tot.toLocaleString()} DMs`;
-  document.getElementById('dmTable').innerHTML=`<thead><tr><th>Category</th><th>Total DMs</th><th>Positive%</th><th>Negative%</th><th>Neutral%</th><th>Top Sub-Issue</th></tr></thead><tbody>`+
-    rows.map(([cat,v])=>{
-      const tp=pct(v.pos,v.tot),tn=pct(v.neg,v.tot),tu=pct(v.neu,v.tot);
-      const topSC=Object.entries(v.topSC).sort((a,b)=>b[1]-a[1])[0];
-      return `<tr style="transition:background .12s" onmouseover="this.style.background='rgba(168,85,247,.08)'" onmouseout="this.style.background=''">
-        <td style="color:var(--t1);font-weight:700;font-family:'Barlow Condensed',sans-serif;font-size:14px">${cat}</td><td style="color:#a78bfa;font-weight:800;font-family:'Barlow Condensed',sans-serif;font-size:16px">${v.tot.toLocaleString()}</td><td style="color:var(--pos)">${tp}%</td><td style="color:var(--neg)">${tn}%</td><td style="color:var(--neu)">${tu}%</td><td style="font-size:10px;color:var(--t3)">${topSC?topSC[0].substring(0,30):'—'}</td></tr>`;
-    }).join('')+'</tbody>';
-}
-
-let _dmTrendData={}, _dmMktData={};
-
-function renderDmTrend(type) {
-  const {dmDates,posA,negA,neuA}=_dmTrendData;
-  if(!dmDates||!dmDates.length) return;
-  if(CHARTS['dmTrendChart']) CHARTS['dmTrendChart'].destroy();
-  const el=document.getElementById('dmTrendChart'); if(!el) return;
-  const lbl=dmDates.map(dt=>{const p=dt.split('-'),ms=["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];return(ms[+p[1]]||p[1])+' '+p[2];});
-  const isBr=type==='bar';
-  CHARTS['dmTrendChart']=new Chart(el,{type:isBr?'bar':'line',
-    data:{labels:lbl,datasets:[
-      {label:'Positive',data:posA,backgroundColor:isBr?C.pos+'aa':C.posA,borderColor:C.pos,fill:!isBr,tension:.4,pointRadius:0,borderRadius:3,borderWidth:2},
-      {label:'Negative',data:negA,backgroundColor:isBr?C.neg+'aa':C.negA,borderColor:C.neg,fill:!isBr,tension:.4,pointRadius:0,borderRadius:3,borderWidth:2},
-      {label:'Neutral',data:neuA,backgroundColor:isBr?C.neu+'55':C.neuA,borderColor:C.neu,fill:!isBr,tension:.4,pointRadius:0,borderRadius:3,borderWidth:2},
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-      plugins:{legend:{display:true,labels:{color:C.txt,font:{size:9},boxWidth:8}},tooltip:{...tooltipPlugin()},datalabels:{display:false}},
-      scales:{x:{stacked:isBr,grid:{color:C.grid},ticks:{color:C.txt,font:{size:8},maxTicksLimit:10},border:{color:'transparent'}},y:{stacked:isBr,grid:{color:C.grid},ticks:{color:C.txt,font:{size:9}},border:{color:'transparent'}}}
-  }});
-}
-
-function renderDmMkt(type) {
-  const {mkts,mCounts}=_dmMktData; if(!mkts||!mkts.length) return;
-  if(CHARTS['dmMktChart']) CHARTS['dmMktChart'].destroy();
-  const el=document.getElementById('dmMktChart'); if(!el) return;
-  const isH=type==='horizontalBar';
-  CHARTS['dmMktChart']=new Chart(el,{type:'bar',
-    data:{labels:mkts,datasets:[{data:mCounts,backgroundColor:MKCOLORS.slice(0,mkts.length),borderRadius:4}]},
-    options:{responsive:true,maintainAspectRatio:false,indexAxis:isH?'y':'x',
-      plugins:{legend:{display:false},tooltip:{...tooltipPlugin()},datalabels:{display:true,anchor:'end',align:'end',offset:3,color:C.txt,font:{size:9,weight:'700'},formatter:v=>v>0?v.toLocaleString():''}},
-      scales:{x:{grid:{color:C.grid},ticks:{color:C.txt,font:{size:9}},border:{color:'transparent'}},y:{grid:{display:!isH},ticks:{color:C.txt,font:{size:9}},border:{color:'transparent'}}}
-  }});
-}
-
-function dmVswitch(chartId, type, btn, grp) {
-  document.getElementById(grp).querySelectorAll('.vb').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  if(chartId==='dmTrendChart') renderDmTrend(type);
-  else if(chartId==='dmMktChart') renderDmMkt(type);
-}
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  REDIRECTION ANALYSIS
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-function renderRedirection() {
-  const d=getFiltered().filter(r=>r.isRedirect);
-  const {pos,neg,neu,tot}=sc(d);
-  const np=pct(neg,tot), pp=pct(pos,tot);
-  const nss=tot?Math.round((pos-neg)/tot*100):0;
-  const allTot=getFiltered().length;
-  const rPct=allTot?pct(tot,allTot):0;
-
-  document.getElementById('redirectKpiRow').innerHTML=`
-    <div class="kpi" style="border-top:2px solid #0891b2"><div class="kpi-lbl">Total Redirections</div><div class="kpi-val" style="color:#22d3ee">${fmt(tot)}</div><div class="kpi-sub">${tot.toLocaleString()} redirected</div></div>
-    <div class="kpi ky"><div class="kpi-lbl">Redirect Rate</div><div class="kpi-val ky-c">${rPct}%</div><div class="kpi-sub">of all mentions</div></div>
-    <div class="kpi kn"><div class="kpi-lbl">Neg at Redirect</div><div class="kpi-val kn-c">${np}%</div><div class="kpi-sub">${neg.toLocaleString()} negative</div></div>
-    <div class="kpi ku"><div class="kpi-lbl">NSS (Redirect)</div><div class="kpi-val ku-c">${nss>=0?'+':''}${nss}</div><div class="kpi-sub">Net sentiment</div></div>`;
-
-  if(!tot){
-    ['redirectMktChart','redirectSentChart','redirectTrendChart','redirectCatChart'].forEach(id=>{if(CHARTS[id])CHARTS[id].destroy();});
-    return;
-  }
-
-  // By market
-  const mkts=[...new Set(d.map(r=>r.m))].sort();
-  if(CHARTS['redirectMktChart']) CHARTS['redirectMktChart'].destroy();
-  const el1=document.getElementById('redirectMktChart'); if(el1)
-  CHARTS['redirectMktChart']=new Chart(el1,{type:'bar',
-    data:{labels:mkts,datasets:[{data:mkts.map(m=>d.filter(r=>r.m===m).length),backgroundColor:MKCOLORS.slice(0,mkts.length),borderRadius:4}]},
-    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
-      plugins:{legend:{display:false},tooltip:{...tooltipPlugin()},datalabels:{display:true,anchor:'end',align:'end',offset:3,color:C.txt,font:{size:9,weight:'700'},formatter:v=>v>0?v.toLocaleString():''}},
-      scales:{x:{grid:{color:C.grid},ticks:{color:C.txt,font:{size:9}},border:{color:'transparent'}},y:{grid:{display:false},ticks:{color:'#22d3ee',font:{size:9}},border:{color:'transparent'}}}}
-  });
-
-  // Sentiment donut
-  if(CHARTS['redirectSentChart']) CHARTS['redirectSentChart'].destroy();
-  const el2=document.getElementById('redirectSentChart'); if(el2)
-  CHARTS['redirectSentChart']=new Chart(el2,{type:'doughnut',
-    data:{labels:['Positive','Negative','Neutral'],datasets:[{data:[pos,neg,neu],backgroundColor:[C.pos,C.neg,C.neu],borderWidth:0,hoverOffset:5}]},
-    options:{responsive:true,maintainAspectRatio:false,cutout:'58%',
-      plugins:{legend:{display:true,position:'bottom',labels:{color:C.txt,font:{size:9},boxWidth:10}},
-      tooltip:{...tooltipPlugin()},datalabels:{display:true,color:'#fff',font:{size:10,weight:'700'},formatter:(v)=>pct(v,tot)>5?pct(v,tot)+'%':''}}}
-  });
-
-  // Trend
-  const dates=[...new Set(d.map(r=>r.d))].sort();
-  if(CHARTS['redirectTrendChart']) CHARTS['redirectTrendChart'].destroy();
-  const el3=document.getElementById('redirectTrendChart'); if(el3)
-  CHARTS['redirectTrendChart']=new Chart(el3,{type:'line',
-    data:{labels:dates,datasets:[{label:'Redirections',data:dates.map(dt=>d.filter(r=>r.d===dt).length),borderColor:'#22d3ee',backgroundColor:'rgba(34,211,238,.12)',fill:true,tension:.4,pointRadius:0,borderWidth:2}]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{...tooltipPlugin()},datalabels:{display:false}},
-      scales:{x:{grid:{color:C.grid},ticks:{color:C.txt,font:{size:8},maxTicksLimit:10},border:{color:'transparent'}},y:{grid:{color:C.grid},ticks:{color:C.txt,font:{size:9}},border:{color:'transparent'}}}}
-  });
-
-  // Category breakdown
-  const catMap={};d.forEach(r=>{catMap[r.c]=(catMap[r.c]||0)+1;});
-  const catS=Object.entries(catMap).sort((a,b)=>b[1]-a[1]).slice(0,8);
-  if(CHARTS['redirectCatChart']) CHARTS['redirectCatChart'].destroy();
-  const el4=document.getElementById('redirectCatChart'); if(el4)
-  CHARTS['redirectCatChart']=new Chart(el4,{type:'bar',
-    data:{labels:catS.map(([c])=>c),datasets:[{data:catS.map(([,v])=>v),backgroundColor:'rgba(34,211,238,.7)',borderRadius:4}]},
-    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
-      plugins:{legend:{display:false},tooltip:{...tooltipPlugin()},datalabels:{display:true,anchor:'end',align:'end',offset:3,color:C.txt,font:{size:9,weight:'700'},formatter:v=>v>0?v.toLocaleString():''}},
-      scales:{x:{grid:{color:C.grid},ticks:{color:C.txt,font:{size:9}},border:{color:'transparent'}},y:{grid:{display:false},ticks:{color:'#22d3ee',font:{size:9,weight:'600'}},border:{color:'transparent'}}}
-  }});
-}
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  VOC SUMMARY (L1 Category)
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-let _vocChartType='bar';
-
-function vocVswitch(type, btn) {
-  document.getElementById('vg-voc').querySelectorAll('.vb').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on'); _vocChartType=type; renderVoC();
-}
-
-function renderVoC() {
-  const topN=parseInt(document.getElementById('fVocTop')?.value||'10');
-  const sentF=document.getElementById('fVocSent')?.value||'';
-  const mktF=document.getElementById('fVocMkt')?.value||'';
-  let d=getFiltered();
-  if(sentF) d=d.filter(r=>r.s===sentF);
-  if(mktF) d=d.filter(r=>r.m===mktF);
-
-  // Aggregate by L1 category
-  const catMap={};
-  d.forEach(r=>{
-    const k=r.c||'Uncategorised';
-    if(!catMap[k]) catMap[k]={tot:0,pos:0,neg:0,neu:0};
-    catMap[k].tot++; catMap[k][r.s==='positive'?'pos':r.s==='negative'?'neg':'neu']++;
-  });
-  const sorted=Object.entries(catMap).sort((a,b)=>b[1].tot-a[1].tot).slice(0,topN);
-  const labels=sorted.map(([k])=>k);
-  const totals=sorted.map(([,v])=>v.tot);
-  const posArr=sorted.map(([,v])=>v.pos);
-  const negArr=sorted.map(([,v])=>v.neg);
-  const neuArr=sorted.map(([,v])=>v.neu);
-  const isH=_vocChartType==='horizontalBar';
-  const chartH=Math.max(260,labels.length*(isH?34:0)+80);
-
-  // Bar / H-Bar volume chart
-  if(CHARTS['vocCatChart']) CHARTS['vocCatChart'].destroy();
-  const el1=document.getElementById('vocCatChart');
-  if(el1) {
-    el1.parentElement.style.minHeight=chartH+'px';
-    CHARTS['vocCatChart']=new Chart(el1,{type:'bar',
-      data:{labels,datasets:[
-        {label:'Negative',data:negArr,backgroundColor:C.neg+'cc',borderRadius:3,stack:'s'},
-        {label:'Positive',data:posArr,backgroundColor:C.pos+'cc',borderRadius:3,stack:'s'},
-        {label:'Neutral', data:neuArr,backgroundColor:C.neu+'66',borderRadius:3,stack:'s'},
-      ]},
-      options:{responsive:true,maintainAspectRatio:false,indexAxis:isH?'y':'x',
-        plugins:{legend:{display:true,labels:{color:C.txt,font:{size:9},boxWidth:9}},tooltip:{...tooltipPlugin()},datalabels:{display:false}},
-        scales:{
-          x:{stacked:true,grid:{color:C.grid},ticks:{color:C.txt,font:{size:9},maxRotation:isH?0:35},border:{color:'transparent'}},
-          y:{stacked:true,grid:{display:!isH},ticks:{color:'#34d399',font:{size:9,weight:'600'}},border:{color:'transparent'}}
-        }
-      }
-    });
-  }
-
-  // Sentiment mix stacked 100%
-  if(CHARTS['vocSentChart']) CHARTS['vocSentChart'].destroy();
-  const el2=document.getElementById('vocSentChart');
-  if(el2) {
-    el2.parentElement.style.minHeight=chartH+'px';
-    const posP=sorted.map(([,v])=>v.tot?Math.round(v.pos/v.tot*100):0);
-    const negP=sorted.map(([,v])=>v.tot?Math.round(v.neg/v.tot*100):0);
-    const neuP=sorted.map(([,v])=>v.tot?Math.round(v.neu/v.tot*100):0);
-    CHARTS['vocSentChart']=new Chart(el2,{type:'bar',
-      data:{labels,datasets:[
-        {label:'Pos%',data:posP,backgroundColor:C.pos+'cc',borderRadius:2,stack:'s'},
-        {label:'Neg%',data:negP,backgroundColor:C.neg+'cc',borderRadius:2,stack:'s'},
-        {label:'Neu%',data:neuP,backgroundColor:C.neu+'66',borderRadius:2,stack:'s'},
-      ]},
-      options:{responsive:true,maintainAspectRatio:false,indexAxis:isH?'y':'x',
-        plugins:{legend:{display:true,labels:{color:C.txt,font:{size:9},boxWidth:9}},
-          tooltip:{...tooltipPlugin(),callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed[isH?'x':'y']}%`,afterBody:ctx=>{const i=ctx[0].dataIndex;return[`Total: ${totals[i].toLocaleString()} mentions`];}}},
-          datalabels:{display:true,color:'#fff',font:{size:8,weight:'700'},formatter:(v)=>v>8?v+'%':''}},
-        scales:{
-          x:{stacked:true,max:100,grid:{color:C.grid},ticks:{color:C.txt,font:{size:9},callback:v=>v+'%'},border:{color:'transparent'}},
-          y:{stacked:true,grid:{display:!isH},ticks:{color:'#34d399',font:{size:9,weight:'600'}},border:{color:'transparent'}}
-        }
-      }
-    });
-  }
-
-  // Table
-  const tblEl=document.getElementById('vocTable'); if(!tblEl) return;
-  tblEl.innerHTML=`<thead><tr><th>#</th><th>Category (L1)</th><th>Total</th><th>Positive%</th><th>Negative%</th><th>Neutral%</th><th>NSS</th><th>Volume Bar</th></tr></thead><tbody>`+
-    sorted.map(([cat,v],i)=>{
-      const tp=pct(v.pos,v.tot),tn=pct(v.neg,v.tot),tu=pct(v.neu,v.tot);
-      const nss=v.tot?Math.round((v.pos-v.neg)/v.tot*100):0;
-      const bw=Math.min(Math.round(v.tot/Math.max(...totals)*80),80);
-      return `<tr>
-        <td style="color:var(--t4);font-size:11px">${i+1}</td>
-        <td style="color:var(--t1);font-weight:600">${cat}</td>
-        <td style="color:#34d399;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800">${v.tot.toLocaleString()}</td>
-        <td style="color:var(--pos)">${tp}%</td>
-        <td style="color:var(--neg)">${tn}%</td>
-        <td style="color:var(--neu)">${tu}%</td>
-        <td style="color:${nss>=0?'var(--pos)':'var(--neg)'};font-weight:700">${nss>=0?'+':''}${nss}</td>
-        <td><div style="height:5px;background:var(--s5);border-radius:3px;width:90px"><div style="height:100%;width:${bw}%;background:#34d399;border-radius:3px"></div></div></td>
-      </tr>`;
-    }).join('')+'</tbody>';
-}
-
-function populateVocFilters(data) {
-  const el=document.getElementById('fVocMkt'); if(!el) return;
-  const prev=el.value; el.innerHTML='<option value="">All Markets</option>';
-  [...new Set(data.map(r=>r.m))].sort().forEach(v=>el.add(new Option(v,v)));
-  if(prev) el.value=prev;
-}
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  DETAILED DoD / WoW / MoM SENTIMENT CHARTS
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-let _dodType='bar',_wowType='bar',_momType='bar';
-function dodVswitch(t,btn){document.getElementById('vg-dod').querySelectorAll('.vb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');_dodType=t;renderDetailedComparison(window._lastRenderData||[]);}
-function wowVswitch(t,btn){document.getElementById('vg-wow').querySelectorAll('.vb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');_wowType=t;renderDetailedComparison(window._lastRenderData||[]);}
-function momVswitch(t,btn){document.getElementById('vg-mom').querySelectorAll('.vb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');_momType=t;renderDetailedComparison(window._lastRenderData||[]);}
-
-function renderDetailedComparison(data) {
-  window._lastRenderData=data;
-  const allDates=[...new Set(data.map(r=>r.d))].sort();
-  const last=allDates[allDates.length-1]||'';
-  const prev1=allDates[allDates.length-2]||last;
-  const l7=allDates.slice(-7); const l7first=l7[0]||last;
-  const p7f=l7first?addDays(l7first,-7):''; const p7t=l7first?addDays(l7first,-1):'';
-  const cm=last.substring(0,7);  const pmS=prevMonth(cm);
-  const m=document.getElementById('fMkt').value, pl=document.getElementById('fPlat').value, ca=document.getElementById('fCat').value, su=document.getElementById('fSub').value, se=document.getElementById('fSent').value;
-  const filt=(from,to)=>allData.filter(r=>{if(!from||!to)return false;if(r.d<from||r.d>to)return false;if(m&&r.m!==m)return false;if(pl&&r.p!==pl)return false;if(ca&&r.c!==ca)return false;if(su&&r.sc!==su)return false;return true;});
-
-  function buildCompChart(canvasId, curr, prev2, currLbl, prevLbl, type) {
-    if(CHARTS[canvasId]) CHARTS[canvasId].destroy();
-    const el=document.getElementById(canvasId); if(!el) return;
-    const cSc=sc(curr), pSc=sc(prev2);
-    const cTot=cSc.tot||1, pTot=pSc.tot||1;
-    const labels=[currLbl, prevLbl];
-    const posD=[pct(cSc.pos,cTot), pct(pSc.pos,pTot)];
-    const negD=[pct(cSc.neg,cTot), pct(pSc.neg,pTot)];
-    const neuD=[pct(cSc.neu,cTot), pct(pSc.neu,pTot)];
-    if(type==='radar') {
-      CHARTS[canvasId]=new Chart(el,{type:'radar',
-        data:{labels:['Positive%','Negative%','Neutral%','Total (÷10)'],datasets:[
-          {label:currLbl,data:[posD[0],negD[0],neuD[0],Math.round(cSc.tot/10)],borderColor:C.yel,backgroundColor:C.yelA,pointBackgroundColor:C.yel,borderWidth:2},
-          {label:prevLbl,data:[posD[1],negD[1],neuD[1],Math.round(pSc.tot/10)],borderColor:C.t3,backgroundColor:'rgba(136,136,160,.08)',pointBackgroundColor:C.t3,borderWidth:2},
-        ]},
-        options:{responsive:true,maintainAspectRatio:false,
-          scales:{r:{grid:{color:C.grid},ticks:{display:false},pointLabels:{color:C.txt,font:{size:9}}}},
-          plugins:{legend:{display:true,labels:{color:C.txt,font:{size:9},boxWidth:10}},tooltip:{...tooltipPlugin()},datalabels:{display:false}}}
-      });
-    } else {
-      CHARTS[canvasId]=new Chart(el,{type:'bar',
-        data:{labels,datasets:[
-          {label:'Positive%',data:posD,backgroundColor:[C.pos+'cc',C.pos+'55'],borderRadius:4,borderSkipped:false},
-          {label:'Negative%',data:negD,backgroundColor:[C.neg+'cc',C.neg+'55'],borderRadius:4,borderSkipped:false},
-          {label:'Neutral%', data:neuD,backgroundColor:[C.neu+'77',C.neu+'33'],borderRadius:4,borderSkipped:false},
-        ]},
-        options:{responsive:true,maintainAspectRatio:false,
-          plugins:{legend:{display:true,labels:{color:C.txt,font:{size:9},boxWidth:9}},
-            tooltip:{...tooltipPlugin(),callbacks:{
-              label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y}%`,
-              afterBody:ctx=>{const isC=ctx[0].dataIndex===0;const s=isC?cSc:pSc;return[`Total: ${s.tot.toLocaleString()} mentions`];}
-            }},
-            datalabels:{display:true,anchor:'end',align:'end',offset:2,color:C.txt,font:{size:9,weight:'700'},formatter:v=>v>3?v+'%':''}},
-          scales:{x:{grid:{display:false},ticks:{color:C.txt,font:{size:10,weight:'700'}},border:{color:'transparent'}},
-            y:{max:100,grid:{color:C.grid},ticks:{color:C.txt,font:{size:9},callback:v=>v+'%'},border:{color:'transparent'}}}
-        }
-      });
-    }
-  }
-
-  buildCompChart('dodChart', filt(last,last), filt(prev1,prev1), last||'Today', prev1||'Yesterday', _dodType);
-  buildCompChart('wowChart', filt(l7[0],last), filt(p7f,p7t), 'Last 7d', 'Prior 7d', _wowType);
-  buildCompChart('momChart', filt(cm+'-01',cm+'-31'), filt(pmS+'-01',pmS+'-31'), cm||'This Mo.', pmS||'Prev Mo.', _momType);
-}
-
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  renderAll
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function renderAll(data) {
-  window._lastRenderData = data;
   safe("populateNegFilters", ()=>populateNegFilters(data));
   safe("populateNpsFilters", ()=>populateNpsFilters(data));
-  safe("populateDmFilters",  ()=>populateDmFilters(data));
-  safe("populateVocFilters", ()=>populateVocFilters(data));
   safe("renderNegDeep",  ()=>renderNegDeep());
-  safe("renderPosSubBar", ()=>renderPosSubBar('bar', null));
   safe("renderNpsNss",   ()=>renderNpsNssFiltered());
-  safe("renderDmSection", ()=>renderDmSection());
-  safe("renderRedirection",()=>renderRedirection());
-  safe("renderVoC",       ()=>renderVoC());
-  safe("renderDetailedComparison",()=>renderDetailedComparison(data));
   safe("renderBuzzTrend",  ()=>renderBuzzTrend(data,"bar"));
   safe("renderPbar",    ()=>renderPbar(data));
   safe("renderAlerts",  ()=>renderAlerts(data));
@@ -6196,13 +4949,14 @@ function renderAll(data) {
     }
     popSel('fVolMkt',  [...new Set(data.map(r=>r.m))].sort());
     popSel('fVolPlat', [...new Set(data.map(r=>r.p))].sort());
-    popSel('fVolCat',  [...new Set(data.map(r=>r.c))].sort());
+    popSel('fVolCat',  [...new Set(data.map(r=>r.c))].filter(c=>c.toLowerCase()!=='others').sort());
   })();
   safe("renderSentD",   ()=>renderSentD(data,"doughnut"));
   safe("renderSentT",   ()=>renderSentT(data,"line"));
   safe("renderSentMkt", ()=>renderSentMkt(data,"bar"));
   safe("renderPlatform",()=>renderPlatform(data));
-  // SOV section removed
+  safe("renderSOVChart",()=>renderSOVChart(data,"bar"));
+  safe("renderSOV",     ()=>renderSOV(data));
   safe("renderMktPerf", ()=>renderMktPerf(data));
   safe("renderDailyVol",()=>renderDailyVol(data,"bar"));
   safe("renderWeekTrend",()=>renderWeekTrend(data,"line"));
@@ -6217,7 +4971,13 @@ function renderAll(data) {
   // Update platform market filter dropdown
   const fpm=document.getElementById("fPlatMkt");
   if(fpm){const prev=fpm.value;fpm.innerHTML='<option value="">All Markets</option>';uniq(data,"m").sort().forEach(m=>fpm.add(new Option(m,m)));if(prev)fpm.value=prev;}
-  // SOV filters removed (section hidden)
+  // Update SOV filters
+  const fsm=document.getElementById("fSOVMkt");
+  if(fsm){const prev=fsm.value;fsm.innerHTML='<option value="">All Markets</option>';uniq(data,"m").sort().forEach(m=>fsm.add(new Option(m,m)));if(prev)fsm.value=prev;}
+  const fsc2=document.getElementById("fSOVCat");
+  if(fsc2){const prev=fsc2.value;fsc2.innerHTML='<option value="">All Categories</option>';uniq(data.filter(r=>r.c.toLowerCase()!=="others"),"c").sort().forEach(c=>fsc2.add(new Option(c,c)));if(prev)fsc2.value=prev;}
+  const fsp=document.getElementById("fSOVPlat");
+  if(fsp){const prev=fsp.value;fsp.innerHTML='<option value="">All Platforms</option>';uniq(data,"p").sort().forEach(p=>fsp.add(new Option(p,p)));if(prev)fsp.value=prev;}
   // Update Coverage filters
   const fcm=document.getElementById("fCovMkt");
   if(fcm){const prev=fcm.value;fcm.innerHTML='<option value="">All Markets</option>';uniq(data,"m").sort().forEach(m=>fcm.add(new Option(m,m)));if(prev)fcm.value=prev;}
@@ -6343,7 +5103,7 @@ function generateReport() {
     const md = reportData.filter(r=>r.m===m);
     const ms = sc(md);
     const mnp = pct(ms.neg,ms.tot), mpp = pct(ms.pos,ms.tot);
-    const negMd = md.filter(r=>r.s==="negative"&&r.c);
+    const negMd = md.filter(r=>r.s==="negative"&&r.c&&r.c.toLowerCase()!=="others");
     const scMap={}, catMap={};
     negMd.forEach(r=>{if(r.sc){const k=r.sc.trim();scMap[k]=(scMap[k]||0)+1;}});
     negMd.forEach(r=>{if(r.c){catMap[r.c]=(catMap[r.c]||0)+1;}});
@@ -6803,12 +5563,59 @@ function downloadAllCharts() {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 window.addEventListener("DOMContentLoaded", () => {
   document.getElementById("updTs").textContent = "Loaded: " + new Date().toLocaleTimeString();
-  _initApiKey();   // Load API key from hardcoded / localStorage / banner
   populateFilters();
   go();
   // Auto-load data from GitHub on page open
   loadFromGitHub();
 });
+</script>
+<!-- ━━━ PASSWORD GATE SCRIPT ━━━ -->
+<script>
+(function(){
+  // ─────────────────────────────────────────────────────────
+  //  ✏️  CHANGE YOUR PASSWORD HERE (line below)
+  // ─────────────────────────────────────────────────────────
+  const PASSWORD = "DAZN2025";
+  // ─────────────────────────────────────────────────────────
+
+  const SESSION_KEY = "dazn_auth_v1";
+  const gate = document.getElementById("pwGate");
+
+  // Already authenticated this session?
+  if(sessionStorage.getItem(SESSION_KEY) === "1") {
+    gate.classList.add("hidden");
+    return;
+  }
+
+  // Block body scroll while gate is showing
+  document.body.style.overflow = "hidden";
+
+  window.checkPw = function() {
+    const input = document.getElementById("pwInput");
+    const errEl = document.getElementById("pwErr");
+    const val   = input.value.trim();
+
+    if(val === PASSWORD) {
+      // Correct — store in sessionStorage (clears on tab close)
+      sessionStorage.setItem(SESSION_KEY, "1");
+      gate.style.opacity = "0";
+      gate.style.transition = "opacity .3s ease";
+      setTimeout(() => {
+        gate.classList.add("hidden");
+        document.body.style.overflow = "";
+      }, 300);
+    } else {
+      // Wrong — shake + error
+      errEl.textContent = "Incorrect password. Please try again.";
+      const box = document.querySelector(".pw-box");
+      box.classList.remove("pw-shake");
+      void box.offsetWidth; // reflow to restart animation
+      box.classList.add("pw-shake");
+      input.value = "";
+      input.focus();
+    }
+  };
+})();
 </script>
 </body>
 </html>
