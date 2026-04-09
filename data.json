@@ -1,1 +1,1 @@
-string(outputs('List_rows_present_in_a_table')?['body/value'])
+outputs('List_rows_present_in_a_table')?['body/value']
