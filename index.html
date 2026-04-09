@@ -8888,4 +8888,100 @@ window.addEventListener('scroll',()=>{
 })();
 </script>
 </script>
+<script>
 
+// ━━━ AUTO-SYNC: Fetches latest team data from GitHub on every page load ━━━
+
+(async function syncTeamData() {
+
+  // ← REPLACE THIS WITH YOUR RAW GITHUB URL FROM STEP 2
+
+  const GITHUB_DATA_URL = "https://raw.githubusercontent.com/AIAlpha08/dazn-dashboard/main/data.xlsx";
+
+  // Show a loading notice at the top of the page
+
+  const notice = document.createElement('div');
+
+  notice.id = 'autoSyncBanner';
+
+  notice.style.cssText = `
+
+    position:fixed; top:0; left:0; right:0; z-index:9999;
+
+    background:#1a1a2e; border-bottom:2px solid #F5C400;
+
+    color:#F5C400; font-family:'Barlow Condensed',sans-serif;
+
+    font-size:13px; font-weight:700; letter-spacing:.5px;
+
+    padding:8px 20px; text-align:center;
+
+  `;
+
+  notice.textContent = '⏳ Loading team data from GitHub…';
+
+  document.body.prepend(notice);
+
+  try {
+
+    // Add cache-buster so browser always fetches the latest file
+
+    const res = await fetch(GITHUB_DATA_URL + '?t=' + Date.now());
+
+    if (!res.ok) throw new Error('File not found in GitHub repo');
+
+    const buffer = await res.arrayBuffer();
+
+    const blob = new Blob([new Uint8Array(buffer)], {
+
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
+    });
+
+    const file = new File([blob], 'team-data.xlsx', { type: blob.type });
+
+    // Inject into the dashboard's existing file input and trigger upload handler
+
+    const dt = new DataTransfer();
+
+    dt.items.add(file);
+
+    const fi = document.getElementById('fi');
+
+    if (fi) {
+
+      fi.files = dt.files;
+
+      fi.dispatchEvent(new Event('change'));
+
+    }
+
+    notice.style.background = '#0d1f0d';
+
+    notice.style.borderBottomColor = '#22c55e';
+
+    notice.style.color = '#22c55e';
+
+    notice.textContent = '✅ Team data loaded successfully';
+
+    setTimeout(() => notice.remove(), 3000); // Hide after 3 seconds
+
+  } catch (err) {
+
+    notice.style.background = '#1f0d0d';
+
+    notice.style.borderBottomColor = '#ef4444';
+
+    notice.style.color = '#ef4444';
+
+    notice.textContent = '⚠️ Could not load team data — please upload manually';
+
+    setTimeout(() => notice.remove(), 6000);
+
+    console.warn('Auto-sync failed:', err.message);
+
+  }
+
+})();
+
+</script>
