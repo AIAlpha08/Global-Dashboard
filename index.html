@@ -8985,3 +8985,30 @@ window.addEventListener('scroll',()=>{
 })();
 
 </script>
+</body>
+  <script>
+// ── AUTO-LOAD TEAM DATA FROM GITHUB ──
+(async function autoLoadData() {
+  // ← PASTE YOUR RAW GITHUB URL BELOW (from Step 6)
+  const DATA_URL = "https://raw.githubusercontent.com/AIAlpha08/dazn-dashboard/main/data.xlsx";
+
+  try {
+    const res = await fetch(DATA_URL);
+    if (!res.ok) return; // silently skip if no file found
+    const buffer = await res.arrayBuffer();
+    const uint8 = new Uint8Array(buffer);
+    // Build a fake File object and trigger the existing upload handler
+    const blob = new Blob([uint8], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    const file = new File([blob], "auto-loaded-data.xlsx", {type: blob.type});
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    const fi = document.getElementById('fi');
+    if (fi) {
+      fi.files = dt.files;
+      fi.dispatchEvent(new Event('change'));
+    }
+  } catch(e) {
+    console.log("Auto-load skipped:", e.message);
+  }
+})();
+</script>
