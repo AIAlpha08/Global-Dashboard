@@ -8937,3 +8937,12 @@ window.addEventListener('scroll',()=>{
 })();
 </script>
 </script>
+<script>
+  fetch('https://raw.githubusercontent.com/AIAlpha08/<repo>/main/data.json')
+    .then(r => r.json())
+    .then(data => {
+      console.log(data); // your SharePoint records
+      renderDashboard(data); // your display function
+    })
+    .catch(e => console.error('Fetch failed:', e));
+</script>
