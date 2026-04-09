@@ -2755,46 +2755,95 @@ document.addEventListener("mousemove", e => {
 });
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  AUTO-LOAD FROM GITHUB (replaces manual upload)
+//  AUTO-LOAD FROM GITHUB (Excel .xlsx file)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-const GITHUB_DATA_URL = "https://raw.githubusercontent.com/aialpha08/Global-Dashboard/main/data.json";
+// ⬇ CHANGE ONLY THIS LINE — paste your raw GitHub URL for data.xlsx
+const GITHUB_DATA_URL = "https://raw.githubusercontent.com/aialpha08/Global-Dashboard/main/data.xlsx";
 
 function loadFromGitHub() {
   const tsEl = document.getElementById("updTs");
-  if(tsEl) tsEl.textContent = "⏳ Loading data…";
+  if (tsEl) tsEl.textContent = "⏳ Loading team data from GitHub…";
 
-  fetch(GITHUB_DATA_URL + "?t=" + Date.now()) // cache-bust
+  // Show banner to all users
+  let banner = document.getElementById("githubSyncBanner");
+  if (!banner) {
+    banner = document.createElement("div");
+    banner.id = "githubSyncBanner";
+    banner.style.cssText = [
+      "position:fixed","top:0","left:0","right:0","z-index:99999",
+      "background:#1a1a2e","border-bottom:2px solid #F5C400",
+      "color:#F5C400","font-family:'Barlow Condensed',sans-serif",
+      "font-size:13px","font-weight:700","letter-spacing:.5px",
+      "padding:8px 20px","text-align:center","transition:all .3s"
+    ].join(";");
+    document.body.prepend(banner);
+  }
+  banner.style.display = "block";
+  banner.textContent = "⏳ Loading team data from GitHub…";
+
+  // Fetch the Excel file as binary, parse with XLSX (same as manual upload)
+  fetch(GITHUB_DATA_URL + "?t=" + Date.now())
     .then(r => {
-      if(!r.ok) throw new Error("HTTP " + r.status);
-      return r.json();
+      if (!r.ok) throw new Error("HTTP " + r.status + " — check the file exists in your GitHub repo and is named data.xlsx");
+      return r.arrayBuffer();
     })
-    .then(raw => {
-      if(!Array.isArray(raw) || raw.length === 0) throw new Error("Empty or invalid data.json");
+    .then(buffer => {
+      // Convert ArrayBuffer to binary string for XLSX
+      const bytes = new Uint8Array(buffer);
+      let binary = "";
+      for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
 
-      const {nd, skipped} = parseSheetRows(raw);
-      if(!nd.length) throw new Error("No valid rows parsed. Check column names in your Excel sheet.");
+      // Parse Excel exactly like handleUpload does
+      const wb = XLSX.read(binary, { type: "binary" });
+      const sheetName = wb.SheetNames.includes("Data") ? "Data" : wb.SheetNames[0];
+      const raw = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], { raw: true, defval: "" });
 
-      nd.sort((a,b) => a.d < b.d ? -1 : a.d > b.d ? 1 : 0);
-      allData = nd; window.allData = nd;
-      populateFilters(); go();
+      if (!Array.isArray(raw) || raw.length === 0)
+        throw new Error("Excel file is empty or has no readable rows. Check the sheet is named 'Data' or is the first sheet.");
 
-      const dates = nd.map(r=>r.d).sort();
-      const dateRange = dates[0] + " → " + dates[dates.length-1];
-      if(tsEl) {
-        tsEl.textContent = "✓ " + nd.length.toLocaleString() + " rows · " + dateRange + " · Auto-loaded";
+      const { nd, skipped } = parseSheetRows(raw);
+      if (!nd.length)
+        throw new Error("No valid rows parsed. Make sure your Excel has columns: Date, Sentiment, Platform, Market, Category.");
+
+      nd.sort((a, b) => a.d < b.d ? -1 : a.d > b.d ? 1 : 0);
+      allData = nd;
+      window.allData = nd;
+      populateFilters();
+      go();
+
+      const dates = nd.map(r => r.d).sort();
+      const dateRange = dates[0] + " → " + dates[dates.length - 1];
+
+      if (tsEl) {
+        tsEl.textContent = "✓ " + nd.length.toLocaleString() + " rows · " + dateRange + " · Auto-loaded from GitHub";
         tsEl.title = "Source: GitHub · " + GITHUB_DATA_URL;
       }
       document.getElementById("btnReport").style.display = "inline-block";
-      if(skipped.length) console.warn("Skipped rows:", skipped.length);
-      console.log("✅ Dashboard loaded from GitHub:", nd.length, "rows");
+
+      // Show green success banner, then hide
+      banner.style.borderBottomColor = "#22c55e";
+      banner.style.background = "#0d1f0d";
+      banner.style.color = "#22c55e";
+      banner.textContent = "✅ Team data loaded — " + nd.length.toLocaleString() + " rows · " + dateRange;
+      setTimeout(() => { banner.style.display = "none"; }, 4000);
+
+      if (skipped.length) console.warn("Skipped rows:", skipped.length);
+      console.log("✅ Dashboard loaded from GitHub Excel:", nd.length, "rows");
     })
     .catch(err => {
       console.error("GitHub load failed:", err.message);
-      if(tsEl) tsEl.textContent = "⚠️ Auto-load failed — use 📂 Upload Data as fallback";
+      if (tsEl) tsEl.textContent = "⚠️ Auto-load failed — use 📂 Upload Data button as fallback";
+
+      // Show red error banner
+      banner.style.borderBottomColor = "#ef4444";
+      banner.style.background = "#1f0d0d";
+      banner.style.color = "#ef4444";
+      banner.textContent = "⚠️ Could not load team data from GitHub: " + err.message;
+      setTimeout(() => { banner.style.display = "none"; }, 8000);
     });
 }
 
-// Auto-refresh every 5 minutes to pick up SharePoint updates
+// Auto-refresh every 5 minutes so team always sees fresh data
 setInterval(loadFromGitHub, 5 * 60 * 1000);
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -8887,31 +8936,4 @@ window.addEventListener('scroll',()=>{
   else { _ready(); }
 })();
 </script>
-</script>
-  </body>
-  <script>
-// ── AUTO-LOAD TEAM DATA FROM GITHUB ──
-(async function autoLoadData() {
-  // ← PASTE YOUR RAW GITHUB URL BELOW (from Step 6)
-  const DATA_URL = "https://raw.githubusercontent.com/AIAlpha08/dazn-dashboard/main/data.xlsx";
-
-  try {
-    const res = await fetch(DATA_URL);
-    if (!res.ok) return; // silently skip if no file found
-    const buffer = await res.arrayBuffer();
-    const uint8 = new Uint8Array(buffer);
-    // Build a fake File object and trigger the existing upload handler
-    const blob = new Blob([uint8], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
-    const file = new File([blob], "auto-loaded-data.xlsx", {type: blob.type});
-    const dt = new DataTransfer();
-    dt.items.add(file);
-    const fi = document.getElementById('fi');
-    if (fi) {
-      fi.files = dt.files;
-      fi.dispatchEvent(new Event('change'));
-    }
-  } catch(e) {
-    console.log("Auto-load skipped:", e.message);
-  }
-})();
 </script>
