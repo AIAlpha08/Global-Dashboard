@@ -1973,7 +1973,7 @@ window.addEventListener('scroll',()=>{
       <div style="font-size:10px;color:var(--t4);margin-top:6px;font-style:italic">* For methodology please check at the bottom of the dashboard</div>
     </div>
     <div class="kpi kn" style="position:relative;cursor:help;" onmouseenter="this.querySelector(&#39;.nps-tooltip-box&#39;).style.display=&#39;block&#39;" onmouseleave="this.querySelector(&#39;.nps-tooltip-box&#39;).style.display=&#39;none&#39;">
-      <div class="nps-tooltip-box" style="display: none; position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: rgb(26, 26, 36); border: 1px solid rgb(54, 54, 80); border-radius: 8px; padding: 11px 14px; min-width: 220px; max-width: 280px; z-index: 200; font-size: 11px; color: rgb(200, 200, 216); line-height: 1.6; white-space: normal; box-shadow: rgba(0, 0, 0, 0.8) 0px 8px 32px;"><strong style="color:#f43f5e">Detractors (Negative Mentions)</strong><br>These are unhappy users who risk churn and negative word-of-mouth.<br><br>Count: 8,449 mentions<br>Share: 42.4% of total<br>Passives (Neutral): 11,246 (56.4%)<br><br>Weighted 1.5× in NPS calculation. Reducing detractors has greater impact than gaining promoters.</div>
+      <div class="nps-tooltip-box" style="display: none; position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: rgb(26, 26, 36); border: 1px solid rgb(54, 54, 80); border-radius: 8px; padding: 11px 14px; min-width: 220px; max-width: 280px; z-index: 200; font-size: 11px; color: rgb(200, 200, 216); line-height: 1.6; white-space: normal; box-shadow: rgba(0, 0, 0, 0.8) 0px 8px 32px;"><strong style="color:#f43f5e">Detractors (Negative Mentions)</strong><br>These are unhappy users who risk churn and negative word-of-mouth.<br><br>Count: 8,449 mentions<br>Share: 42.4% of total<br>Passives (Neutral): 11,246 (56.4%)<br><br>High detractor share pulls NPS and NSS negative — reducing detractors has greater impact than gaining promoters at this ratio.</div>
       <div class="kpi-lbl">Detractors</div>
       <div class="kpi-val kn-c">42.4%</div>
       <div class="kpi-sub">8,449 negative mentions</div>
@@ -7112,7 +7112,7 @@ function renderNpsNss(data) {
       ${methNote}
     </div>
     <div class="kpi kn" style="${tipStyle}" onmouseenter="this.querySelector('.nps-tooltip-box').style.display='block'" onmouseleave="this.querySelector('.nps-tooltip-box').style.display='none'">
-      ${mkTip(`<strong style="color:#f43f5e">Detractors (Negative Mentions)</strong><br>These are unhappy users who risk churn and negative word-of-mouth.<br><br>Count: ${neg.toLocaleString()} mentions<br>Share: ${np}% of total<br>Passives (Neutral): ${neu.toLocaleString()} (${up}%)<br><br>Weighted 1.5× in NPS calculation. Reducing detractors has greater impact than gaining promoters.`)}
+      ${mkTip(`<strong style="color:#f43f5e">Detractors (Negative Mentions)</strong><br>These are unhappy users who risk churn and negative word-of-mouth.<br><br>Count: ${neg.toLocaleString()} mentions<br>Share: ${np}% of total<br>Passives (Neutral): ${neu.toLocaleString()} (${up}%)<br><br>High detractor share pulls NPS and NSS negative — reducing detractors has greater impact than gaining promoters at this ratio.`)}
       <div class="kpi-lbl">Detractors</div>
       <div class="kpi-val kn-c">${np}%</div>
       <div class="kpi-sub">${neg.toLocaleString()} negative mentions</div>
@@ -7389,7 +7389,7 @@ function renderNpsTable(data) {
       <td style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;color:var(--t2)">${tot.toLocaleString()}</td>
     </tr>`;
   });
-  el.innerHTML=`<thead><tr><th>Market</th><th>NSS</th><th>NSS Zone</th><th>NPS</th><th>NPS Zone</th><th>Promoters</th><th>Detractors</th><th>Passives</th><th>Mentions</th></tr></thead><tbody>${rows.join("")}</tbody>`;
+  el.innerHTML=`<thead><tr><th>Market</th><th>NSS</th><th>NSS Zone</th><th>NPS</th><th>NPS Zone</th><th>NSS vs NPS Δ</th><th>Promoters</th><th>Detractors</th><th>Passives</th><th>Mentions</th></tr></thead><tbody>${rows.join("")}</tbody>`;
 }
 
 function npsVswitch(type, btn) {
