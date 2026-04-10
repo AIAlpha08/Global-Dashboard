@@ -2846,8 +2846,8 @@ function loadFromGitHub() {
     });
 }
 
-// Auto-refresh every 5 minutes so team always sees fresh data
-setInterval(loadFromGitHub, 5 * 60 * 1000);
+// Auto-refresh disabled — use the 🔄 Sync Data button to manually pull latest data
+// setInterval(loadFromGitHub, 5 * 60 * 1000);
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  MANUAL SYNC BUTTON HANDLER
@@ -3968,6 +3968,7 @@ function renderBrief(data) {
   document.getElementById("bBody").innerHTML=`<span style="color:var(--t3);font-size:11px">✨ Generating AI insight…</span>`;
 
   // Cancel any in-flight request
+  if (typeof briefAiGen === 'undefined') window.briefAiGen = 0;
   briefAiGen++; const _briefGen = briefAiGen;
 
   // ── Build AI prompt ──
@@ -9143,7 +9144,4 @@ window.addEventListener('scroll',()=>{
     .then(r => r.json())
     .then(data => {
       console.log(data); // your SharePoint records
-      renderDashboard(data); // your display function
-    })
-    .catch(e => console.error('Fetch failed:', e));
-</script>
+      renderDashboard(data); // you
