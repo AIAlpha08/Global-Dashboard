@@ -702,6 +702,14 @@ window.addEventListener('scroll',()=>{
     <div class="brief-top">
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
         <div class="brief-label">📋 Intelligence Brief</div>
+          <!-- Generate AI Brief Button -->
+          <button id="btnGenerateBrief" onclick="triggerAIBrief()" 
+            style="background:linear-gradient(135deg,#F5C400,#e6b000);color:#0d0d0f;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:11px;letter-spacing:.8px;text-transform:uppercase;border:none;border-radius:6px;padding:6px 14px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;box-shadow:0 2px 12px rgba(245,196,0,.3)"
+            onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 18px rgba(245,196,0,.5)'" 
+            onmouseout="this.style.transform='';this.style.boxShadow='0 2px 12px rgba(245,196,0,.3)'">
+            <span id="briefBtnIcon">✨</span>
+            <span id="briefBtnText">Generate AI Brief</span>
+          </button>
         <!-- Brief-level filters -->
         <div style="display:flex;align-items:center;gap:6px;margin-left:8px;flex-wrap:wrap">
           <select id="bFiltMkt" onchange="renderBriefFiltered()" style="background:var(--s4);border:1px solid var(--b1);color:var(--t2);border-radius:var(--rxs);padding:4px 8px;font-size:10px;font-family:&#39;Barlow&#39;,sans-serif;cursor:pointer;outline:none;min-width:110px"><option value="">All Markets</option><option value="BELGIUM">BELGIUM</option><option value="DACH">DACH</option><option value="FRANCE">FRANCE</option><option value="GEL">GEL</option><option value="ITALY">ITALY</option><option value="JAPAN">JAPAN</option><option value="NATIONAL LEAGUE">NATIONAL LEAGUE</option><option value="NFL">NFL</option><option value="SPAIN">SPAIN</option></select>
@@ -722,7 +730,7 @@ window.addEventListener('scroll',()=>{
       <div style="font-family:&#39;Barlow Condensed&#39;,sans-serif;font-weight:900;font-size:9px;color:var(--yel);text-transform:uppercase;letter-spacing:1.2px;background:var(--yeld);border:1px solid var(--yelb);border-radius:4px;padding:3px 10px">① AI Summary</div>
       <div style="height:1px;flex:1;background:var(--yelb)"></div>
     </div>
-    <div class="brief-body" id="bBody"><ul class="brief-bullets"><li><strong>Elevated Risk:</strong> 19,932 mentions across <strong>all markets</strong> · <strong>42.4%</strong> negative · NSS <strong>-41</strong> — heightened monitoring advised.</li><li><strong>Top Issue:</strong> <em>Payment and Billing</em> (824 mentions) is the leading complaint driver.</li><li><strong>Second Issue:</strong>  and <em>Customer Feedback</em> also requires attention.</li><li><strong>Positive Signal:</strong> <strong>1.2%</strong> positive sentiment — some brand resilience remains.</li><li><strong>Highest Risk Market:</strong> <strong>NFL</strong> at <strong style="color:var(--neg)">56.5% negative</strong> — <strong style="color:var(--pos)">NATIONAL LEAGUE</strong> shows positive momentum · <span style="font-size:11px;color:var(--t3)">22.1% neg · lowest risk market</span></li></ul></div>
+    <div class="brief-body" id="bBody"><div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 16px;gap:12px;text-align:center"><div style="font-size:32px">✨</div><div style="font-size:13px;font-weight:700;color:var(--yel);font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.8px">AI-Powered Intelligence Brief Ready</div><div style="font-size:11.5px;color:var(--t3);max-width:380px;line-height:1.6">Claude AI will analyse the filtered customer data and generate a dynamic intelligence brief. Use the market/platform filters above, then click <strong style="color:var(--yel)">✨ Generate AI Brief</strong>.</div><button onclick="triggerAIBrief()" style="background:linear-gradient(135deg,#F5C400,#e6b000);color:#0d0d0f;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:12px;letter-spacing:.8px;text-transform:uppercase;border:none;border-radius:8px;padding:10px 22px;cursor:pointer;margin-top:4px;box-shadow:0 3px 16px rgba(245,196,0,.4)">✨ Generate AI Brief Now</button></div></div>
     <div class="brief-tags" id="bTags"><span class="btag bt-yel">19,932 Mentions</span><span class="btag bt-warn">42.4% Negative</span><span class="btag bt-pos">1.2% Positive</span><span class="btag bt-neg">NSS: -41</span><span class="btag bt-neg">Top Issue: Payment and Billing</span><span class="btag bt-pos">Best Market: NATIONAL LEAGUE</span></div>
 
     <!-- ─── Sub-Section Divider ─── -->
@@ -3371,6 +3379,34 @@ function populateBriefFilters(data) {
   });
 }
 
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  MANUAL AI BRIEF TRIGGER
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let _lastBriefData = null;
+
+function triggerAIBrief() {
+  const btn = document.getElementById('btnGenerateBrief');
+  const icon = document.getElementById('briefBtnIcon');
+  const txt = document.getElementById('briefBtnText');
+  if (btn) {
+    btn.style.opacity = '0.7';
+    btn.style.pointerEvents = 'none';
+    if (icon) icon.textContent = '⏳';
+    if (txt) txt.textContent = 'Generating…';
+  }
+  const data = _lastBriefData || getFiltered();
+  renderBrief(data);
+  // Reset button after 8s
+  setTimeout(() => {
+    if (btn) {
+      btn.style.opacity = '';
+      btn.style.pointerEvents = '';
+      if (icon) icon.textContent = '✨';
+      if (txt) txt.textContent = 'Regenerate Brief';
+    }
+  }, 8000);
+}
+
 function renderBriefFiltered() {
   const m  = document.getElementById('bFiltMkt')?.value  || '';
   const pl = document.getElementById('bFiltPlat')?.value || '';
@@ -3379,14 +3415,35 @@ function renderBriefFiltered() {
   if(m)  d = d.filter(r=>r.m===m);
   if(pl) d = d.filter(r=>r.p===pl);
   if(se) d = d.filter(r=>r.s===se);
-  renderBrief(d);
+  _lastBriefData = d;
+  // Update stats/tags immediately (non-AI part)
+  renderBriefStats(d);
+  // Show prompt to regenerate AI brief
+  const bBody = document.getElementById('bBody');
+  if (bBody && bBody.innerHTML && !bBody.innerHTML.includes('brief-bullets') || bBody.innerHTML.includes('Generating')) return;
+  // Mark as stale
+  if (bBody) {
+    bBody.style.opacity = '0.5';
+    const staleBadge = document.createElement('div');
+    staleBadge.id = 'staleBadge';
+    staleBadge.style.cssText = 'font-size:11px;color:var(--yel);background:var(--yeld);border:1px solid var(--yelb);border-radius:4px;padding:4px 10px;margin-top:8px;display:inline-block';
+    staleBadge.textContent = '⚠️ Filters changed — click ✨ Generate AI Brief to refresh';
+    if (!document.getElementById('staleBadge')) {
+      bBody.parentNode.insertBefore(staleBadge, bBody.nextSibling);
+    }
+  }
 }
 
 function resetBriefFilters() {
   ['bFiltMkt','bFiltPlat','bFiltSent'].forEach(id=>{
     const el=document.getElementById(id); if(el) el.value='';
   });
-  renderBrief(getFiltered());
+  _lastBriefData = getFiltered();
+  renderBriefStats(_lastBriefData);
+  const stale = document.getElementById('staleBadge');
+  if (stale) stale.remove();
+  const bBody = document.getElementById('bBody');
+  if (bBody) bBody.style.opacity = '';
 }
 
 
@@ -3400,34 +3457,29 @@ function aiQueue(fn) {
   return _aiQueueChain;
 }
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  ★ TEAM API KEY — paste your key here once, AI features activate for everyone
-//  e.g.:  const TEAM_API_KEY = 'sk-ant-api03-xxxx…';
+//  ★ CLAUDE.AI ARTIFACT PROXY — AI features work automatically
+//  No API key needed — calls are proxied through Claude's artifact system
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-const TEAM_API_KEY = '';   // ← paste key here
+const TEAM_API_KEY = '';   // Not needed — artifact proxy handles auth
 
-let _apiKey = '';
+let _apiKey = 'artifact-proxy-active';  // Always active in claude.ai
 
 function _initApiKey() {
-  if(TEAM_API_KEY && TEAM_API_KEY.length > 10) { _apiKey = TEAM_API_KEY; return; }
-  try {
-    const saved = localStorage.getItem('dazn_claude_key');
-    if(saved && saved.length > 10) { _apiKey = saved; return; }
-  } catch(e) {}
+  // In claude.ai artifacts, API is always available via proxy
+  _apiKey = 'artifact-proxy-active';
 }
 
 function getApiKey()  { return _apiKey; }
-function hasApiKey()  { return _apiKey && _apiKey.length > 10; }
+function hasApiKey()  { return true; }  // Always available in claude.ai
+function clearApiKey() {}  // No-op in proxy mode
 
 function anthropicFetch(payload) {
   return new Promise((resolve, reject) => {
-    const key = getApiKey();
-    if(!key) { reject(Object.assign(new Error('NO_API_KEY'),{silent:true})); return; }
     aiQueue(() =>
       fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': key,
           'anthropic-version': '2023-06-01',
           'anthropic-dangerous-direct-browser-access': 'true'
         },
@@ -3435,10 +3487,6 @@ function anthropicFetch(payload) {
       })
       .then(r => r.json())
       .then(d => {
-        if(d.type==='error') {
-          const msg = d.error?.message||'';
-          if(msg.includes('auth')||msg.includes('invalid')||d.error?.type==='authentication_error') { clearApiKey(); }
-        }
         resolve(d);
       })
       .catch(e => { reject(e); })
@@ -3896,6 +3944,35 @@ function runThemesFallback(data, themesDiv, statusEl) {
   if(statusEl) statusEl.textContent='';
 }
 
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  renderBriefStats — updates tags/scope instantly (no AI needed)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function renderBriefStats(data) {
+  const mktF=document.getElementById("fMkt").value;
+  const fr=document.getElementById("fFrom").value, to=document.getElementById("fTo").value;
+  const {pos,neg,neu,tot}=sc(data);
+  const np=pct(neg,tot), pp=pct(pos,tot);
+  const nss=tot?Math.round((pos-neg)/tot*100):0;
+  const mks=uniq(data,"m");
+  const noOth=data.filter(r=>r.c.toLowerCase()!=="others");
+  const negNoOth=noOth.filter(r=>r.s==="negative");
+  const scCounts={};
+  negNoOth.forEach(r=>{if(r.sc){const k=r.sc.trim().toLowerCase().replace(/(?:^|\s|-|&)\S/g,c=>c.toUpperCase()).replace(/\s+/g," ");scCounts[k]=(scCounts[k]||0)+1;}});
+  const topSC=Object.entries(scCounts).sort((a,b)=>b[1]-a[1]).slice(0,4);
+  const mRanked=mks.map(m=>{const d=data.filter(r=>r.m===m),s=sc(d);return{m,np:pct(s.neg,s.tot),pp:pct(s.pos,s.tot),tot:s.tot};}).sort((a,b)=>b.np-a.np);
+  const wMkt=mRanked[0], bMkt=mRanked[mRanked.length-1];
+  document.getElementById("bScope").textContent=(mktF||"All Markets")+" · "+(fr||"—")+" → "+(to||"—");
+  const tags=[
+    {t:`${tot.toLocaleString()} Mentions`,cl:"bt-yel"},
+    {t:`${np}% Negative`,cl:np>50?"bt-neg":np>35?"bt-warn":"bt-neu"},
+    {t:`${pp}% Positive`,cl:"bt-pos"},
+    {t:`NSS: ${nss>=0?"+":""}${nss}`,cl:nss>=0?"bt-pos":"bt-neg"},
+    ...(topSC[0]?[{t:`Top Issue: ${topSC[0][0].substring(0,30)}`,cl:"bt-neg"}]:[]),
+    {t:`Best Market: ${bMkt?bMkt.m:"—"}`,cl:"bt-pos"},
+  ];
+  document.getElementById("bTags").innerHTML=tags.map(t=>`<span class="btag ${t.cl}">${t.t}</span>`).join("");
+}
 
 function renderBrief(data) {
   const mktF=document.getElementById("fMkt").value;
@@ -8465,7 +8542,7 @@ function renderAll(data) {
   safe("renderBuzzTrend",  ()=>renderBuzzTrend(data,"bar"));
   safe("renderPbar",    ()=>renderPbar(data));
   safe("renderAlerts",  ()=>renderAlerts(data));
-  safe("renderBrief",   ()=>renderBrief(data));
+  safe("renderBrief",   ()=>{ _lastBriefData=data; renderBriefStats(data); });
   safe("renderKPIs",    ()=>renderKPIs(data));
   safe("renderCmp",     ()=>renderCmp(data));
   safe("renderVolAnalysisTop",()=>renderVolAnalysisTop(data));
@@ -9091,6 +9168,11 @@ window.addEventListener("DOMContentLoaded", () => {
   go();
   // Auto-load data from GitHub on page open
   loadFromGitHub();
+  // Set initial brief data
+  setTimeout(() => {
+    _lastBriefData = getFiltered();
+    renderBriefStats(_lastBriefData);
+  }, 500);
 });
 </script>
 <button id="scrollTopBtn" title="Back to top" onclick="window.scrollTo({top:0,behavior:&#39;smooth&#39;})" style="display: none;">⇧</button>
